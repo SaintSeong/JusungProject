@@ -36,6 +36,9 @@
     <ClInclude Include="CDlg_SYSINIT.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CDlgShowLoad.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="주성.cpp">
@@ -48,6 +51,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="CDlg_SYSINIT.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CDlgShowLoad.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

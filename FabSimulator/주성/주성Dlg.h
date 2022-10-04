@@ -1,8 +1,11 @@
 ﻿
 // 주성Dlg.h: 헤더 파일
 //
-#include"CDlg_SYSINIT.h"
 #pragma once
+
+#include "CDlg_SYSINIT.h"
+#include "CDlgShowLoad.h"
+
 class C주성Btn : public CButton
 {
 public:
@@ -49,6 +52,9 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedStart();
+
+	CDlg_SYSINIT m_dlgSysInit;
+	CDlgShowLoad m_dlgShowLoad;
 
 	int m_nWafer_Count; //장비에 집어넣은 웨이퍼 현재 개수
 	int m_nLLMAX; //LL의 방 개수 x 웨이퍼 개수= LL이 수용할수 있는 최대치
@@ -144,4 +150,9 @@ public:
 	afx_msg void OnCbnSelchangePmModul();
 	afx_msg void OnBnClickedStop();
 	afx_msg void OnBnClickedSysInitial();
+
+	afx_msg void OnLoadSystemInit();
+	afx_msg void OnSaveSystemInit();
+	afx_msg void OnSaveThroughput();
+	afx_msg void OnSaveBoth();
 };
