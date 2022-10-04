@@ -8,7 +8,7 @@
 #define IDD_MAINVIEW                    102
 #define IDR_MAINFRAME                   128
 #define IDD_SYS_INIT                    143
-#define IDR_MENU1                       146
+#define IDD_SHOW_LOAD                   144
 #define IDR_MENU_TAB                    146
 #define IDC_EFEMARM                     1000
 #define IDC_START                       1001
@@ -26,6 +26,7 @@
 #define IDC_PM5                         1011
 #define IDC_EDIT1                       1012
 #define IDC_INPUT                       1012
+#define IDC_EDIT_EFEM_PICKTIME          1012
 #define IDC_LPM                         1013
 #define IDC_PM_WAFER                    1014
 #define IDC_LL_ROOM                     1015
@@ -80,47 +81,86 @@
 #define IDC_SYS_INITIAL                 1056
 #define IDC_EDIT2                       1057
 #define IDC_SPIN1                       1058
+#define IDC_EDIT_LL_SLOT                1058
 #define IDC_SET_SPEED                   1059
 #define IDC_LL_WAFER                    1061
 #define IDC_EDIT3                       1063
+#define IDC_EDIT_EFEM_MOVETIME          1063
 #define IDC_EDIT4                       1064
+#define IDC_EDIT_ROTATETIME             1064
 #define IDC_COMBO1                      1065
+#define IDC_COMBO_MODULE_COUNT          1065
 #define IDC_EDIT6                       1066
+#define IDC_EDIT_PUMP_TIME              1066
 #define IDC_EDIT7                       1067
+#define IDC_EDIT_LL_PUMP_STABLETIME     1067
 #define IDC_EDIT8                       1068
+#define IDC_EDIT_LL_VENT_TIME           1068
 #define IDC_EDIT9                       1069
+#define IDC_EDIT_VENT_STABLETIME        1069
 #define IDC_COMBO2                      1070
+#define IDC_COMBO_MODULESLOT            1070
 #define IDC_EDIT10                      1071
+#define IDC_EDIT_LL_SLOT_OPEN_TIME      1071
 #define IDC_EDIT11                      1072
+#define IDC_EDIT_LL_SLOT_CLOSE_TIME     1072
 #define IDC_EDIT12                      1073
+#define IDC_EDIT_LL_DOOR_OPEN_TIME      1073
 #define IDC_EDIT13                      1074
+#define IDC_EDIT_LL_DOOR_CLOSE_TIME     1074
 #define IDC_COMBO3                      1075
+#define IDC_COMBO_VAC_ARM               1075
 #define IDC_EDIT14                      1076
+#define IDC_EDIT_TM_PICK_TIME           1076
 #define IDC_EDIT15                      1077
+#define IDC_EDIT_TM_ROTATE              1077
 #define IDC_EDIT16                      1078
+#define IDC_EDIT_TM_PLACE_TIME          1078
 #define IDC_COMBO4                      1079
+#define IDC_COMBO_PM_MODULE             1079
 #define IDC_EDIT17                      1080
+#define IDC_EDIT_PM_PROCESS_TIME        1080
 #define IDC_EDIT18                      1081
+#define IDC_EDIT_PM_SLOT_OPEN_TIME      1081
 #define IDC_COMBO5                      1082
+#define IDC_COMBO_PM_SLOT               1082
+#define IDC_EDIT_PM_MODULE              1082
+#define IDC_EDIT_PM_SLOT                1083
 #define IDC_EDIT20                      1084
+#define IDC_EDIT_SLOT_CLOSE_TIME        1084
 #define IDC_COMBO6                      1085
+#define IDC_COMBO_PM_CLEAN              1085
+#define IDC_EDIT_PM_PROCESS_TIME4       1085
 #define IDC_PROGRESS                    1088
 #define IDC_BUTTON1                     1089
 #define IDC_STATIC_LPM2                 1090
 #define IDC_STATIC_LMP3                 1091
 #define IDC_STATIC_LPM1                 1092
+#define IDC_EDIT_EFEM_PLACETIME         1093
+#define IDC_EDIT_LL_MODULE              1094
+#define IDC_EDIT_VAC_ARM                1095
+#define IDC_EDIT_PM_CLEAN               1096
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
 #define ID_32774                        32774
+#define ID_32775                        32775
+#define ID_32776                        32776
+#define ID_32777                        32777
+#define ID_Open_SystemInit              32778
+#define ID_Save_SystemInit              32779
+#define ID_                             32780
+#define ID_Save_Throughput              32781
+#define ID_Save_Both                    32782
+#define ID_Load_SystemInit              32783
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        147
-#define _APS_NEXT_COMMAND_VALUE         32775
-#define _APS_NEXT_CONTROL_VALUE         1093
+#define _APS_NEXT_COMMAND_VALUE         32784
+#define _APS_NEXT_CONTROL_VALUE         1097
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

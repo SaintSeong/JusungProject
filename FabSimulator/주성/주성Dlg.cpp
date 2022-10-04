@@ -129,6 +129,12 @@ BEGIN_MESSAGE_MAP(C주성Dlg, CDialogEx)
     ON_CBN_SELCHANGE(IDC_PM_MODUL, &C주성Dlg::OnCbnSelchangePmModul)
     ON_BN_CLICKED(IDC_STOP, &C주성Dlg::OnBnClickedStop)
     ON_BN_CLICKED(IDC_SYS_INITIAL, &C주성Dlg::OnBnClickedSysInitial)
+
+    ON_COMMAND(ID_Load_SystemInit, &C주성Dlg::OnLoadSystemInit)
+    ON_COMMAND(ID_Save_SystemInit, &C주성Dlg::OnSaveSystemInit)
+    ON_COMMAND(ID_Save_Throughput, &C주성Dlg::OnSaveThroughput)
+    ON_COMMAND(ID_Save_Both, &C주성Dlg::OnSaveBoth)
+
 END_MESSAGE_MAP()
 
 
@@ -2121,7 +2127,25 @@ void C주성Dlg::OnBnClickedStop()
 
 void C주성Dlg::OnBnClickedSysInitial()
 {
-    CDlg_SYSINIT dlg;
+    m_dlgSysInit.DoModal();
+}
 
-    dlg.DoModal();
+void C주성Dlg::OnLoadSystemInit()
+{
+    m_dlgShowLoad.DoModal();
+}
+
+void C주성Dlg::OnSaveSystemInit()
+{
+
+}
+
+void C주성Dlg::OnSaveThroughput()
+{
+
+}
+
+void C주성Dlg::OnSaveBoth()
+{
+
 }
