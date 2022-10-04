@@ -1,0 +1,126 @@
+﻿//{{NO_DEPENDENCIES}}
+// Microsoft Visual C++에서 생성한 포함 파일입니다.
+// My.rc에서 사용되고 있습니다.
+//
+#define IDM_ABOUTBOX                    0x0010
+#define IDD_ABOUTBOX                    100
+#define IDS_ABOUTBOX                    101
+#define IDD_MAINVIEW                    102
+#define IDR_MAINFRAME                   128
+#define IDD_SYS_INIT                    143
+#define IDR_MENU1                       146
+#define IDR_MENU_TAB                    146
+#define IDC_EFEMARM                     1000
+#define IDC_START                       1001
+#define IDC_OUTPUT                      1002
+#define IDC_LL                          1003
+#define IDC_LL1                         1003
+#define IDC_ALIGNER                     1004
+#define IDB_BITMAP_LOGO                 1004
+#define IDC_TM                          1005
+#define IDC_PM1                         1006
+#define IDC_PM2                         1007
+#define IDC_PM3                         1008
+#define IDC_PM4                         1009
+#define IDC_PM6                         1010
+#define IDC_PM5                         1011
+#define IDC_EDIT1                       1012
+#define IDC_INPUT                       1012
+#define IDC_LPM                         1013
+#define IDC_PM_WAFER                    1014
+#define IDC_LL_ROOM                     1015
+#define IDC_PM_MODUL                    1017
+#define IDC_TM_ARM                      1019
+#define IDC_LL2                         1020
+#define IDC_LL3                         1021
+#define IDC_LL4                         1022
+#define IDC_BOX_LPM                     1023
+#define IDC_BOX_LL                      1024
+#define IDC_BOX_THROUGHPUT              1025
+#define IDC_BOX_FABTIME                 1026
+#define IDC_BOX_LPM1                    1027
+#define IDC_BOX_LPM2                    1028
+#define IDC_BOX_LPM3                    1029
+#define IDC_BOX_LL1                     1030
+#define IDC_BOX_LL2                     1031
+#define IDC_BOX_LL3                     1032
+#define IDC_BOX_LL4                     1033
+#define IDC_BOX_PM1                     1034
+#define IDC_BOX_PM2                     1035
+#define IDC_BOX_PM3                     1036
+#define IDC_BOX_PM4                     1037
+#define IDC_BOX_PM5                     1038
+#define IDC_BOX_PM6                     1039
+#define IDC_FOAM_FILENAME1              1040
+#define IDC_FILE_NAME                   1041
+#define IDC_CNT_WAFER                   1042
+#define IDC_TOTAL_WAFER                 1043
+#define IDC_PROGRESS1                   1044
+#define IDC_PROGRESS_PM1                1044
+#define IDC_FOAM_FILENAME2              1045
+#define IDC_PROGRESS2                   1046
+#define IDC_PROGRESS_PM2                1046
+#define IDC_PROGRESS3                   1047
+#define IDC_PROGRESS_LL1                1047
+#define IDC_PROGRESS4                   1048
+#define IDC_PROGRESS_LL2                1048
+#define IDC_PROGRESS5                   1049
+#define IDC_PROGRESS_LL3                1049
+#define IDC_PROGRESS6                   1050
+#define IDC_PROGRESS_LL4                1050
+#define IDC_PROGRESS7                   1051
+#define IDC_PROGRESS_PM3                1051
+#define IDC_PROGRESS8                   1052
+#define IDC_PROGRESS_PM4                1052
+#define IDC_PROGRESS9                   1053
+#define IDC_PROGRESS_PM5                1053
+#define IDC_PROGRESS10                  1054
+#define IDC_PROGRESS_PM6                1054
+#define IDC_STOP                        1055
+#define IDC_SYS_INITIAL                 1056
+#define IDC_EDIT2                       1057
+#define IDC_SPIN1                       1058
+#define IDC_SET_SPEED                   1059
+#define IDC_LL_WAFER                    1061
+#define IDC_EDIT3                       1063
+#define IDC_EDIT4                       1064
+#define IDC_COMBO1                      1065
+#define IDC_EDIT6                       1066
+#define IDC_EDIT7                       1067
+#define IDC_EDIT8                       1068
+#define IDC_EDIT9                       1069
+#define IDC_COMBO2                      1070
+#define IDC_EDIT10                      1071
+#define IDC_EDIT11                      1072
+#define IDC_EDIT12                      1073
+#define IDC_EDIT13                      1074
+#define IDC_COMBO3                      1075
+#define IDC_EDIT14                      1076
+#define IDC_EDIT15                      1077
+#define IDC_EDIT16                      1078
+#define IDC_COMBO4                      1079
+#define IDC_EDIT17                      1080
+#define IDC_EDIT18                      1081
+#define IDC_COMBO5                      1082
+#define IDC_EDIT20                      1084
+#define IDC_COMBO6                      1085
+#define IDC_PROGRESS                    1088
+#define IDC_BUTTON1                     1089
+#define IDC_STATIC_LPM2                 1090
+#define IDC_STATIC_LMP3                 1091
+#define IDC_STATIC_LPM1                 1092
+#define ID_32771                        32771
+#define ID_32772                        32772
+#define ID_32773                        32773
+#define ID_32774                        32774
+
+// Next default values for new objects
+// 
+#ifdef APSTUDIO_INVOKED
+#ifndef APSTUDIO_READONLY_SYMBOLS
+#define _APS_NEXT_RESOURCE_VALUE        147
+#define _APS_NEXT_COMMAND_VALUE         32775
+#define _APS_NEXT_CONTROL_VALUE         1093
+#define _APS_NEXT_SYMED_VALUE           101
+#endif
+#endif
