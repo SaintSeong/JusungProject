@@ -59,8 +59,7 @@ public:
 	int m_nThread3_PM = 1; //쓰레드 3번에서 사용 하고 어떤 PM을 사용해야 할지 파악하는 변수
 	int m_nThread4_LL = 1; //쓰레드 4번에서 사용 하고 어떤 LL을 사용해야 할지 파악하는 변수
 	int m_nThread_Time_Error = 0; // 쓰레드간 시간이 달라서 충돌 오류를 막기위한 변수
-	int m_nThread4_Buffer[4] = { 0, };//
-
+	
 	//장비 동작 시간
 	int m_nSpeed;				//배속
 	//ATM 로봇
@@ -88,20 +87,22 @@ public:
 	int m_nPM_Slot_Valve_Open;
 	int m_nPM_Slot_Valve_Close;
 
-	int m_nPM_Thread = 0;		//PM 쓰레드 에서 프로그래스바 에서 사용하는 변수 (PM 모듈 구분용)
-
+	int m_nPM_Thread2 = 0;		//PM 쓰레드 에서 프로그래스바 에서 사용하는 변수 (PM 모듈 구분용) 2번 쓰레드 에서만 사용
+	int m_nPM_Thread3 = 0;		//PM 쓰레드 에서 프로그래스바 에서 사용하는 변수 (PM 모듈 구분용) 3번 쓰레드 에서만 사용
+	int m_nPM_Processing = 0;	//현재 PM 공정 진행중인 개수
+	bool m_bPM_Thread_Cheak = false;
 	//프로그래스바
-	CProgressCtrl PROGRESS_PM1;
-	CProgressCtrl PROGRESS_PM2;
-	CProgressCtrl PROGRESS_PM3;
-	CProgressCtrl PROGRESS_PM4;
-	CProgressCtrl PROGRESS_PM5;
-	CProgressCtrl PROGRESS_PM6;
+	CProgressCtrl m_ctrPROGRESS_PM1;
+	CProgressCtrl m_ctrPROGRESS_PM2;
+	CProgressCtrl m_ctrPROGRESS_PM3;
+	CProgressCtrl m_ctrPROGRESS_PM4;
+	CProgressCtrl m_ctrPROGRESS_PM5;
+	CProgressCtrl m_ctrPROGRESS_PM6;
 
-	CProgressCtrl PROGRESS_LL1;
-	CProgressCtrl PROGRESS_LL2;
-	CProgressCtrl PROGRESS_LL3;
-	CProgressCtrl PROGRESS_LL4;
+	CProgressCtrl m_ctrPROGRESS_LL1;
+	CProgressCtrl m_ctrPROGRESS_LL2;
+	CProgressCtrl m_ctrPROGRESS_LL3;
+	CProgressCtrl m_ctrPROGRESS_LL4;
 
 	CString m_strInput; // 맨처음 사용자가 입력하는 웨이퍼 개수
 	//실제 데이터 이동을 위한 값 변수 모음
