@@ -140,6 +140,8 @@
 #define IDC_EDIT_LL_MODULE              1094
 #define IDC_EDIT_VAC_ARM                1095
 #define IDC_EDIT_PM_CLEAN               1096
+#define IDC_STATIC_Time                 1097
+#define IDC_EDIT_PM_SLOT_CLOSE_TIME     1098
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -160,7 +162,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        147
 #define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         1097
+#define _APS_NEXT_CONTROL_VALUE         1099
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

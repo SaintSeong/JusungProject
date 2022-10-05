@@ -67,6 +67,11 @@ C주성Dlg::C주성Dlg(CWnd* pParent /*=nullptr*/)
     , m_strTMCount(_T(""))
     , m_strPMModuleCount(_T(""))
     , m_strPMWaferCount(_T(""))
+    , m_strLLModuleCnt(_T("1"))
+    , m_strLLSlotCnt(_T("1"))
+    , m_strVacArmCnt(_T("2"))
+    , m_strPMModuleCnt(_T("1"))
+    , m_strPMSlotCnt(_T("1"))
 
 {
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
@@ -119,6 +124,7 @@ void C주성Dlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_PROGRESS_LL2, m_ctrPROGRESS_LL2);
     DDX_Control(pDX, IDC_PROGRESS_LL3, m_ctrPROGRESS_LL3);
     DDX_Control(pDX, IDC_PROGRESS_LL4, m_ctrPROGRESS_LL4);
+    DDX_Control(pDX, IDC_STATIC_Time, m_ctrlStaticTotalTime);
 }
 
 BEGIN_MESSAGE_MAP(C주성Dlg, CDialogEx)
@@ -253,6 +259,23 @@ BOOL C주성Dlg::OnInitDialog()
     m_ctrPROGRESS_LL2.SetRange(0, 50);
     m_ctrPROGRESS_LL3.SetRange(0, 50);
     m_ctrPROGRESS_LL4.SetRange(0, 50);
+
+    m_strInitTime = CTime::GetCurrentTime();
+    m_font.CreateFont(45,// nHeight 
+        40, // nWidth                               
+        0, // nEscapement                               
+        0, // nOrientation                               
+        5, // nWeight                                
+        0, // bItalic                                
+        0, // bUnderline                               
+        0, // cStrikeOut                               
+        0, // nCharSet                                
+        OUT_DEFAULT_PRECIS, // nOutPrecision                               
+        0, // nClipPrecision                               
+        DEFAULT_QUALITY,// nQuality                               
+        DEFAULT_PITCH | FF_DONTCARE,// nPitchAndFamily                               
+        _T("고딕"));
+    m_ctrlStaticTotalTime.SetFont(&m_font, TRUE);
 
     UpdateData(0);
     return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
@@ -478,6 +501,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p);      //TM Post-Process(TM-OUT)
 DWORD WINAPI Thread_4_LL2OUT(LPVOID p);     //EFEM Post-Process(EFEM-OUT)
 DWORD WINAPI PM(LPVOID p);
 DWORD WINAPI LL(LPVOID p);
+DWORD WINAPI TotalTime(LPVOID p); // Total time 표시
 //EFEM Pre-Process(EFEM-IN)
 DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
  {
@@ -2171,19 +2195,30 @@ DWORD WINAPI Thread_Start(LPVOID p)
     return 0;
 }
 
+DWORD WINAPI TotalTime(LPVOID p)
+{
+    CString strTime;
+    while (true)
+    {    
+        Sleep(100);
+        g_pMainDlg->m_strCurTime = CTime::GetCurrentTime();
+        g_pMainDlg->m_strDiffTime = g_pMainDlg->m_strCurTime - g_pMainDlg->m_strInitTime;
+        strTime = g_pMainDlg->m_strDiffTime.Format(_T("%H : %M : %S"));
+        g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(strTime);
+    }
+}
+
 void C주성Dlg::OnBnClickedStart()
 {
-
-
     //if (Thread_Start == NULL)
     {
+        
         UpdateData(1);
         m_ctrLPM.SetWindowInt(_ttoi(m_strInput));
         m_nLLMAX = _ttoi(m_strLLWaferCount) * _ttoi(m_strLLRoomCount);
-
-        CloseHandle(CreateThread(NULL, 0, Thread_Start, 0, 0, 0));
+        CloseHandle(CreateThread(NULL, 0, TotalTime, 0, 0, 0));
+        CloseHandle(CreateThread(NULL, 0, Thread_Start, 0, 0, 0));     
     }
-    
 }
 
 void C주성Dlg::OnClose()
@@ -2324,7 +2359,13 @@ void C주성Dlg::OnLoadSystemInit()
 
 void C주성Dlg::OnSaveSystemInit()
 {
+     CFileDialog saveFile(0);
+    if (saveFile.DoModal() == IDOK)
+    {
+        CString strSaveName(saveFile.GetPathName());
+        //::WritePrivateProfileString(_T("EFEM"), _T("Pick"), (LPCWSTR)m_nATM_Pick, strSaveName);
 
+    }
 }
 
 void C주성Dlg::OnSaveThroughput()

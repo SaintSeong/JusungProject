@@ -75,6 +75,8 @@ public:
 	int m_nATM_Rotate;
 	int m_nATM_ZRotate;
 	//LL
+	CString m_strLLModuleCnt;
+	CString m_strLLSlotCnt;
 	int m_nLL_Pump;				//진공 상태로 전환
 	int m_nLL_Pump_Stable_Time;	//진공 상태 전환 전/후 소요시간
 	int m_nLL_Vent;				//대기 상태로 전환
@@ -84,10 +86,13 @@ public:
 	int m_nLL_Door_Valve_Open;	//EFEM과 연결
 	int m_nLL_Door_Valve_Close;
 	//VAC
+	CString m_strVacArmCnt;
 	int m_nVAC_Pick;
 	int m_nVAC_Place;
 	int m_nRotate;
 	//PM
+	CString m_strPMModuleCnt;
+	CString m_strPMSlotCnt;
 	int m_nPM_Time;				//프로세스 공정시간
 	int m_nPM_Clean_Time;		//클린 시간
 	int m_nPM_Clean_Wafer_Count;//프로세스 몇번 진행후 클린 진행할것인가
@@ -158,4 +163,11 @@ public:
 	afx_msg void OnSaveThroughput();
 	afx_msg void OnSaveBoth();
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+
+	CStatic m_ctrlStaticTotalTime;
+
+	CFont m_font;
+	CTime m_strInitTime;
+	CTime m_strCurTime;
+	CTimeSpan m_strDiffTime;
 };

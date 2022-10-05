@@ -34,11 +34,11 @@ public:
 	CComboBox m_ctrlComboVacArm;
 	CComboBox m_ctrlComboPMModule;
 	CComboBox m_ctrlComboPMSlot;
-	
+
 	int m_nEFEMPickTime;
-	int m_nMoveTime;
+	int m_nEFEMMoveTime;
 	int m_nEFEMPlaceTime;
-	int m_nEFEMRotateTime;
+	double m_nEFEMRotateTime;
 	int m_nLLPumpTime;
 	int m_nLLPumpStableTime;
 	int m_nLLVentTime;
@@ -53,9 +53,10 @@ public:
 	int m_nPMProcessTime;
 	int m_nPMSlotOpenTime;
 	int m_nPMSlotCloseTime;
-	int m_nLLModuleCount;
-	int m_nLLSlotCount;
-	int m_nVacArm;
-	int m_nPMModuleCount;
-	int m_nPMSlotCount;
+
+	CString m_strLLModuleCount;
+	CString m_strLLSlotCount;
+	CString m_strVacArmCount;
+	CString m_strPMModuleCount;
+	CString m_strPMSlotCount;
 };
