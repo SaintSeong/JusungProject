@@ -85,6 +85,7 @@ BEGIN_MESSAGE_MAP(CDlg_SYSINIT, CDialogEx)
 	ON_BN_CLICKED(IDOK, &CDlg_SYSINIT::OnBnClickedOk)
 	ON_CBN_SELCHANGE(IDC_COMBO_VAC_ARM, &CDlg_SYSINIT::OnCbnSelchangeComboVacArm)
 	ON_CBN_SELCHANGE(IDC_COMBO_PM_SLOT, &CDlg_SYSINIT::OnCbnSelchangeComboPmSlot)
+	ON_BN_CLICKED(IDC_BUTTON_LOAD, &CDlg_SYSINIT::OnBnClickedButtonLoad)
 END_MESSAGE_MAP()
 
 
@@ -494,5 +495,60 @@ void CDlg_SYSINIT::OnCbnSelchangeComboPmSlot()
 		m_ctrlComboPMModule.AddString(_T("2"));
 		m_ctrlComboPMModule.AddString(_T("3"));
 		m_ctrlComboPMModule.SetCurSel(0);
+	}
+}
+
+
+void CDlg_SYSINIT::OnBnClickedButtonLoad()
+{
+	CFileDialog loadFile(1, _T("*.cfg")
+		, 0
+		, OFN_OVERWRITEPROMPT | OFN_LONGNAMES
+		, _T("System Configulation Files (*.cfg)|*.cfg||")
+	);
+	if (loadFile.DoModal() == IDOK)
+	{
+		CString strLoadName(loadFile.GetPathName());
+		TCHAR strReadIni[20] = { 0 };
+
+		// EFEM
+		m_nEFEMPickTime = ::GetPrivateProfileInt(_T("EFEM"), _T("Pick"), -1, strLoadName);
+		m_nEFEMPlaceTime = ::GetPrivateProfileInt(_T("EFEM"), _T("Place"), -1, strLoadName);
+		m_nEFEMMoveTime = ::GetPrivateProfileInt(_T("EFEM"), _T("Z_Move"), -1, strLoadName);
+		m_nEFEMRotateTime = ::GetPrivateProfileInt(_T("EFEM"), _T("Rotate"), -1, strLoadName);
+
+		// LL
+		::GetPrivateProfileString(_T("LL"), _T("ModuleCount"), _T("1"), strReadIni, 20, strLoadName);
+		m_strLLModuleCount.Format(_T("%s"), strReadIni);
+		::GetPrivateProfileString(_T("LL"), _T("SlotCount"), _T("1"), strReadIni, 20, strLoadName);
+		m_strLLSlotCount.Format(_T("%s"), strReadIni);
+		m_nLLVentTime = ::GetPrivateProfileInt(_T("LL"), _T("VentTime"), -1, strLoadName);
+		m_nLLVentStableTime = ::GetPrivateProfileInt(_T("LL"), _T("VentStableTime"), -1, strLoadName);
+		m_nLLPumpTime = ::GetPrivateProfileInt(_T("LL"), _T("PumpTime"), -1, strLoadName);
+		m_nLLPumpStableTime = ::GetPrivateProfileInt(_T("LL"), _T("PumpStableTime"), -1, strLoadName);
+		m_nLLSlotOpenTime = ::GetPrivateProfileInt(_T("LL"), _T("SlotOpenTime"), -1, strLoadName);
+		m_nLLSlotCloseTime = ::GetPrivateProfileInt(_T("LL"), _T("SlotCloseTime"), -1, strLoadName);
+		m_nLLDoorOpenTime = ::GetPrivateProfileInt(_T("LL"), _T("DoorOpenTime"), -1, strLoadName);
+		m_nLLDoorCloseTime = ::GetPrivateProfileInt(_T("LL"), _T("DoorCloseTime"), -1, strLoadName);
+
+		// TM-Vac
+		::GetPrivateProfileString(_T("TM"), _T("ArmCount"), _T("2"), strReadIni, 20, strLoadName);
+		m_strVacArmCount.Format(_T("%s"), strReadIni);
+		m_nTMPickTime = ::GetPrivateProfileInt(_T("TM"), _T("Pick"), -1, strLoadName);
+		m_nTMPlaceTime = ::GetPrivateProfileInt(_T("TM"), _T("Place"), -1, strLoadName);
+		m_nTMRotate = ::GetPrivateProfileInt(_T("TM"), _T("Rotate"), -1, strLoadName);
+
+		// PM
+		::GetPrivateProfileString(_T("PM"), _T("ModuleCount"), _T("1"), strReadIni, 20, strLoadName);
+		m_strPMModuleCount.Format(_T("%s"), strReadIni);
+		::GetPrivateProfileString(_T("PM"), _T("SlotCount"), _T("1"), strReadIni, 20, strLoadName);
+		m_strPMSlotCount.Format(_T("%s"), strReadIni);
+		m_nPMProcessTime = ::GetPrivateProfileInt(_T("PM"), _T("ProcessTime"), -1, strLoadName);
+		// = ::GetPrivateProfileInt(_T("PM"), _T("CleanTime"), -1, strLoadName) * 1000;
+		// = ::GetPrivateProfileInt(_T("PM"), _T("CleanCount"), -1, strLoadName) * 1000;
+		m_nPMSlotOpenTime = ::GetPrivateProfileInt(_T("PM"), _T("SlotOpenTime"), -1, strLoadName);
+		m_nPMSlotCloseTime = ::GetPrivateProfileInt(_T("PM"), _T("SlotCloseTime"), -1, strLoadName);
+
+		UpdateData(0);
 	}
 }

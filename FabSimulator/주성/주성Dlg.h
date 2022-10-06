@@ -4,7 +4,6 @@
 #pragma once
 
 #include "CDlg_SYSINIT.h"
-#include "CDlgShowLoad.h"
 
 class C주성Btn : public CButton
 {
@@ -54,7 +53,6 @@ public:
 	afx_msg void OnBnClickedStart();
 
 	CDlg_SYSINIT m_dlgSysInit;
-	CDlgShowLoad m_dlgShowLoad;
 
 	int m_nWafer_Count; //장비에 집어넣은 웨이퍼 현재 개수
 	int m_nLLMAX; //LL의 방 개수 x 웨이퍼 개수= LL이 수용할수 있는 최대치

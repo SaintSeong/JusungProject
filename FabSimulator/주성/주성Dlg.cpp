@@ -2473,16 +2473,124 @@ void C주성Dlg::OnBnClickedSysInitial()
 
 void C주성Dlg::OnLoadSystemInit()
 {
-    m_dlgShowLoad.DoModal();
+    CFileDialog loadFile(1, _T("*.cfg")
+        , 0
+        , OFN_OVERWRITEPROMPT | OFN_LONGNAMES
+        , _T("System Configulation Files (*.cfg)|*.cfg||")
+    );
+    if (loadFile.DoModal() == IDOK)
+    {
+        CString strLoadName(loadFile.GetPathName());
+        TCHAR strReadIni[20] = { 0 };
+
+        // EFEM
+        m_nATM_Pick = ::GetPrivateProfileInt(_T("EFEM"), _T("Pick"), -1, strLoadName);
+        m_nATM_Place = ::GetPrivateProfileInt(_T("EFEM"), _T("Place"), -1, strLoadName);
+        m_nATM_ZRotate = ::GetPrivateProfileInt(_T("EFEM"), _T("Z_Move"), -1, strLoadName);
+        m_nATM_Rotate = ::GetPrivateProfileInt(_T("EFEM"), _T("Rotate"), -1, strLoadName);
+
+        // LL
+        ::GetPrivateProfileString(_T("LL"), _T("ModuleCount"), _T("1"), strReadIni, 20, strLoadName);
+        m_strLLModuleCnt.Format(_T("%s"), strReadIni);
+        ::GetPrivateProfileString(_T("LL"), _T("SlotCount"), _T("1"), strReadIni, 20, strLoadName);
+        m_strLLSlotCnt.Format(_T("%s"), strReadIni);
+        m_nLL_Vent = ::GetPrivateProfileInt(_T("LL"), _T("VentTime"), -1, strLoadName) * 1000;
+        m_nLL_Vent_Stable_Time = ::GetPrivateProfileInt(_T("LL"), _T("VentStableTime"), -1, strLoadName) * 1000;
+        m_nLL_Pump = ::GetPrivateProfileInt(_T("LL"), _T("PumpTime"), -1, strLoadName) * 1000;
+        m_nLL_Pump_Stable_Time = ::GetPrivateProfileInt(_T("LL"), _T("PumpStableTime"), -1, strLoadName) * 1000;
+        m_nLL_Slot_Valve_Open = ::GetPrivateProfileInt(_T("LL"), _T("SlotOpenTime"), -1, strLoadName) * 1000;
+        m_nLL_Slot_Valve_Close = ::GetPrivateProfileInt(_T("LL"), _T("SlotCloseTime"), -1, strLoadName) * 1000;
+        m_nLL_Door_Valve_Open = ::GetPrivateProfileInt(_T("LL"), _T("DoorOpenTime"), -1, strLoadName) * 1000;
+        m_nLL_Door_Valve_Close = ::GetPrivateProfileInt(_T("LL"), _T("DoorCloseTime"), -1, strLoadName) * 1000;
+
+        // TM-Vac
+        ::GetPrivateProfileString(_T("TM"), _T("ArmCount"), _T("2"), strReadIni, 20, strLoadName);
+        m_strVacArmCnt.Format(_T("%s"), strReadIni);
+        m_nVAC_Pick = ::GetPrivateProfileInt(_T("TM"), _T("Pick"), -1, strLoadName) * 1000;
+        m_nVAC_Place = ::GetPrivateProfileInt(_T("TM"), _T("Place"), -1, strLoadName) * 1000;
+        m_nRotate = ::GetPrivateProfileInt(_T("TM"), _T("Rotate"), -1, strLoadName) * 1000;
+
+        // PM
+        ::GetPrivateProfileString(_T("PM"), _T("ModuleCount"), _T("1"), strReadIni, 20, strLoadName);
+        m_strPMModuleCnt.Format(_T("%s"), strReadIni);
+        ::GetPrivateProfileString(_T("PM"), _T("SlotCount"), _T("1"), strReadIni, 20, strLoadName);
+        m_strPMSlotCnt.Format(_T("%s"), strReadIni);
+        m_nPM_Processing = ::GetPrivateProfileInt(_T("PM"), _T("ProcessTime"), -1, strLoadName) * 1000;
+        m_nPM_Clean_Time = ::GetPrivateProfileInt(_T("PM"), _T("CleanTime"), -1, strLoadName) * 1000;
+        m_nPM_Clean_Wafer_Count = ::GetPrivateProfileInt(_T("PM"), _T("CleanCount"), -1, strLoadName) * 1000;
+        m_nPM_Slot_Valve_Open = ::GetPrivateProfileInt(_T("PM"), _T("SlotOpenTime"), -1, strLoadName) * 1000;
+        m_nPM_Slot_Valve_Close = ::GetPrivateProfileInt(_T("PM"), _T("SlotCloseTime"), -1, strLoadName) * 1000;
+
+        m_dlgSysInit.DoModal();
+    }
 }
 
 void C주성Dlg::OnSaveSystemInit()
 {
-     CFileDialog saveFile(0);
+     CFileDialog saveFile(0, _T("*.cfg")
+         , 0
+         , OFN_OVERWRITEPROMPT | OFN_LONGNAMES
+         , _T("System Configulation Files (*.cfg)|*.cfg||")
+     );
+     CString strValue;
     if (saveFile.DoModal() == IDOK)
     {
         CString strSaveName(saveFile.GetPathName());
-        //::WritePrivateProfileString(_T("EFEM"), _T("Pick"), (LPCWSTR)m_nATM_Pick, strSaveName);
+
+        // EFEM
+        strValue.Format(_T("%d"), m_nATM_Pick);
+        ::WritePrivateProfileString(_T("EFEM"), _T("Pick"), strValue, strSaveName);
+        strValue.Format(_T("%d"), m_nATM_Place);
+        ::WritePrivateProfileString(_T("EFEM"), _T("Place"), strValue, strSaveName);
+        //strValue.Format(_T("%d"), m_ctrALIGNER);
+        //::WritePrivateProfileString(_T("EFEM"), _T("Aligner"), strValue, strSaveName);
+        strValue.Format(_T("%d"), m_nATM_ZRotate);
+        ::WritePrivateProfileString(_T("EFEM"), _T("Z_Move"), strValue, strSaveName);
+        strValue.Format(_T("%d"), m_nATM_Rotate);
+        ::WritePrivateProfileString(_T("EFEM"), _T("Rotate"), strValue, strSaveName);
+
+        // LL
+        ::WritePrivateProfileString(_T("LL"), _T("ModuleCount"), m_strLLModuleCnt, strSaveName);
+        ::WritePrivateProfileString(_T("LL"), _T("SlotCount"), m_strLLSlotCnt, strSaveName);
+        strValue.Format(_T("%d"), m_nLL_Vent / 1000);
+        ::WritePrivateProfileString(_T("LL"), _T("VentTime"), strValue, strSaveName);
+        strValue.Format(_T("%d"), m_nLL_Vent_Stable_Time / 1000);
+        ::WritePrivateProfileString(_T("LL"), _T("VentStableTime"), strValue, strSaveName);
+        strValue.Format(_T("%d"), m_nLL_Pump / 1000);
+        ::WritePrivateProfileString(_T("LL"), _T("PumpTime"), strValue, strSaveName);
+        strValue.Format(_T("%d"), m_nLL_Pump_Stable_Time / 1000);
+        ::WritePrivateProfileString(_T("LL"), _T("PumpStableTime"), strValue, strSaveName);
+        strValue.Format(_T("%d"), m_nLL_Slot_Valve_Open / 1000);
+        ::WritePrivateProfileString(_T("LL"), _T("SlotOpenTime"), strValue, strSaveName);
+        strValue.Format(_T("%d"), m_nLL_Slot_Valve_Close / 1000);
+        ::WritePrivateProfileString(_T("LL"), _T("SlotCloseTime"), strValue, strSaveName);
+        strValue.Format(_T("%d"), m_nLL_Door_Valve_Open / 1000);
+        ::WritePrivateProfileString(_T("LL"), _T("DoorOpenTime"), strValue, strSaveName);
+        strValue.Format(_T("%d"), m_nLL_Door_Valve_Close / 1000);
+        ::WritePrivateProfileString(_T("LL"), _T("DoorCloseTime"), strValue, strSaveName);
+
+        // TM-Vac
+        ::WritePrivateProfileString(_T("TM"), _T("ArmCount"), m_strVacArmCnt, strSaveName);
+        strValue.Format(_T("%d"), m_nVAC_Pick / 1000);
+        ::WritePrivateProfileString(_T("TM"), _T("Pick"), strValue, strSaveName);
+        strValue.Format(_T("%d"), m_nVAC_Place / 1000);
+        ::WritePrivateProfileString(_T("TM"), _T("Place"), strValue, strSaveName);
+        strValue.Format(_T("%d"), m_nRotate / 1000);
+        ::WritePrivateProfileString(_T("TM"), _T("Rotate"), strValue, strSaveName);
+
+        // PM
+        ::WritePrivateProfileString(_T("PM"), _T("ModuleCount"), m_strPMModuleCnt, strSaveName);
+        ::WritePrivateProfileString(_T("PM"), _T("SlotCount"), m_strPMSlotCnt, strSaveName);
+        strValue.Format(_T("%d"), m_nPM_Processing / 1000);
+        ::WritePrivateProfileString(_T("PM"), _T("ProcessTime"), strValue, strSaveName);
+        strValue.Format(_T("%d"), m_nPM_Clean_Time / 1000);
+        ::WritePrivateProfileString(_T("PM"), _T("CleanTime"), strValue, strSaveName);
+        strValue.Format(_T("%d"), m_nPM_Clean_Wafer_Count);
+        ::WritePrivateProfileString(_T("PM"), _T("CleanCount"), strValue, strSaveName);
+        strValue.Format(_T("%d"), m_nPM_Slot_Valve_Open / 1000);
+        ::WritePrivateProfileString(_T("PM"), _T("SlotOpenTime"), strValue, strSaveName);
+        strValue.Format(_T("%d"),m_nPM_Slot_Valve_Close / 1000);
+        ::WritePrivateProfileString(_T("PM"), _T("SlotCloseTime"), strValue, strSaveName);
 
     }
 }

@@ -59,4 +59,5 @@ public:
 	CString m_strVacArmCount;
 	CString m_strPMModuleCount;
 	CString m_strPMSlotCount;
+	afx_msg void OnBnClickedButtonLoad();
 };
