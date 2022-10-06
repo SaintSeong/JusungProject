@@ -58,17 +58,17 @@ public:
 
 	int m_nWafer_Count; //장비에 집어넣은 웨이퍼 현재 개수
 	int m_nLLMAX; //LL의 방 개수 x 웨이퍼 개수= LL이 수용할수 있는 최대치
-	int m_noutput_count = 0; // output에 들어오는 웨이퍼를 담고있는 변수
-	int m_nThread1_LL = 0; //쓰레드 1번에서 사용 하고 어떤 LL을 사용해야 할지 파악하는 변수 
+	int m_noutput_count; // output에 들어오는 웨이퍼를 담고있는 변수
+	int m_nThread1_LL; //쓰레드 1번에서 사용 하고 어떤 LL을 사용해야 할지 파악하는 변수 
 	int m_nThread2_LL; //쓰레드 2번에서 사용 하고 어떤 LL을 사용해야 할지 파악하는 변수 
-	int m_nThread3_LL = 1; //쓰레드 3번에서 사용 하고 어떤 LL을 사용해야 할지 파악하는 변수
-	int m_nThread3_PM = 1; //쓰레드 3번에서 사용 하고 어떤 PM을 사용해야 할지 파악하는 변수
-	int m_nThread4_LL = 1; //쓰레드 4번에서 사용 하고 어떤 LL을 사용해야 할지 파악하는 변수
-	int m_nThread_Time_Error = 0; // 쓰레드간 시간이 달라서 충돌 오류를 막기위한 변수
+	int m_nThread3_LL; //쓰레드 3번에서 사용 하고 어떤 LL을 사용해야 할지 파악하는 변수
+	int m_nThread3_PM; //쓰레드 3번에서 사용 하고 어떤 PM을 사용해야 할지 파악하는 변수
+	int m_nThread4_LL; //쓰레드 4번에서 사용 하고 어떤 LL을 사용해야 할지 파악하는 변수
+	int m_nThread_Time_Error; // 쓰레드간 시간이 달라서 충돌 오류를 막기위한 변수
 	int m_nLL_Thread;
 	//장비 동작 시간
 	int m_nSpeed;				//배속
-	int m_Thread3start = 0;		//3번 쓰레드 부르는 타이밍
+	int m_Thread3start;		//3번 쓰레드 부르는 타이밍
 	//ATM 로봇
 	int m_nATM_Pick;
 	int m_nATM_Place;

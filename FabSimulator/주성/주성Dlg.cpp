@@ -224,7 +224,8 @@ BOOL C주성Dlg::OnInitDialog()
     m_nThread3_PM = 1;
     m_nThread4_LL = 1;
     m_nThread_Time_Error = 0;
-    
+    m_Thread3start = 0;
+
     m_nATM_Pick = 4000;
     m_nATM_Place = 4000;
     m_nATM_Rotate = 500;
@@ -865,7 +866,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         g_pMainDlg->m_nThread_Time_Error--;
         SetEvent(g_hEventThread_Time_Error);
     }
-    else if (g_pMainDlg->m_nThread_Time_Error > 0)
+    else if (g_pMainDlg->m_Thread3start != 0)
     {
         g_pMainDlg->m_nThread_Time_Error--;
     }
@@ -2160,6 +2161,7 @@ DWORD WINAPI Thread_Start(LPVOID p)
         
         CloseHandle(CreateThread(NULL, 0, Thread_1_LPM2LL, 0, 0, 0));
         WaitForSingleObject(g_hEventStart, INFINITE);
+      
         i = g_pMainDlg->m_ctrLPM.GetWindowInt();
 
 
@@ -2327,22 +2329,6 @@ void CAboutDlg::OnBnClickedSysInitial()
 
 void C주성Dlg::OnBnClickedStop()
 {
-    if (true)
-    {
-        CRect temp(0, 0 , 2, 2);
-        InvalidateRect(temp,true);
-        //CDC* pDC = g_pMainDlg->GetDC();
-        //CBrush brush;
-        //CBrush* oldBrush;
-        //brush.CreateSolidBrush(RGB(0, 255, 0));     // 공정 전
-        //oldBrush = pDC->SelectObject(&brush);
-
-        //for (int i = 5; i >= 0; i--)
-        //{
-        //    pDC->Rectangle(55, 140 + (14.6 * i), 121, 154.6 + (14.6 * i));
-        //}
-
-    }
     
 }
 
