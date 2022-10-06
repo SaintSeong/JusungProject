@@ -90,6 +90,7 @@
 #define IDC_EDIT_ROTATETIME             1064
 #define IDC_COMBO1                      1065
 #define IDC_COMBO_MODULE_COUNT          1065
+#define IDC_COMBO_SPEED                 1065
 #define IDC_EDIT6                       1066
 #define IDC_EDIT_PUMP_TIME              1066
 #define IDC_EDIT7                       1067
@@ -142,6 +143,12 @@
 #define IDC_EDIT_PM_CLEAN               1096
 #define IDC_STATIC_Time                 1097
 #define IDC_EDIT_PM_SLOT_CLOSE_TIME     1098
+#define IDC_STATIC_PM1                  1099
+#define IDC_STATIC_PM2                  1100
+#define IDC_STATIC_PM3                  1101
+#define IDC_STATIC_PM4                  1102
+#define IDC_STATIC_PM5                  1103
+#define IDC_STATIC_PM6                  1104
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -162,7 +169,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        147
 #define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         1099
+#define _APS_NEXT_CONTROL_VALUE         1105
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

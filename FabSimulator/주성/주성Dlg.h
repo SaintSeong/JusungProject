@@ -66,6 +66,7 @@ public:
 	int m_nThread4_LL; //쓰레드 4번에서 사용 하고 어떤 LL을 사용해야 할지 파악하는 변수
 	int m_nThread_Time_Error; // 쓰레드간 시간이 달라서 충돌 오류를 막기위한 변수
 	int m_nLL_Thread;
+	int m_nWafer_Process[4]={0,};//공정 끝낸 웨이퍼 개수
 	//장비 동작 시간
 	int m_nSpeed;				//배속
 	int m_Thread3start;		//3번 쓰레드 부르는 타이밍
@@ -116,7 +117,7 @@ public:
 	CProgressCtrl m_ctrPROGRESS_LL3;
 	CProgressCtrl m_ctrPROGRESS_LL4;
 
-	CString m_strInput; // 맨처음 사용자가 입력하는 웨이퍼 개수
+	CString m_strSpeed; // 스피드
 	//실제 데이터 이동을 위한 값 변수 모음
 	CString m_strLLWaferCount; //콤보박스 LL 방 개수 값 변수
 	CString m_strLLRoomCount;  //콤보박스 LL 웨이퍼 개수 값 변수
@@ -147,7 +148,7 @@ public:
 	CComboBox m_ctrTMWaferCount; // 콤보박스 TM 웨이퍼 개수
 	CComboBox m_ctrPMModuleCount;// 콤보박스 PM 모듈 개수
 	CComboBox m_ctrPMWaferCount; //콤보박스 PM 웨이퍼 개수 
-
+	CComboBox m_ctrSpeed;  //콤보박스 스피드
 	afx_msg void OnClose();
 
 	afx_msg void OnCbnSelchangeTmArm();
@@ -167,7 +168,15 @@ public:
 	CStatic m_ctrlStaticTotalTime;
 
 	CFont m_font;
-	CTime m_strInitTime;
-	CTime m_strCurTime;
-	CTimeSpan m_strDiffTime;
+	
+	
+	afx_msg void OnBnClickedSetSpeed();
+	//각 PM의 웨이퍼 공정 개수
+	C주성Btn m_CtrStatic_PM1;
+	C주성Btn m_CtrStatic_PM2;
+	C주성Btn m_CtrStatic_PM3;
+	C주성Btn m_CtrStatic_PM4;
+	C주성Btn m_CtrStatic_PM5;
+	C주성Btn m_CtrStatic_PM6;
+	int m_Static_Count=0;
 };
