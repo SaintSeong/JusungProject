@@ -101,7 +101,7 @@ public:
 	int m_nPM_Thread2 = 0;		//PM 쓰레드 에서 프로그래스바 에서 사용하는 변수 (PM 모듈 구분용) 2번 쓰레드 에서만 사용
 	int m_nPM_Thread3 = 0;		//PM 쓰레드 에서 프로그래스바 에서 사용하는 변수 (PM 모듈 구분용) 3번 쓰레드 에서만 사용
 	int m_nPM_Processing = 0;	//현재 PM 공정 진행중인 개수
-	bool m_bPM_Thread_Cheak = false;
+	bool m_bPM_Thread_Check = false;
 	//프로그래스바
 	CProgressCtrl m_ctrPROGRESS_PM1;
 	CProgressCtrl m_ctrPROGRESS_PM2;
@@ -175,8 +175,6 @@ public:
 	C주성Btn m_ctrStatic_Speed;
 	int m_Static_Count=0;
 	//LPM UI 변수
-	bool m_bLPM_Wafer_Cheak[3]; //LPM 에 공정 전 웨이퍼인지 공정 후 웨이퍼인지 구분용
 	C주성Btn m_ctrLPMUI1;
 	C주성Btn m_ctrLPMUI2;
-	C주성Btn m_ctrLPMUI3;
 };
