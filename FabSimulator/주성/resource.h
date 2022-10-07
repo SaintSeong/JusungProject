@@ -141,6 +141,15 @@
 #define IDC_STATIC_PM5                  1103
 #define IDC_STATIC_PM6                  1104
 #define IDC_BUTTON_SAVE_THROUGHPUT      1105
+#define IDC_NAME_CURSPEED               1106
+#define IDC_INFO_COLOR                  1107
+#define IDC_COLOR_BEFORE                1108
+#define IDC_COLOR_AFTER                 1109
+#define IDC_COLOR_PROCESS               1110
+#define IDC_COLOR_DUMMY                 1111
+#define IDC_NUM_LPM1                    1112
+#define IDC_NUM_LPM2                    1113
+#define IDC_NUM_LPM3                    1114
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -156,7 +165,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        147
 #define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         1106
+#define _APS_NEXT_CONTROL_VALUE         1115
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
