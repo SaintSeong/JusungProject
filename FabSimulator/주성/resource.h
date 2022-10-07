@@ -8,7 +8,6 @@
 #define IDD_MAINVIEW                    102
 #define IDR_MAINFRAME                   128
 #define IDD_SYS_INIT                    143
-#define IDR_MENU_TAB                    146
 #define IDC_EFEMARM                     1000
 #define IDC_START                       1001
 #define IDC_OUTPUT                      1002
@@ -76,7 +75,6 @@
 #define IDC_PROGRESS_PM5                1053
 #define IDC_PROGRESS10                  1054
 #define IDC_PROGRESS_PM6                1054
-#define IDC_STOP                        1055
 #define IDC_SYS_INITIAL                 1056
 #define IDC_EDIT2                       1057
 #define IDC_SPIN1                       1058
@@ -129,6 +127,7 @@
 #define IDC_PROGRESS                    1088
 #define IDC_BUTTON1                     1089
 #define IDC_BUTTON_LOAD                 1089
+#define IDC_BUTTON_SAVE_SYSTEMCONFIG    1089
 #define IDC_STATIC_LPM2                 1090
 #define IDC_STATIC_LMP3                 1091
 #define IDC_STATIC_LPM1                 1092
@@ -141,6 +140,7 @@
 #define IDC_STATIC_PM4                  1102
 #define IDC_STATIC_PM5                  1103
 #define IDC_STATIC_PM6                  1104
+#define IDC_BUTTON_SAVE_THROUGHPUT      1105
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -149,11 +149,6 @@
 #define ID_32776                        32776
 #define ID_32777                        32777
 #define ID_Open_SystemInit              32778
-#define ID_Save_SystemInit              32779
-#define ID_                             32780
-#define ID_Save_Throughput              32781
-#define ID_Save_Both                    32782
-#define ID_Load_SystemInit              32783
 
 // Next default values for new objects
 // 
@@ -161,7 +156,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        147
 #define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         1105
+#define _APS_NEXT_CONTROL_VALUE         1106
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

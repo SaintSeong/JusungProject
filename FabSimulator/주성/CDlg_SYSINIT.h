@@ -28,12 +28,19 @@ public:
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnCbnSelchangeComboVacArm();
 	afx_msg void OnCbnSelchangeComboPmSlot();
+	afx_msg void OnBnClickedButtonLoad();
 
 	CComboBox m_ctrlComboLLModule;
 	CComboBox m_ctrlComboLLSlot;
 	CComboBox m_ctrlComboVacArm;
 	CComboBox m_ctrlComboPMModule;
 	CComboBox m_ctrlComboPMSlot;
+
+	CString m_strLLModuleCount;
+	CString m_strLLSlotCount;
+	CString m_strVacArmCount;
+	CString m_strPMModuleCount;
+	CString m_strPMSlotCount;
 
 	int m_nEFEMPickTime;
 	int m_nEFEMMoveTime;
@@ -54,10 +61,6 @@ public:
 	int m_nPMSlotOpenTime;
 	int m_nPMSlotCloseTime;
 
-	CString m_strLLModuleCount;
-	CString m_strLLSlotCount;
-	CString m_strVacArmCount;
-	CString m_strPMModuleCount;
-	CString m_strPMSlotCount;
-	afx_msg void OnBnClickedButtonLoad();
+	
+	
 };

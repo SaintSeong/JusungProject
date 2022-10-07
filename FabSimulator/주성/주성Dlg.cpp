@@ -30,7 +30,6 @@ protected:
 protected:
     DECLARE_MESSAGE_MAP()
 public:
-    afx_msg void OnBnClickedSysInitial();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -139,22 +138,17 @@ BEGIN_MESSAGE_MAP(C주성Dlg, CDialogEx)
     ON_WM_SYSCOMMAND()
     ON_WM_PAINT()
     ON_WM_QUERYDRAGICON()
-    ON_BN_CLICKED(IDC_START, &C주성Dlg::OnBnClickedStart)
     ON_WM_CLOSE()
     ON_CBN_SELCHANGE(IDC_TM_ARM, &C주성Dlg::OnCbnSelchangeTmArm)
     ON_CBN_SELCHANGE(IDC_LL_WAFER, &C주성Dlg::OnCbnSelchangeLlWafer)
     ON_CBN_SELCHANGE(IDC_PM_WAFER, &C주성Dlg::OnCbnSelchangePmWafer)
     ON_CBN_SELCHANGE(IDC_LL_ROOM, &C주성Dlg::OnCbnSelchangeLlRoom)
     ON_CBN_SELCHANGE(IDC_PM_MODUL, &C주성Dlg::OnCbnSelchangePmModul)
-    ON_BN_CLICKED(IDC_STOP, &C주성Dlg::OnBnClickedStop)
     ON_BN_CLICKED(IDC_SYS_INITIAL, &C주성Dlg::OnBnClickedSysInitial)
-
-    ON_COMMAND(ID_Load_SystemInit, &C주성Dlg::OnLoadSystemInit)
-    ON_COMMAND(ID_Save_SystemInit, &C주성Dlg::OnSaveSystemInit)
-    ON_COMMAND(ID_Save_Throughput, &C주성Dlg::OnSaveThroughput)
-    ON_COMMAND(ID_Save_Both, &C주성Dlg::OnSaveBoth)
+    ON_BN_CLICKED(IDC_START, &C주성Dlg::OnBnClickedStart)
+    ON_BN_CLICKED(IDC_BUTTON_SAVE_SYSTEMCONFIG, &C주성Dlg::OnBnClickedButtonSaveSystemconfig)
+    ON_BN_CLICKED(IDC_BUTTON_SAVE_THROUGHPUT, &C주성Dlg::OnBnClickedButtonSaveThroughput)
     ON_COMMAND(IDC_SET_SPEED, &C주성Dlg::OnBnClickedSetSpeed)
-    
     ON_WM_RBUTTONDOWN()
 END_MESSAGE_MAP()
 
@@ -2454,78 +2448,12 @@ void C주성Dlg::OnCbnSelchangePmModul()
 }
 
 
-void CAboutDlg::OnBnClickedSysInitial()
-{
-    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-}
-
-
-void C주성Dlg::OnBnClickedStop()
-{
-    
-}
-
-
 void C주성Dlg::OnBnClickedSysInitial()
 {
     m_dlgSysInit.DoModal();
 }
 
-void C주성Dlg::OnLoadSystemInit()
-{
-    CFileDialog loadFile(1, _T("*.cfg")
-        , 0
-        , OFN_OVERWRITEPROMPT | OFN_LONGNAMES
-        , _T("System Configulation Files (*.cfg)|*.cfg||")
-    );
-    if (loadFile.DoModal() == IDOK)
-    {
-        CString strLoadName(loadFile.GetPathName());
-        TCHAR strReadIni[20] = { 0 };
-
-        // EFEM
-        m_nATM_Pick = ::GetPrivateProfileInt(_T("EFEM"), _T("Pick"), -1, strLoadName);
-        m_nATM_Place = ::GetPrivateProfileInt(_T("EFEM"), _T("Place"), -1, strLoadName);
-        m_nATM_ZRotate = ::GetPrivateProfileInt(_T("EFEM"), _T("Z_Move"), -1, strLoadName);
-        m_nATM_Rotate = ::GetPrivateProfileInt(_T("EFEM"), _T("Rotate"), -1, strLoadName);
-
-        // LL
-        ::GetPrivateProfileString(_T("LL"), _T("ModuleCount"), _T("1"), strReadIni, 20, strLoadName);
-        m_strLLModuleCnt.Format(_T("%s"), strReadIni);
-        ::GetPrivateProfileString(_T("LL"), _T("SlotCount"), _T("1"), strReadIni, 20, strLoadName);
-        m_strLLSlotCnt.Format(_T("%s"), strReadIni);
-        m_nLL_Vent = ::GetPrivateProfileInt(_T("LL"), _T("VentTime"), -1, strLoadName) * 1000;
-        m_nLL_Vent_Stable_Time = ::GetPrivateProfileInt(_T("LL"), _T("VentStableTime"), -1, strLoadName) * 1000;
-        m_nLL_Pump = ::GetPrivateProfileInt(_T("LL"), _T("PumpTime"), -1, strLoadName) * 1000;
-        m_nLL_Pump_Stable_Time = ::GetPrivateProfileInt(_T("LL"), _T("PumpStableTime"), -1, strLoadName) * 1000;
-        m_nLL_Slot_Valve_Open = ::GetPrivateProfileInt(_T("LL"), _T("SlotOpenTime"), -1, strLoadName) * 1000;
-        m_nLL_Slot_Valve_Close = ::GetPrivateProfileInt(_T("LL"), _T("SlotCloseTime"), -1, strLoadName) * 1000;
-        m_nLL_Door_Valve_Open = ::GetPrivateProfileInt(_T("LL"), _T("DoorOpenTime"), -1, strLoadName) * 1000;
-        m_nLL_Door_Valve_Close = ::GetPrivateProfileInt(_T("LL"), _T("DoorCloseTime"), -1, strLoadName) * 1000;
-
-        // TM-Vac
-        ::GetPrivateProfileString(_T("TM"), _T("ArmCount"), _T("2"), strReadIni, 20, strLoadName);
-        m_strVacArmCnt.Format(_T("%s"), strReadIni);
-        m_nVAC_Pick = ::GetPrivateProfileInt(_T("TM"), _T("Pick"), -1, strLoadName) * 1000;
-        m_nVAC_Place = ::GetPrivateProfileInt(_T("TM"), _T("Place"), -1, strLoadName) * 1000;
-        m_nRotate = ::GetPrivateProfileInt(_T("TM"), _T("Rotate"), -1, strLoadName) * 1000;
-
-        // PM
-        ::GetPrivateProfileString(_T("PM"), _T("ModuleCount"), _T("1"), strReadIni, 20, strLoadName);
-        m_strPMModuleCnt.Format(_T("%s"), strReadIni);
-        ::GetPrivateProfileString(_T("PM"), _T("SlotCount"), _T("1"), strReadIni, 20, strLoadName);
-        m_strPMSlotCnt.Format(_T("%s"), strReadIni);
-        m_nPM_Processing = ::GetPrivateProfileInt(_T("PM"), _T("ProcessTime"), -1, strLoadName) * 1000;
-        m_nPM_Clean_Time = ::GetPrivateProfileInt(_T("PM"), _T("CleanTime"), -1, strLoadName) * 1000;
-        m_nPM_Clean_Wafer_Count = ::GetPrivateProfileInt(_T("PM"), _T("CleanCount"), -1, strLoadName) * 1000;
-        m_nPM_Slot_Valve_Open = ::GetPrivateProfileInt(_T("PM"), _T("SlotOpenTime"), -1, strLoadName) * 1000;
-        m_nPM_Slot_Valve_Close = ::GetPrivateProfileInt(_T("PM"), _T("SlotCloseTime"), -1, strLoadName) * 1000;
-
-        m_dlgSysInit.DoModal();
-    }
-}
-
-void C주성Dlg::OnSaveSystemInit()
+void C주성Dlg::OnBnClickedButtonSaveSystemconfig()
 {
      CFileDialog saveFile(0, _T("*.cfg")
          , 0
@@ -2595,17 +2523,6 @@ void C주성Dlg::OnSaveSystemInit()
     }
 }
 
-void C주성Dlg::OnSaveThroughput()
-{
-
-}
-
-void C주성Dlg::OnSaveBoth()
-{
-
-}
-
-
 void C주성Dlg::OnRButtonDown(UINT nFlags, CPoint point)
 {
     // TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
@@ -2620,4 +2537,10 @@ void C주성Dlg::OnBnClickedSetSpeed()
     UpdateData(1);
     g_pMainDlg->m_nSpeed= _ttoi(m_strSpeed);
     UpdateData(0);
+}
+
+
+void C주성Dlg::OnBnClickedButtonSaveThroughput()
+{
+   
 }

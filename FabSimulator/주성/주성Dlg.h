@@ -154,14 +154,10 @@ public:
 	afx_msg void OnCbnSelchangePmWafer();
 	afx_msg void OnCbnSelchangeLlRoom();
 	afx_msg void OnCbnSelchangePmModul();
-	afx_msg void OnBnClickedStop();
 	afx_msg void OnBnClickedSysInitial();
-
-	afx_msg void OnLoadSystemInit();
-	afx_msg void OnSaveSystemInit();
-	afx_msg void OnSaveThroughput();
-	afx_msg void OnSaveBoth();
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnBnClickedButtonSaveSystemconfig();
+	afx_msg void OnBnClickedButtonSaveThroughput();
 
 	CStatic m_ctrlStaticTotalTime;
 
@@ -177,4 +173,5 @@ public:
 	C주성Btn m_CtrStatic_PM5;
 	C주성Btn m_CtrStatic_PM6;
 	int m_Static_Count=0;
+	
 };
