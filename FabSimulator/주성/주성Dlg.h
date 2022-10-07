@@ -139,7 +139,7 @@ public:
 	C주성Btn m_ctrPM6;
 	C주성Btn m_ctrOUTPUT;
 	C주성Btn m_ctrLPM;
-
+	
 	//초기 세팅을 위한 컨트롤 변수 모음
 	CComboBox m_ctrLLWaferCount; // 콤보박스 LL 방 개수
 	CComboBox m_ctrLLRoomCount;  // 콤보박스 LL 웨이퍼 개수

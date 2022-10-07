@@ -6,7 +6,7 @@
 #include "주성.h"
 #include "주성Dlg.h"
 #include "afxdialogex.h"
-
+#include "CDlg_SYSINIT.h"
 #ifdef _DEBUGasdasdasd
 #define new DEBUG_NEW
 #endif
@@ -46,6 +46,7 @@ END_MESSAGE_MAP()
 
 // C주성Dlg 메시지 처리기
 C주성Dlg* g_pMainDlg;
+CDlg_SYSINIT* g_pSubDlg;
 CRect g_CRtemp(0, 0, 2, 2);/*
 CRect g_CR_LL1(940, 130, 1080, 300);
 CRect g_CR_LL2(1100, 137, 1240, 300);
@@ -335,6 +336,7 @@ void C주성Dlg::OnPaint()
     }
     else
     {
+        //핑크 255,100,200
         CDC* pDC = g_pMainDlg->GetDC();
         if (true)//LPM1
         {
@@ -2244,7 +2246,6 @@ DWORD WINAPI Thread_Start(LPVOID p)
     {
         if (nLPM_input_cnt - i - g_pMainDlg->m_noutput_count >= nPM_MAX + nLL_MAX)
         {
-            
             if (g_pMainDlg->m_nThread_Time_Error > 0)
             {
                 if (_ttoi(g_pMainDlg->m_strLLRoomCount) == 1 || _ttoi(g_pMainDlg->m_strLLRoomCount) == 2)
@@ -2343,7 +2344,7 @@ void C주성Dlg::OnBnClickedStart()
         UpdateData(1);
         g_pMainDlg->InvalidateRect(g_CRtemp, false);
         m_nSpeed = _ttoi(m_strSpeed);
-        m_ctrLPM.SetWindowInt(9999);
+        m_ctrLPM.SetWindowInt(99999999);
         m_nLLMAX = _ttoi(m_strLLWaferCount) * _ttoi(m_strLLRoomCount);
         CloseHandle(CreateThread(NULL, 0, TotalTime, 0, 0, 0));
         CloseHandle(CreateThread(NULL, 0, Thread_Start, 0, 0, 0));     
@@ -2536,6 +2537,8 @@ void C주성Dlg::OnBnClickedSetSpeed()
 {
     UpdateData(1);
     g_pMainDlg->m_nSpeed= _ttoi(m_strSpeed);
+    g_pSubDlg->m_nEFEMPickTime;
+    
     UpdateData(0);
 }
 
