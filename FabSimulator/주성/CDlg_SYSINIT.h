@@ -25,6 +25,7 @@ public:
 	
 	virtual BOOL OnInitDialog();
 
+	void InitComboBox();
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnCbnSelchangeComboVacArm();
 	afx_msg void OnCbnSelchangeComboPmSlot();
@@ -63,4 +64,6 @@ public:
 
 	
 	
+	afx_msg void OnBnClickedButtonSave();
+	int m_nCleanCount;
 };

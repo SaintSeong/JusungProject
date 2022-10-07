@@ -77,6 +77,7 @@
 #define IDC_PROGRESS_PM6                1054
 #define IDC_SYS_INITIAL                 1056
 #define IDC_EDIT2                       1057
+#define IDC_EDIT_CLEANCOUNT             1057
 #define IDC_SPIN1                       1058
 #define IDC_SET_SPEED                   1059
 #define IDC_LL_WAFER                    1061
@@ -151,6 +152,7 @@
 #define IDC_NUM_LPM2                    1113
 #define IDC_NUM_LPM3                    1114
 #define IDC_STATIC_SPEED                1115
+#define IDC_BUTTON_Save                 1116
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -166,7 +168,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        147
 #define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         1116
+#define _APS_NEXT_CONTROL_VALUE         1117
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
