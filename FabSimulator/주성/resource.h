@@ -150,6 +150,7 @@
 #define IDC_NUM_LPM1                    1112
 #define IDC_NUM_LPM2                    1113
 #define IDC_NUM_LPM3                    1114
+#define IDC_STATIC_SPEED                1115
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -165,7 +166,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        147
 #define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         1115
+#define _APS_NEXT_CONTROL_VALUE         1116
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

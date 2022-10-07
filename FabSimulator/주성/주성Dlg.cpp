@@ -133,6 +133,12 @@ void C주성Dlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_PROGRESS_LL3, m_ctrPROGRESS_LL3);
     DDX_Control(pDX, IDC_PROGRESS_LL4, m_ctrPROGRESS_LL4);
     DDX_Control(pDX, IDC_STATIC_Time, m_ctrlStaticTotalTime);
+
+    DDX_Control(pDX, IDC_STATIC_SPEED, m_ctrStatic_Speed);//
+    //LPM UI 스태틱 변수
+    DDX_Control(pDX, IDC_NUM_LPM1, m_ctrLPMUI1);
+    DDX_Control(pDX, IDC_NUM_LPM2, m_ctrLPMUI2);
+    DDX_Control(pDX, IDC_NUM_LPM3, m_ctrLPMUI3);
 }
 
 BEGIN_MESSAGE_MAP(C주성Dlg, CDialogEx)
@@ -293,7 +299,7 @@ BOOL C주성Dlg::OnInitDialog()
         DEFAULT_PITCH | FF_DONTCARE,// nPitchAndFamily                               
         _T("고딕"));
     m_ctrlStaticTotalTime.SetFont(&m_font, TRUE);
-
+    
     UpdateData(0);
     return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -337,12 +343,15 @@ void C주성Dlg::OnPaint()
     else
     {
         //핑크 255,100,200
+        /*m_ctrLPMUI1.SetWindowInt(1);
+        m_ctrLPMUI2.SetWindowInt(1);
+        m_ctrLPMUI3.SetWindowInt(1);*/
         CDC* pDC = g_pMainDlg->GetDC();
-        if (true)//LPM1
+        if (true)//LPM1 빈공간
         {
             CBrush brush;
             CBrush* oldBrush;
-            brush.CreateSolidBrush(RGB(0, 255, 0));    
+            brush.CreateSolidBrush(RGB(140, 140, 140));
             oldBrush = pDC->SelectObject(&brush);
 
             for (int i = 24; i >= 0; i--)
@@ -350,13 +359,38 @@ void C주성Dlg::OnPaint()
                 pDC->Rectangle(55, 140 + (14.6 * i), 121, 154.6 + (14.6 * i));
             }
         }
-        if (true)//LPM2
+        if (m_bLPM_Wafer_Cheak[0] == false)//LPM1
         {
-
-            
             CBrush brush;
             CBrush* oldBrush;
             brush.CreateSolidBrush(RGB(0, 255, 0));    
+            oldBrush = pDC->SelectObject(&brush);
+
+            for (int i = m_ctrLPMUI1.GetWindowInt()-1; i >= 0; i--)
+            {
+                pDC->Rectangle(55, 140 + (14.6 * i), 121, 154.6 + (14.6 * i));
+            }
+        }
+       
+        if (m_bLPM_Wafer_Cheak[0]==true)//LPM1 공정후
+        {
+            CBrush brush;
+            CBrush* oldBrush;
+            brush.CreateSolidBrush(RGB(0, 0, 255));
+            oldBrush = pDC->SelectObject(&brush);
+
+            for (int i = 24; i > 24- m_ctrLPMUI1.GetWindowInt(); i--)
+            {
+                pDC->Rectangle(55, 140 + (14.6 * i), 121, 154.6 + (14.6 * i));
+            }
+        }
+        if (true)//LPM2 빈공간
+        {
+
+
+            CBrush brush;
+            CBrush* oldBrush;
+            brush.CreateSolidBrush(RGB(140, 140, 140));
             oldBrush = pDC->SelectObject(&brush);
 
             for (int i = 24; i >= 0; i--)
@@ -365,21 +399,70 @@ void C주성Dlg::OnPaint()
             }
 
         }
-        if (true)//LPM3
+        if (m_bLPM_Wafer_Cheak[1] == false)//LPM2
         {
-
-            
             CBrush brush;
             CBrush* oldBrush;
             brush.CreateSolidBrush(RGB(0, 255, 0));    
             oldBrush = pDC->SelectObject(&brush);
 
-            for (int i = 24; i >= 0; i--)
+            for (int i = m_ctrLPMUI2.GetWindowInt() - 1; i >= 0; i--)
             {
-                pDC->Rectangle(265, 140 + (14.6 * i), 330, 154.6 + (14.6 * i));
+                pDC->Rectangle(160, 140 + (14.6 * i), 225, 154.6 + (14.6 * i));
             }
-
         }
+        if (m_bLPM_Wafer_Cheak[1] == true)//LPM1 공정후
+        {
+            CBrush brush;
+            CBrush* oldBrush;
+            brush.CreateSolidBrush(RGB(0, 0, 255));
+            oldBrush = pDC->SelectObject(&brush);
+
+            for (int i = 24; i > 24 - m_ctrLPMUI2.GetWindowInt(); i--)
+            {
+                pDC->Rectangle(160, 140 + (14.6 * i), 225, 154.6 + (14.6 * i));
+            }
+        }
+        //if (true)//LPM3 빈공간
+        //{
+
+
+        //    CBrush brush;
+        //    CBrush* oldBrush;
+        //    brush.CreateSolidBrush(RGB(140, 140, 140));
+        //    oldBrush = pDC->SelectObject(&brush);
+
+        //    for (int i = 24; i >= 0; i--)
+        //    {
+        //        pDC->Rectangle(265, 140 + (14.6 * i), 330, 154.6 + (14.6 * i));
+        //    }
+
+        //}
+        //if (m_bLPM_Wafer_Cheak[2] == false)//LPM3
+        //{
+        //    CBrush brush;
+        //    CBrush* oldBrush;
+        //    brush.CreateSolidBrush(RGB(0, 255, 0));    
+        //    oldBrush = pDC->SelectObject(&brush);
+
+        //    for (int i = m_ctrLPMUI3.GetWindowInt() - 1; i >= 0; i--)
+        //    {
+        //        pDC->Rectangle(265, 140 + (14.6 * i), 330, 154.6 + (14.6 * i));
+        //    }
+
+        //}
+        //if (m_bLPM_Wafer_Cheak[2] == true)//LPM1 공정후
+        //{
+        //    CBrush brush;
+        //    CBrush* oldBrush;
+        //    brush.CreateSolidBrush(RGB(0, 0, 255));
+        //    oldBrush = pDC->SelectObject(&brush);
+
+        //    for (int i = 24; i > 24 - m_ctrLPMUI3.GetWindowInt(); i--)
+        //    {
+        //        pDC->Rectangle(265, 140 + (14.6 * i), 330, 154.6 + (14.6 * i));
+        //    }
+        //}
         if (true)//LL1 빈공간
         {
             
@@ -699,9 +782,20 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         if (i == 1) break;  //ATM ROBOT이 wafer를 한 개씩 잡는다
 
         nLPM_cnt--;
-
+        if (g_pMainDlg->m_ctrLPMUI1.GetWindowInt() != 0 && g_pMainDlg->m_ctrLPMUI2.GetWindowInt() != 0)
+            g_pMainDlg->m_ctrLPMUI1.SetWindowInt(g_pMainDlg->m_ctrLPMUI1.GetWindowInt() - 1);
+        else if (g_pMainDlg->m_ctrLPMUI2.GetWindowInt() != 0)
+            g_pMainDlg->m_ctrLPMUI2.SetWindowInt(g_pMainDlg->m_ctrLPMUI2.GetWindowInt() - 1);
+        else if (g_pMainDlg->m_ctrLPMUI3.GetWindowInt() != 0)
+            g_pMainDlg->m_ctrLPMUI3.SetWindowInt(g_pMainDlg->m_ctrLPMUI3.GetWindowInt() - 1);
     }
-
+    if (g_pMainDlg->m_ctrLPMUI1.GetWindowInt() == 0)
+        g_pMainDlg->m_bLPM_Wafer_Cheak[0] = true;
+    else if (g_pMainDlg->m_ctrLPMUI2.GetWindowInt() == 0)
+        g_pMainDlg->m_bLPM_Wafer_Cheak[1] = true;
+    else if (g_pMainDlg->m_ctrLPMUI3.GetWindowInt() == 0)
+        g_pMainDlg->m_bLPM_Wafer_Cheak[2] = true;
+    g_pMainDlg->InvalidateRect(g_CRtemp, false);
     nEFEM_cnt = g_pMainDlg->m_ctrEFEM.GetWindowInt();
     nLPM_cnt = g_pMainDlg->m_ctrLPM.GetWindowInt();
 
@@ -755,9 +849,21 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
             if (i == 1) break;  //ATM ROBOT이 wafer를 한 개씩 잡는다
 
             nLPM_cnt--;
-
+            if (g_pMainDlg->m_ctrLPMUI1.GetWindowInt() != 0 && g_pMainDlg->m_ctrLPMUI2.GetWindowInt() != 0)
+                g_pMainDlg->m_ctrLPMUI1.SetWindowInt(g_pMainDlg->m_ctrLPMUI1.GetWindowInt() - 1);
+            else if (g_pMainDlg->m_ctrLPMUI2.GetWindowInt() != 0)
+                g_pMainDlg->m_ctrLPMUI2.SetWindowInt(g_pMainDlg->m_ctrLPMUI2.GetWindowInt() - 1);
+            else if (g_pMainDlg->m_ctrLPMUI3.GetWindowInt() != 0)
+                g_pMainDlg->m_ctrLPMUI3.SetWindowInt(g_pMainDlg->m_ctrLPMUI3.GetWindowInt() - 1);
         }
+        if (g_pMainDlg->m_ctrLPMUI1.GetWindowInt() == 0)
+            g_pMainDlg->m_bLPM_Wafer_Cheak[0] = true;
+        else if (g_pMainDlg->m_ctrLPMUI2.GetWindowInt() == 0)
+            g_pMainDlg->m_bLPM_Wafer_Cheak[1] = true;
+        else if (g_pMainDlg->m_ctrLPMUI3.GetWindowInt() == 0)
+            g_pMainDlg->m_bLPM_Wafer_Cheak[2] = true;
 
+        g_pMainDlg->InvalidateRect(g_CRtemp, false);
         nAligner_cnt = g_pMainDlg->m_ctrALIGNER.GetWindowInt();
 
         //2) PICK : ALIGNER -> ATM ROBOT
@@ -2136,7 +2242,18 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
             g_pMainDlg->m_ctrOUTPUT.SetWindowInt(i);
             g_pMainDlg->m_nWafer_Count--;
             if (nEFEM_cnt == 0) break;  //EFEM(ATM ROBOT)에 남아있는 wafer가 없다
-
+            if (g_pMainDlg->m_ctrLPMUI1.GetWindowInt() != 25 && g_pMainDlg->m_ctrLPMUI2.GetWindowInt() != 25)
+                g_pMainDlg->m_ctrLPMUI1.SetWindowInt(g_pMainDlg->m_ctrLPMUI1.GetWindowInt() + 1);
+            else if (g_pMainDlg->m_ctrLPMUI2.GetWindowInt() != 25)
+                g_pMainDlg->m_ctrLPMUI2.SetWindowInt(g_pMainDlg->m_ctrLPMUI2.GetWindowInt() + 1);
+            else if (g_pMainDlg->m_ctrLPMUI3.GetWindowInt() != 25)
+                g_pMainDlg->m_ctrLPMUI3.SetWindowInt(g_pMainDlg->m_ctrLPMUI3.GetWindowInt() + 1);
+            if (g_pMainDlg->m_ctrLPMUI1.GetWindowInt() == 25)
+                g_pMainDlg->m_bLPM_Wafer_Cheak[0] = false;
+            else if (g_pMainDlg->m_ctrLPMUI2.GetWindowInt() == 25)
+                g_pMainDlg->m_bLPM_Wafer_Cheak[1] = false;
+            else if (g_pMainDlg->m_ctrLPMUI3.GetWindowInt() == 25)
+                g_pMainDlg->m_bLPM_Wafer_Cheak[2] = false;
             nEFEM_cnt--; 
         }
     }
@@ -2344,6 +2461,7 @@ void C주성Dlg::OnBnClickedStart()
         UpdateData(1);
         g_pMainDlg->InvalidateRect(g_CRtemp, false);
         m_nSpeed = _ttoi(m_strSpeed);
+        m_ctrStatic_Speed.SetWindowInt(_ttoi(m_strSpeed));
         m_ctrLPM.SetWindowInt(99999999);
         m_nLLMAX = _ttoi(m_strLLWaferCount) * _ttoi(m_strLLRoomCount);
         CloseHandle(CreateThread(NULL, 0, TotalTime, 0, 0, 0));
@@ -2537,6 +2655,7 @@ void C주성Dlg::OnBnClickedSetSpeed()
 {
     UpdateData(1);
     g_pMainDlg->m_nSpeed= _ttoi(m_strSpeed);
+    m_ctrStatic_Speed.SetWindowInt(_ttoi(m_strSpeed));
     g_pSubDlg->m_nEFEMPickTime;
     
     UpdateData(0);

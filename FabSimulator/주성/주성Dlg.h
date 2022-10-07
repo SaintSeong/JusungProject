@@ -172,6 +172,11 @@ public:
 	C주성Btn m_CtrStatic_PM4;
 	C주성Btn m_CtrStatic_PM5;
 	C주성Btn m_CtrStatic_PM6;
+	C주성Btn m_ctrStatic_Speed;
 	int m_Static_Count=0;
-	
+	//LPM UI 변수
+	bool m_bLPM_Wafer_Cheak[3]; //LPM 에 공정 전 웨이퍼인지 공정 후 웨이퍼인지 구분용
+	C주성Btn m_ctrLPMUI1;
+	C주성Btn m_ctrLPMUI2;
+	C주성Btn m_ctrLPMUI3;
 };
