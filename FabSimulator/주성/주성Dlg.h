@@ -177,4 +177,6 @@ public:
 	//LPM UI 변수
 	C주성Btn m_ctrLPMUI1;
 	C주성Btn m_ctrLPMUI2;
+	//LL 더미 웨이퍼 UI 변수
+	int m_bDummy_Count;
 };
