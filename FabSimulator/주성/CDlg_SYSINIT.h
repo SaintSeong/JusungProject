@@ -30,6 +30,7 @@ public:
 	afx_msg void OnCbnSelchangeComboVacArm();
 	afx_msg void OnCbnSelchangeComboPmSlot();
 	afx_msg void OnBnClickedButtonLoad();
+	afx_msg void OnBnClickedButtonSave();
 
 	CComboBox m_ctrlComboLLModule;
 	CComboBox m_ctrlComboLLSlot;
@@ -61,8 +62,6 @@ public:
 	int m_nPMProcessTime;
 	int m_nPMSlotOpenTime;
 	int m_nPMSlotCloseTime;
-
-	afx_msg void OnBnClickedButtonSave();
 	int m_nCleanCount;
 	
 };

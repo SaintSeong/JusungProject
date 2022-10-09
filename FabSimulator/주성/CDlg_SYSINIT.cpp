@@ -241,21 +241,6 @@ BOOL CDlg_SYSINIT::OnInitDialog()
 	m_ctrlComboVacArm.GetLBText(nVacArmIdx, strValue);
 	nValue = _ttoi(strValue);
 
-	for (int i = m_ctrlComboPMSlot.GetCount() - 1; i >= 0; i--)
-	{
-		m_ctrlComboPMSlot.DeleteString(i);
-	}
-
-	for (int i = m_ctrlComboPMModule.GetCount() - 1; i >= 0; i--)
-	{
-		m_ctrlComboPMModule.DeleteString(i);
-	}
-
-	for (short i = m_ctrlComboLLSlot.GetCount() - 1; i >= 0; i--)
-	{
-		m_ctrlComboLLSlot.DeleteString(i);
-	}
-
 	if (nValue == 2)
 	{
 		m_ctrlComboPMSlot.InsertString(0, _T("1"));
@@ -607,8 +592,7 @@ void CDlg_SYSINIT::OnBnClickedButtonLoad()
 		::GetPrivateProfileString(_T("PM"), _T("SlotCount"), _T("1"), strReadIni, 20, strLoadName);
 		m_strPMSlotCount.Format(_T("%s"), strReadIni);
 		m_nPMProcessTime = ::GetPrivateProfileInt(_T("PM"), _T("ProcessTime"), -1, strLoadName);
-		// = ::GetPrivateProfileInt(_T("PM"), _T("CleanTime"), -1, strLoadName) * 1000;
-		// = ::GetPrivateProfileInt(_T("PM"), _T("CleanCount"), -1, strLoadName) * 1000;
+		m_nCleanCount = ::GetPrivateProfileInt(_T("PM"), _T("CleanCount"), -1, strLoadName);
 		m_nPMSlotOpenTime = ::GetPrivateProfileInt(_T("PM"), _T("SlotOpenTime"), -1, strLoadName);
 		m_nPMSlotCloseTime = ::GetPrivateProfileInt(_T("PM"), _T("SlotCloseTime"), -1, strLoadName);
 
@@ -682,6 +666,5 @@ void CDlg_SYSINIT::OnBnClickedButtonSave()
 		::WritePrivateProfileString(_T("PM"), _T("SlotOpenTime"), strValue, strSaveName);
 		strValue.Format(_T("%d"), m_nPMSlotCloseTime / 1000);
 		::WritePrivateProfileString(_T("PM"), _T("SlotCloseTime"), strValue, strSaveName);
-
 	}
 }
