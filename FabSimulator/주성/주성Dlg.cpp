@@ -154,7 +154,7 @@ BEGIN_MESSAGE_MAP(C주성Dlg, CDialogEx)
     ON_CBN_SELCHANGE(IDC_PM_WAFER, &C주성Dlg::OnCbnSelchangePmWafer)
     ON_CBN_SELCHANGE(IDC_LL_ROOM, &C주성Dlg::OnCbnSelchangeLlRoom)
     ON_CBN_SELCHANGE(IDC_PM_MODUL, &C주성Dlg::OnCbnSelchangePmModul)
-    ON_BN_CLICKED(IDC_SYS_INITIAL, &C주성Dlg::OnBnClickedSysInitial)
+    ON_BN_CLICKED(IDC_SYS_INFO, &C주성Dlg::OnBnClickedSysInitial)
     ON_BN_CLICKED(IDC_START, &C주성Dlg::OnBnClickedStart)
     ON_BN_CLICKED(IDC_BUTTON_SAVE_SYSTEMCONFIG, &C주성Dlg::OnBnClickedButtonSaveSystemconfig)
     ON_BN_CLICKED(IDC_BUTTON_SAVE_THROUGHPUT, &C주성Dlg::OnBnClickedButtonSaveThroughput)
@@ -2418,7 +2418,24 @@ void C주성Dlg::OnBnClickedStart()
         m_ctrLPM.SetWindowInt(99999999);
         m_nLLMAX = _ttoi(m_strLLWaferCount) * _ttoi(m_strLLRoomCount);
         CloseHandle(CreateThread(NULL, 0, TotalTime, 0, 0, 0));
-        CloseHandle(CreateThread(NULL, 0, Thread_Start, 0, 0, 0)); */    
+        CloseHandle(CreateThread(NULL, 0, Thread_Start, 0, 0, 0)); */ 
+
+        CString strValue;
+        GetDlgItem(IDC_START)->GetWindowText(strValue);
+        if (strValue == _T("START"))
+        {
+            GetDlgItem(IDC_START)->SetWindowText(_T("STOP"));
+            GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(FALSE);
+            GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(FALSE);
+            GetDlgItem(IDC_SYS_INFO)->EnableWindow(FALSE);
+        }
+        else
+        {
+            GetDlgItem(IDC_START)->SetWindowText(_T("START"));
+            GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(TRUE);
+            GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(TRUE);
+            GetDlgItem(IDC_SYS_INFO)->EnableWindow(TRUE);
+        }
 
         CRect rect;
        
@@ -2428,9 +2445,9 @@ void C주성Dlg::OnBnClickedStart()
             m_Gui_TM.GetWindowRect(rect);
             dc = m_Gui_TM.GetDC();
             CImage image;
-            image.Load(_T("C:\\Users\\SEOYUN\\Desktop\\User\\BIT\\FAB_SIMULATOR\\TM(Quad)\\슬라이드1.png"));
+           /* image.Load(_T("C:\\Users\\SEOYUN\\Desktop\\User\\BIT\\FAB_SIMULATOR\\TM(Quad)\\슬라이드1.png"));
             
-            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);*/
 
         }
         if (true)
@@ -2438,24 +2455,24 @@ void C주성Dlg::OnBnClickedStart()
             m_Ctrl__Gui_PM1.GetWindowRect(rect);
             dc = m_Ctrl__Gui_PM1.GetDC();
             CImage image;
-            image.Load(_T("C:\\Users\\SEOYUN\\Desktop\\User\\BIT\\FAB_SIMULATOR\\PM_Left\\슬라이드3.png"));
-            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+            /*image.Load(_T("C:\\Users\\SEOYUN\\Desktop\\User\\BIT\\FAB_SIMULATOR\\PM_Left\\슬라이드3.png"));
+            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);*/
         }
         if (true)
         {
             m_Ctrl_Gui_PM6.GetWindowRect(rect);
             dc = m_Ctrl_Gui_PM6.GetDC();
             CImage image;
-            image.Load(_T("C:\\Users\\SEOYUN\\Desktop\\User\\BIT\\FAB_SIMULATOR\\PM_Right\\슬라이드4.png"));
-            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+            /*image.Load(_T("C:\\Users\\SEOYUN\\Desktop\\User\\BIT\\FAB_SIMULATOR\\PM_Right\\슬라이드4.png"));
+            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);*/
         }
         if (true)
         {
             m_Ctrl_Gui_EFEM.GetWindowRect(rect);
             dc = m_Ctrl_Gui_EFEM.GetDC();
             CImage image;
-            image.Load(_T("C:\\Users\\SEOYUN\\Desktop\\User\\BIT\\FAB_SIMULATOR\\EFEM(LPM2LL)\\슬라이드4.png"));
-            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+            /*image.Load(_T("C:\\Users\\SEOYUN\\Desktop\\User\\BIT\\FAB_SIMULATOR\\EFEM(LPM2LL)\\슬라이드4.png"));
+            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);*/
         }
 
         ReleaseDC(dc);

@@ -76,6 +76,7 @@
 #define IDC_PROGRESS10                  1054
 #define IDC_PROGRESS_PM6                1054
 #define IDC_SYS_INITIAL                 1056
+#define IDC_SYS_INFO                    1056
 #define IDC_EDIT2                       1057
 #define IDC_SPIN1                       1058
 #define IDC_SET_SPEED                   1059
