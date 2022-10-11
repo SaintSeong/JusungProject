@@ -64,7 +64,7 @@ public:
 	int m_nThread4_LL; //쓰레드 4번에서 사용 하고 어떤 LL을 사용해야 할지 파악하는 변수
 	int m_nThread_Time_Error; // 쓰레드간 시간이 달라서 충돌 오류를 막기위한 변수
 	int m_nLL_Thread;
-	int m_nWafer_Process[4]={0,};//공정 끝낸 웨이퍼 개수
+	int m_nWafer_Process[4] = { 0, };//공정 끝낸 웨이퍼 개수
 	//장비 동작 시간
 	int m_nSpeed;				//배속
 	int m_Thread3start;		//3번 쓰레드 부르는 타이밍
@@ -74,8 +74,6 @@ public:
 	int m_nATM_Rotate;
 	int m_nATM_ZRotate;
 	//LL
-	CString m_strLLModuleCnt;
-	CString m_strLLSlotCnt;
 	int m_nLL_Pump;				//진공 상태로 전환
 	int m_nLL_Pump_Stable_Time;	//진공 상태 전환 전/후 소요시간
 	int m_nLL_Vent;				//대기 상태로 전환
@@ -85,13 +83,10 @@ public:
 	int m_nLL_Door_Valve_Open;	//EFEM과 연결
 	int m_nLL_Door_Valve_Close;
 	//VAC
-	CString m_strVacArmCnt;
 	int m_nVAC_Pick;
 	int m_nVAC_Place;
 	int m_nRotate;
 	//PM
-	CString m_strPMModuleCnt;
-	CString m_strPMSlotCnt;
 	int m_nPM_Time;				//프로세스 공정시간
 	int m_nPM_Clean_Time;		//클린 시간
 	int m_nPM_Clean_Wafer_Count;//프로세스 몇번 진행후 클린 진행할것인가
@@ -117,11 +112,23 @@ public:
 
 	CString m_strSpeed; // 스피드
 	//실제 데이터 이동을 위한 값 변수 모음
-	CString m_strLLWaferCount; //콤보박스 LL 방 개수 값 변수
-	CString m_strLLRoomCount;  //콤보박스 LL 웨이퍼 개수 값 변수
-	CString m_strTMCount;      //콤보박스 TM 웨이퍼 개수 값 변수
-	CString m_strPMModuleCount;//콤보박스 PM 모듈 개수 값 변수
-	CString m_strPMWaferCount; //콤보박스 PM 웨이퍼 개수 값 변수
+	CString m_strLLSlotCnt; //콤보박스 LL 방 개수 값 변수
+	CString m_strLLModuleCnt;  //콤보박스 LL 웨이퍼 개수 값 변수
+	CString m_strVacArmCnt;      //콤보박스 TM 웨이퍼 개수 값 변수
+	CString m_strPMModuleCnt;//콤보박스 PM 모듈 개수 값 변수
+	CString m_strPMSlotCnt; //콤보박스 PM 웨이퍼 개수 값 변수
+
+	//CString m_strLLWaferCount; //콤보박스 LL 방 개수 값 변수
+	//CString m_strLLRoomCount;  //콤보박스 LL 웨이퍼 개수 값 변수
+	//CString m_strTMCount;      //콤보박스 TM 웨이퍼 개수 값 변수
+	//CString m_strPMModuleCount;//콤보박스 PM 모듈 개수 값 변수
+	//CString m_strPMWaferCount; //콤보박스 PM 웨이퍼 개수 값 변수
+
+	//CString m_strLLModuleCnt;//콤보박스 LL 방 개수 값 변수
+	//CString m_strLLSlotCnt;	 //콤보박스 LL 웨이퍼 개수 값 변수
+	//CString m_strVacArmCnt;	 //콤보박스 TM 웨이퍼 개수 값 변수
+	//CString m_strPMModuleCnt;//콤보박스 PM 모듈 개수 값 변수
+	//CString m_strPMSlotCnt;	 //콤보박스 PM 웨이퍼 개수 값 변수
 
 	//UI로 사용자에게 보여지는 버튼 값 UI 변수
 	C주성Btn m_ctrEFEM;
@@ -139,21 +146,13 @@ public:
 	C주성Btn m_ctrPM6;
 	C주성Btn m_ctrOUTPUT;
 	C주성Btn m_ctrLPM;
-	
+
 	//초기 세팅을 위한 컨트롤 변수 모음
-	CComboBox m_ctrLLWaferCount; // 콤보박스 LL 방 개수
-	CComboBox m_ctrLLRoomCount;  // 콤보박스 LL 웨이퍼 개수
-	CComboBox m_ctrTMWaferCount; // 콤보박스 TM 웨이퍼 개수
-	CComboBox m_ctrPMModuleCount;// 콤보박스 PM 모듈 개수
-	CComboBox m_ctrPMWaferCount; //콤보박스 PM 웨이퍼 개수 
+
 	CComboBox m_ctrSpeed;  //콤보박스 스피드
 	afx_msg void OnClose();
 
-	afx_msg void OnCbnSelchangeTmArm();
-	afx_msg void OnCbnSelchangeLlWafer();
-	afx_msg void OnCbnSelchangePmWafer();
-	afx_msg void OnCbnSelchangeLlRoom();
-	afx_msg void OnCbnSelchangePmModul();
+
 	afx_msg void OnBnClickedSysInitial();
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnBnClickedButtonSaveSystemconfig();
@@ -162,8 +161,8 @@ public:
 	CStatic m_ctrlStaticTotalTime;
 
 	CFont m_font;
-	
-	
+
+
 	afx_msg void OnBnClickedSetSpeed();
 	//각 PM의 웨이퍼 공정 개수
 	C주성Btn m_CtrStatic_PM1;
@@ -173,7 +172,7 @@ public:
 	C주성Btn m_CtrStatic_PM5;
 	C주성Btn m_CtrStatic_PM6;
 	C주성Btn m_ctrStatic_Speed;
-	int m_Static_Count=0;
+	int m_Static_Count = 0;
 	//LPM UI 변수
 	C주성Btn m_ctrLPMUI1;
 	C주성Btn m_ctrLPMUI2;

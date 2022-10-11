@@ -28,9 +28,9 @@ public:
 	void InitComboBox();
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnCbnSelchangeComboVacArm();
-	afx_msg void OnCbnSelchangeComboPmSlot();
-	afx_msg void OnBnClickedButtonLoad();
-	afx_msg void OnBnClickedButtonSave();
+	//afx_msg void OnCbnSelchangeComboPmSlot();
+	//afx_msg void OnBnClickedButtonLoad();
+	//afx_msg void OnBnClickedButtonSave();
 
 	CComboBox m_ctrlComboLLModule;
 	CComboBox m_ctrlComboLLSlot;

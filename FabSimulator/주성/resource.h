@@ -77,6 +77,7 @@
 #define IDC_PROGRESS_PM6                1054
 #define IDC_SYS_INITIAL                 1056
 #define IDC_SYS_INFO                    1056
+#define IDC_SYSTEM_INFO                 1056
 #define IDC_EDIT2                       1057
 #define IDC_SPIN1                       1058
 #define IDC_SET_SPEED                   1059
@@ -132,6 +133,7 @@
 #define IDC_BUTTON_SAVE_SYSTEMCONFIG    1089
 #define IDC_STATIC_LPM2                 1090
 #define IDC_STATIC_LMP3                 1091
+#define IDC_BUTTON_LOAD_SYSTEMCONFIG    1091
 #define IDC_STATIC_LPM1                 1092
 #define IDC_EDIT_EFEM_PLACETIME         1093
 #define IDC_STATIC_Time                 1097
@@ -152,6 +154,7 @@
 #define IDC_NUM_LPM1                    1112
 #define IDC_NUM_LPM2                    1113
 #define IDC_NUM_LPM3                    1114
+#define IDC_BUTTON_LOAD_THROUGHPUT      1114
 #define IDC_STATIC_SPEED                1115
 #define IDC_GUI_TM                      1116
 #define IDC_                            1117
