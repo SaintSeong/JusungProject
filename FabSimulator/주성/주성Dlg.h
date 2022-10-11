@@ -195,4 +195,5 @@ public:
 	int m_nTotal_Input;			// 웨이퍼 총 INPUT 값
 	int m_nTotal_Dummy_Count=0;	// 들어간 더미 웨이퍼 총 값
 	int m_nClean_Count;
+	afx_msg void OnBnClickedBoxPm1();
 };

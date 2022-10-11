@@ -2168,7 +2168,6 @@ DWORD WINAPI PM(LPVOID p)
     int nPM_Time=g_pMainDlg->m_nPM_Time;
     
 
-
     if (g_pMainDlg->m_bPM_Thread_Check == false)
     {
         if (g_pMainDlg->m_nPM_Thread2 == _ttoi(g_pMainDlg->m_strPMModuleCnt))
@@ -2674,4 +2673,10 @@ void C주성Dlg::OnBnClickedButtonLoadThroughput()
     {
         ShellExecute(NULL, _T("open"), fileDlg.GetPathName(), NULL, NULL, SW_SHOW);
     }
+}
+
+
+void C주성Dlg::OnBnClickedBoxPm1()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
