@@ -2403,6 +2403,10 @@ DWORD WINAPI TotalTime(LPVOID p)
         strTime.Format(_T("%02d:%02d:%02d"),n_H,n_M,n_S);
         if(n_S%3==0)
             g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(strTime);
+        if (n_H == 1)
+        {
+            g_pMainDlg->m_ctrOUTPUT.GetWindowInt();
+        }
     }
 }
 
@@ -2411,14 +2415,14 @@ void C주성Dlg::OnBnClickedStart()
     //if (Thread_Start == NULL)
     {
         
-        /*UpdateData(1);
+        UpdateData(1);
         g_pMainDlg->InvalidateRect(g_CRtemp, false);
         m_nSpeed = _ttoi(m_strSpeed);
         m_ctrStatic_Speed.SetWindowInt(_ttoi(m_strSpeed));
         m_ctrLPM.SetWindowInt(99999999);
         m_nLLMAX = _ttoi(m_strLLWaferCount) * _ttoi(m_strLLRoomCount);
         CloseHandle(CreateThread(NULL, 0, TotalTime, 0, 0, 0));
-        CloseHandle(CreateThread(NULL, 0, Thread_Start, 0, 0, 0)); */ 
+        CloseHandle(CreateThread(NULL, 0, Thread_Start, 0, 0, 0));  
 
         CString strValue;
         GetDlgItem(IDC_START)->GetWindowText(strValue);
@@ -2437,45 +2441,45 @@ void C주성Dlg::OnBnClickedStart()
             GetDlgItem(IDC_SYS_INFO)->EnableWindow(TRUE);
         }
 
-        CRect rect;
+        //CRect rect;
        
-        CDC* dc;
-        if (true)
-        {
-            m_Gui_TM.GetWindowRect(rect);
-            dc = m_Gui_TM.GetDC();
-            CImage image;
-           /* image.Load(_T("C:\\Users\\SEOYUN\\Desktop\\User\\BIT\\FAB_SIMULATOR\\TM(Quad)\\슬라이드1.png"));
-            
-            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);*/
+        //CDC* dc;
+        //if (true)
+        //{
+        //    m_Gui_TM.GetWindowRect(rect);
+        //    dc = m_Gui_TM.GetDC();
+        //    CImage image;
+        //   /* image.Load(_T("C:\\Users\\SEOYUN\\Desktop\\User\\BIT\\FAB_SIMULATOR\\TM(Quad)\\슬라이드1.png"));
+        //    
+        //    image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);*/
 
-        }
-        if (true)
-        {
-            m_Ctrl__Gui_PM1.GetWindowRect(rect);
-            dc = m_Ctrl__Gui_PM1.GetDC();
-            CImage image;
-            /*image.Load(_T("C:\\Users\\SEOYUN\\Desktop\\User\\BIT\\FAB_SIMULATOR\\PM_Left\\슬라이드3.png"));
-            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);*/
-        }
-        if (true)
-        {
-            m_Ctrl_Gui_PM6.GetWindowRect(rect);
-            dc = m_Ctrl_Gui_PM6.GetDC();
-            CImage image;
-            /*image.Load(_T("C:\\Users\\SEOYUN\\Desktop\\User\\BIT\\FAB_SIMULATOR\\PM_Right\\슬라이드4.png"));
-            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);*/
-        }
-        if (true)
-        {
-            m_Ctrl_Gui_EFEM.GetWindowRect(rect);
-            dc = m_Ctrl_Gui_EFEM.GetDC();
-            CImage image;
-            /*image.Load(_T("C:\\Users\\SEOYUN\\Desktop\\User\\BIT\\FAB_SIMULATOR\\EFEM(LPM2LL)\\슬라이드4.png"));
-            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);*/
-        }
+        //}
+        //if (true)
+        //{
+        //    m_Ctrl__Gui_PM1.GetWindowRect(rect);
+        //    dc = m_Ctrl__Gui_PM1.GetDC();
+        //    CImage image;
+        //    /*image.Load(_T("C:\\Users\\SEOYUN\\Desktop\\User\\BIT\\FAB_SIMULATOR\\PM_Left\\슬라이드3.png"));
+        //    image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);*/
+        //}
+        //if (true)
+        //{
+        //    m_Ctrl_Gui_PM6.GetWindowRect(rect);
+        //    dc = m_Ctrl_Gui_PM6.GetDC();
+        //    CImage image;
+        //    /*image.Load(_T("C:\\Users\\SEOYUN\\Desktop\\User\\BIT\\FAB_SIMULATOR\\PM_Right\\슬라이드4.png"));
+        //    image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);*/
+        //}
+        //if (true)
+        //{
+        //    m_Ctrl_Gui_EFEM.GetWindowRect(rect);
+        //    dc = m_Ctrl_Gui_EFEM.GetDC();
+        //    CImage image;
+        //    /*image.Load(_T("C:\\Users\\SEOYUN\\Desktop\\User\\BIT\\FAB_SIMULATOR\\EFEM(LPM2LL)\\슬라이드4.png"));
+        //    image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);*/
+        //}
 
-        ReleaseDC(dc);
+        //ReleaseDC(dc);
     }
 }
 
