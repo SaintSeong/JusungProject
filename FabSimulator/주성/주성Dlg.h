@@ -157,6 +157,8 @@ public:
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnBnClickedButtonSaveSystemconfig();
 	afx_msg void OnBnClickedButtonSaveThroughput();
+	afx_msg void OnBnClickedButtonLoadSystemconfig();
+	afx_msg void OnBnClickedButtonLoadThroughput();
 
 	CStatic m_ctrlStaticTotalTime;
 
@@ -180,4 +182,17 @@ public:
 	CStatic m_Ctrl__Gui_PM1;
 	CStatic m_Ctrl_Gui_PM6;
 	CStatic m_Ctrl_Gui_EFEM;
+
+	//Clean용 더미 웨이퍼 공정시 사용 변수
+	int m_nDummy_Wafer_Count;	//들어간 더미 웨이퍼 개수
+	bool m_bLL_Dummy;			
+
+	//RGB 값
+	int m_nBefore = RGB(0, 255, 0);
+	int m_nAfter = RGB(0, 0, 255);
+	//int m_nAfter= RGB(255, 100, 200);
+
+	int m_nTotal_Input;			// 웨이퍼 총 INPUT 값
+	int m_nTotal_Dummy_Count=0;	// 들어간 더미 웨이퍼 총 값
+	int m_nClean_Count;
 };

@@ -89,6 +89,7 @@ BEGIN_MESSAGE_MAP(CDlg_SYSINIT, CDialogEx)
 	//ON_CBN_SELCHANGE(IDC_COMBO_PM_SLOT, &CDlg_SYSINIT::OnCbnSelchangeComboPmSlot)
 	//ON_BN_CLICKED(IDC_BUTTON_LOAD, &CDlg_SYSINIT::OnBnClickedButtonLoad)
 	//ON_BN_CLICKED(IDC_BUTTON_Save, &CDlg_SYSINIT::OnBnClickedButtonSave)
+	ON_BN_CLICKED(IDCANCEL, &CDlg_SYSINIT::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 
@@ -149,12 +150,12 @@ BOOL CDlg_SYSINIT::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	C주성Dlg* pMainDlg = (C주성Dlg*)GetParent();
-	
+
 	// EFEM 설정
 	m_nEFEMPickTime = pMainDlg->m_nATM_Pick / MSEC;
 	m_nEFEMPlaceTime = pMainDlg->m_nATM_Place / MSEC;
 	m_nEFEMMoveTime = pMainDlg->m_nATM_ZRotate / MSEC;
-	m_nEFEMRotateTime = pMainDlg->m_nATM_Rotate / MSEC;
+	m_nEFEMRotateTime = pMainDlg->m_nATM_Rotate / (double)MSEC;
 
 	// LL 설정
 	m_strLLModuleCount = pMainDlg->m_strLLModuleCnt;
@@ -183,11 +184,11 @@ BOOL CDlg_SYSINIT::OnInitDialog()
 	m_nPMSlotCloseTime = pMainDlg->m_nPM_Slot_Valve_Close / MSEC;
 
 	CString strValue;
-	
+
 	strValue.Format(_T("%d"), m_nEFEMPickTime);
-	GetDlgItem(IDC_EDIT_EFEM_PICKTIME)->SetWindowText(strValue);	
+	GetDlgItem(IDC_EDIT_EFEM_PICKTIME)->SetWindowText(strValue);
 	strValue.Format(_T("%d"), m_nEFEMMoveTime);
-	GetDlgItem(IDC_EDIT_EFEM_MOVETIME)->SetWindowText(strValue);	
+	GetDlgItem(IDC_EDIT_EFEM_MOVETIME)->SetWindowText(strValue);
 	strValue.Format(_T("%d"), m_nEFEMPlaceTime);
 	GetDlgItem(IDC_EDIT_EFEM_PLACETIME)->SetWindowText(strValue);
 	strValue.Format(_T("%.1f"), m_nEFEMRotateTime);
@@ -331,13 +332,15 @@ BOOL CDlg_SYSINIT::OnInitDialog()
 
 	nVacArmIdx = m_ctrlComboVacArm.FindStringExact(0, m_strVacArmCount);
 	m_ctrlComboVacArm.SetCurSel(nVacArmIdx);
-	
+
 	nPMModuleIdx = m_ctrlComboPMModule.FindStringExact(0, m_strPMModuleCount);
 	m_ctrlComboPMModule.SetCurSel(nPMModuleIdx);
 
 	nPMSlotIdx = m_ctrlComboPMSlot.FindStringExact(0, m_strPMSlotCount);
 	m_ctrlComboPMSlot.SetCurSel(nPMSlotIdx);
-	
+
+	UpdateData(0);
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
@@ -345,7 +348,7 @@ BOOL CDlg_SYSINIT::OnInitDialog()
 
 void CDlg_SYSINIT::OnBnClickedOk()
 {
-	
+
 	int nLLSlotIdx = m_ctrlComboLLSlot.GetCurSel();
 	int nLLModuleIdx = m_ctrlComboLLModule.GetCurSel();
 	int nPMSlotIdx = m_ctrlComboPMSlot.GetCurSel();
@@ -485,8 +488,11 @@ void CDlg_SYSINIT::OnCbnSelchangeComboVacArm()
 
 	else
 	{
-		m_ctrlComboPMSlot.InsertString(0, _T("2"));
+		m_ctrlComboPMSlot.InsertString(0, _T("1"));
+		m_ctrlComboPMSlot.AddString(_T("2"));
+		m_ctrlComboPMSlot.AddString(_T("3"));
 		m_ctrlComboPMSlot.AddString(_T("4"));
+		m_ctrlComboPMSlot.AddString(_T("5"));
 		m_ctrlComboPMSlot.AddString(_T("6"));
 		m_ctrlComboPMSlot.SetCurSel(0);
 
@@ -511,157 +517,10 @@ void CDlg_SYSINIT::OnCbnSelchangeComboVacArm()
 	}
 }
 
-
-//void CDlg_SYSINIT::OnCbnSelchangeComboPmSlot()
-//{
-//	for (short i = m_ctrlComboPMModule.GetCount() - 1; i >= 0; i--)
-//	{
-//		m_ctrlComboPMModule.DeleteString(i);
-//	}
-//
-//	int nPM_SlotIdx = m_ctrlComboPMSlot.GetCurSel();
-//	CString strPMSlot;
-//	m_ctrlComboPMSlot.GetLBText(nPM_SlotIdx, strPMSlot);
-//	int nPMSlot = _ttoi(strPMSlot);
-//
-//	if (nPMSlot == 1)
-//	{
-//		m_ctrlComboPMModule.InsertString(0, _T("1"));
-//		m_ctrlComboPMModule.AddString(_T("2"));
-//		m_ctrlComboPMModule.AddString(_T("3"));
-//		m_ctrlComboPMModule.AddString(_T("4"));
-//		m_ctrlComboPMModule.AddString(_T("5"));
-//		m_ctrlComboPMModule.AddString(_T("6"));
-//		m_ctrlComboPMModule.SetCurSel(0);
-//	}
-//	else
-//	{
-//		m_ctrlComboPMModule.InsertString(0, _T("1"));
-//		m_ctrlComboPMModule.AddString(_T("2"));
-//		m_ctrlComboPMModule.AddString(_T("3"));
-//		m_ctrlComboPMModule.SetCurSel(0);
-//	}
-//}
-
-
-//void CDlg_SYSINIT::OnBnClickedButtonLoad()
-//{
-//	CFileDialog loadFile(1, _T("*.cfg")
-//		, 0
-//		, OFN_OVERWRITEPROMPT | OFN_LONGNAMES
-//		, _T("System Configulation Files (*.cfg)|*.cfg||")
-//	);
-//	if (loadFile.DoModal() == IDOK)
-//	{
-//		CString strLoadName(loadFile.GetPathName());
-//		TCHAR strReadIni[20] = { 0 };
-//
-//		// EFEM
-//		m_nEFEMPickTime = ::GetPrivateProfileInt(_T("EFEM"), _T("Pick"), -1, strLoadName);
-//		m_nEFEMPlaceTime = ::GetPrivateProfileInt(_T("EFEM"), _T("Place"), -1, strLoadName);
-//		m_nEFEMMoveTime = ::GetPrivateProfileInt(_T("EFEM"), _T("Z_Move"), -1, strLoadName);
-//		m_nEFEMRotateTime = ::GetPrivateProfileInt(_T("EFEM"), _T("Rotate"), -1, strLoadName);
-//
-//		// LL
-//		::GetPrivateProfileString(_T("LL"), _T("ModuleCount"), _T("1"), strReadIni, 20, strLoadName);
-//		m_strLLModuleCount.Format(_T("%s"), strReadIni);
-//		::GetPrivateProfileString(_T("LL"), _T("SlotCount"), _T("1"), strReadIni, 20, strLoadName);
-//		m_strLLSlotCount.Format(_T("%s"), strReadIni);
-//		m_nLLVentTime = ::GetPrivateProfileInt(_T("LL"), _T("VentTime"), -1, strLoadName);
-//		m_nLLVentStableTime = ::GetPrivateProfileInt(_T("LL"), _T("VentStableTime"), -1, strLoadName);
-//		m_nLLPumpTime = ::GetPrivateProfileInt(_T("LL"), _T("PumpTime"), -1, strLoadName);
-//		m_nLLPumpStableTime = ::GetPrivateProfileInt(_T("LL"), _T("PumpStableTime"), -1, strLoadName);
-//		m_nLLSlotOpenTime = ::GetPrivateProfileInt(_T("LL"), _T("SlotOpenTime"), -1, strLoadName);
-//		m_nLLSlotCloseTime = ::GetPrivateProfileInt(_T("LL"), _T("SlotCloseTime"), -1, strLoadName);
-//		m_nLLDoorOpenTime = ::GetPrivateProfileInt(_T("LL"), _T("DoorOpenTime"), -1, strLoadName);
-//		m_nLLDoorCloseTime = ::GetPrivateProfileInt(_T("LL"), _T("DoorCloseTime"), -1, strLoadName);
-//
-//		// TM-Vac
-//		::GetPrivateProfileString(_T("TM"), _T("ArmCount"), _T("2"), strReadIni, 20, strLoadName);
-//		m_strVacArmCount.Format(_T("%s"), strReadIni);
-//		m_nTMPickTime = ::GetPrivateProfileInt(_T("TM"), _T("Pick"), -1, strLoadName);
-//		m_nTMPlaceTime = ::GetPrivateProfileInt(_T("TM"), _T("Place"), -1, strLoadName);
-//		m_nTMRotate = ::GetPrivateProfileInt(_T("TM"), _T("Rotate"), -1, strLoadName);
-//
-//		// PM
-//		::GetPrivateProfileString(_T("PM"), _T("ModuleCount"), _T("1"), strReadIni, 20, strLoadName);
-//		m_strPMModuleCount.Format(_T("%s"), strReadIni);
-//		::GetPrivateProfileString(_T("PM"), _T("SlotCount"), _T("1"), strReadIni, 20, strLoadName);
-//		m_strPMSlotCount.Format(_T("%s"), strReadIni);
-//		m_nPMProcessTime = ::GetPrivateProfileInt(_T("PM"), _T("ProcessTime"), -1, strLoadName);
-//		m_nCleanCount = ::GetPrivateProfileInt(_T("PM"), _T("CleanCount"), -1, strLoadName);
-//		m_nPMSlotOpenTime = ::GetPrivateProfileInt(_T("PM"), _T("SlotOpenTime"), -1, strLoadName);
-//		m_nPMSlotCloseTime = ::GetPrivateProfileInt(_T("PM"), _T("SlotCloseTime"), -1, strLoadName);
-//
-//		UpdateData(0);
-//	}
-//}
-//
-//void CDlg_SYSINIT::OnBnClickedButtonSave()
-//{
-//	CFileDialog saveFile(0, _T("*.cfg")
-//		, 0
-//		, OFN_OVERWRITEPROMPT | OFN_LONGNAMES
-//		, _T("System Configulation Files (*.cfg)|*.cfg||")
-//	);
-//	CString strValue;
-//	if (saveFile.DoModal() == IDOK)
-//	{
-//		CString strSaveName(saveFile.GetPathName());
-//
-//		// EFEM
-//		strValue.Format(_T("%d"), m_nEFEMPlaceTime);
-//		::WritePrivateProfileString(_T("EFEM"), _T("Pick"), strValue, strSaveName);
-//		strValue.Format(_T("%d"), m_nEFEMPlaceTime);
-//		::WritePrivateProfileString(_T("EFEM"), _T("Place"), strValue, strSaveName);
-//		//strValue.Format(_T("%d"), m_ctrALIGNER);
-//		//::WritePrivateProfileString(_T("EFEM"), _T("Aligner"), strValue, strSaveName);
-//		strValue.Format(_T("%d"), m_nEFEMMoveTime);
-//		::WritePrivateProfileString(_T("EFEM"), _T("Z_Move"), strValue, strSaveName);
-//		strValue.Format(_T("%d"), m_nEFEMRotateTime);
-//		::WritePrivateProfileString(_T("EFEM"), _T("Rotate"), strValue, strSaveName);
-//
-//		// LL
-//		::WritePrivateProfileString(_T("LL"), _T("ModuleCount"), m_strLLModuleCount, strSaveName);
-//		::WritePrivateProfileString(_T("LL"), _T("SlotCount"), m_strLLSlotCount, strSaveName);
-//		strValue.Format(_T("%d"), m_nLLVentTime);
-//		::WritePrivateProfileString(_T("LL"), _T("VentTime"), strValue, strSaveName);
-//		strValue.Format(_T("%d"), m_nLLVentStableTime);
-//		::WritePrivateProfileString(_T("LL"), _T("VentStableTime"), strValue, strSaveName);
-//		strValue.Format(_T("%d"), m_nLLPumpTime);
-//		::WritePrivateProfileString(_T("LL"), _T("PumpTime"), strValue, strSaveName);
-//		strValue.Format(_T("%d"), m_nLLPumpStableTime);
-//		::WritePrivateProfileString(_T("LL"), _T("PumpStableTime"), strValue, strSaveName);
-//		strValue.Format(_T("%d"), m_nLLSlotOpenTime);
-//		::WritePrivateProfileString(_T("LL"), _T("SlotOpenTime"), strValue, strSaveName);
-//		strValue.Format(_T("%d"), m_nLLSlotCloseTime);
-//		::WritePrivateProfileString(_T("LL"), _T("SlotCloseTime"), strValue, strSaveName);
-//		strValue.Format(_T("%d"), m_nLLDoorOpenTime / 1000);
-//		::WritePrivateProfileString(_T("LL"), _T("DoorOpenTime"), strValue, strSaveName);
-//		strValue.Format(_T("%d"), m_nLLDoorCloseTime / 1000);
-//		::WritePrivateProfileString(_T("LL"), _T("DoorCloseTime"), strValue, strSaveName);
-//
-//		// TM-Vac
-//		::WritePrivateProfileString(_T("TM"), _T("ArmCount"), m_strVacArmCount, strSaveName);
-//		strValue.Format(_T("%d"), m_nTMPickTime);
-//		::WritePrivateProfileString(_T("TM"), _T("Pick"), strValue, strSaveName);
-//		strValue.Format(_T("%d"), m_nTMPlaceTime);
-//		::WritePrivateProfileString(_T("TM"), _T("Place"), strValue, strSaveName);
-//		strValue.Format(_T("%d"), m_nTMRotate);
-//		::WritePrivateProfileString(_T("TM"), _T("Rotate"), strValue, strSaveName);
-//
-//		// PM
-//		::WritePrivateProfileString(_T("PM"), _T("ModuleCount"), m_strPMModuleCount, strSaveName);
-//		::WritePrivateProfileString(_T("PM"), _T("SlotCount"), m_strPMSlotCount, strSaveName);
-//		strValue.Format(_T("%d"), m_nPMProcessTime);
-//		::WritePrivateProfileString(_T("PM"), _T("ProcessTime"), strValue, strSaveName);
-//		strValue.Format(_T("%d"), m_nPMProcessTime / 1000 / 2);
-//		::WritePrivateProfileString(_T("PM"), _T("CleanTime"), strValue, strSaveName);
-//		strValue.Format(_T("%d"), m_nCleanCount);
-//		::WritePrivateProfileString(_T("PM"), _T("CleanCount"), strValue, strSaveName);
-//		strValue.Format(_T("%d"), m_nPMSlotOpenTime / 1000);
-//		::WritePrivateProfileString(_T("PM"), _T("SlotOpenTime"), strValue, strSaveName);
-//		strValue.Format(_T("%d"), m_nPMSlotCloseTime / 1000);
-//		::WritePrivateProfileString(_T("PM"), _T("SlotCloseTime"), strValue, strSaveName);
-//	}
-//}
+void CDlg_SYSINIT::OnBnClickedCancel()
+{
+	if (IDYES == AfxMessageBox(_T("설정이 적용되지 않습니다. 취소하시겠습니까?"), MB_YESNO))
+	{
+		CDialogEx::OnCancel();
+	}
+}
