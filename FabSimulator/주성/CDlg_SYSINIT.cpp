@@ -98,12 +98,12 @@ void CDlg_SYSINIT::InitComboBox()
 	m_ctrlComboVacArm.InsertString(0, _T("2"));
 	m_ctrlComboVacArm.AddString(_T("4"));
 
-	/*m_ctrlComboPMSlot.InsertString(0, _T("1"));
+	m_ctrlComboPMSlot.InsertString(0, _T("1"));
 	m_ctrlComboPMSlot.AddString(_T("2"));
 	m_ctrlComboPMSlot.AddString(_T("3"));
 	m_ctrlComboPMSlot.AddString(_T("4"));
 	m_ctrlComboPMSlot.AddString(_T("5"));
-	m_ctrlComboPMSlot.AddString(_T("6"));*/
+	m_ctrlComboPMSlot.AddString(_T("6"));
 
 	m_ctrlComboPMModule.InsertString(0, _T("1"));
 	m_ctrlComboPMModule.AddString(_T("2"));
@@ -240,6 +240,21 @@ BOOL CDlg_SYSINIT::OnInitDialog()
 
 	m_ctrlComboVacArm.GetLBText(nVacArmIdx, strValue);
 	nValue = _ttoi(strValue);
+
+	for (int i = m_ctrlComboPMSlot.GetCount() - 1; i >= 0; i--)
+	{
+		m_ctrlComboPMSlot.DeleteString(i);
+	}
+
+	for (int i = m_ctrlComboLLSlot.GetCount() - 1; i >= 0; i--)
+	{
+		m_ctrlComboLLSlot.DeleteString(i);
+	}
+
+	for (int i = m_ctrlComboPMModule.GetCount() - 1; i >= 0; i--)
+	{
+		m_ctrlComboPMModule.DeleteString(i);
+	}
 
 	if (nValue == 2)
 	{
