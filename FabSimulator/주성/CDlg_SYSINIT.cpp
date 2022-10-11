@@ -413,6 +413,12 @@ void CDlg_SYSINIT::OnBnClickedOk()
 		pMainDlg->m_nPM_Slot_Valve_Open = m_nPMSlotOpenTime * MSEC;
 		pMainDlg->m_nPM_Slot_Valve_Close = m_nPMSlotCloseTime * MSEC;
 
+		pMainDlg->GetDlgItem(IDC_START)->EnableWindow(TRUE);
+		pMainDlg->GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(TRUE);
+		pMainDlg->GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(TRUE);
+		pMainDlg->GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(TRUE);
+		pMainDlg->GetDlgItem(IDC_BUTTON_LOAD_THROUGHPUT)->EnableWindow(TRUE);
+
 		CDialogEx::OnOK();
 	}
 }
