@@ -128,6 +128,14 @@ void C주성Dlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_GUI_PM1, m_Ctrl__Gui_PM1);
     DDX_Control(pDX, IDC_GUI_PM6, m_Ctrl_Gui_PM6);
     DDX_Control(pDX, IDC_GUI_EFEM, m_Ctrl_Gui_EFEM);
+    DDX_Control(pDX, IDC_PM_COUNT1, m_ctrPM_Count1);
+    DDX_Control(pDX, IDC_PM_COUNT2, m_ctrPM_Count2);
+    DDX_Control(pDX, IDC_PM_COUNT3, m_ctrPM_Count3);
+    DDX_Control(pDX, IDC_PM_COUNT4, m_ctrPM_Count4);
+    DDX_Control(pDX, IDC_PM_COUNT5, m_ctrPM_Count5);
+    DDX_Control(pDX, IDC_PM_COUNT6, m_ctrPM_Count6);
+    DDX_Control(pDX, IDC_STATIC_CLEAN_TIME, m_ctrTotal_Clean_Time);
+    DDX_Control(pDX, IDC_CLEAN_OUTPUT, m_ctrThroughput);
 }
 
 BEGIN_MESSAGE_MAP(C주성Dlg, CDialogEx)
@@ -188,6 +196,7 @@ BOOL C주성Dlg::OnInitDialog()
     g_hEventLL_Modul_one_Thread4and1 = CreateEvent(NULL, FALSE, FALSE, NULL);
 
     m_bLL_Dummy = false;
+    m_bClean_Time_Start = false;
     m_ctrSpeed.AddString(_T("20"));
     m_ctrSpeed.AddString(_T("30"));
     m_ctrSpeed.AddString(_T("40"));
@@ -199,6 +208,7 @@ BOOL C주성Dlg::OnInitDialog()
     m_strPMModuleCnt = (_T("6"));
     m_strPMSlotCnt = (_T("6"));
     m_strSpeed = _T("50");
+    
 
     m_noutput_count = 0;
     m_nThread1_LL = 0;
@@ -691,6 +701,10 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         nLPM_cnt--;
 
         g_pMainDlg->m_nTotal_Input++;
+        if (g_pMainDlg->m_nTotal_Input % (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count) == 0)
+        {
+            g_pMainDlg->m_bClean_Time_Start = true;
+        }
             g_pMainDlg->m_ctrLPMUI1.SetWindowInt(g_pMainDlg->m_ctrLPMUI1.GetWindowInt() - 1);
         if (g_pMainDlg->m_ctrLPMUI1.GetWindowInt() == 0)
             g_pMainDlg->m_ctrLPMUI1.SetWindowInt(25);
@@ -753,6 +767,11 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
             nLPM_cnt--;
 
             g_pMainDlg->m_nTotal_Input++;
+            if (g_pMainDlg->m_nTotal_Input % (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count) == 0)
+            {
+                g_pMainDlg->m_bClean_Time_Start = true;
+            }
+
             g_pMainDlg->m_ctrLPMUI1.SetWindowInt(g_pMainDlg->m_ctrLPMUI1.GetWindowInt() - 1);
             if (g_pMainDlg->m_ctrLPMUI1.GetWindowInt() == 0)
                 g_pMainDlg->m_ctrLPMUI1.SetWindowInt(25);
@@ -1103,7 +1122,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                 if (nLL_cnt == 0) break;  //LL에 남아있는 wafer가 없다면 종료
 
                 nLL_cnt--;
-                /*if (g_pMainDlg->m_nTotal_Input == _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nClean_Count &&
+                /*if (g_pMainDlg->m_nTotal_Input == _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count &&
                     g_pMainDlg->m_nTotal_Dummy_Count <= _ttoi(g_pMainDlg->m_strPMSlotCnt) * _ttoi(g_pMainDlg->m_strPMModuleCnt))
                 */
                
@@ -2141,13 +2160,34 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
         for (int i = nOUTPUT_cnt;; i++)
         {
             g_pMainDlg->m_ctrEFEM.SetWindowInt(nEFEM_cnt);
-            g_pMainDlg->m_ctrOUTPUT.SetWindowInt(i);
+            if (g_pMainDlg->m_bDummy == false)
+            {
+                g_pMainDlg->m_ctrOUTPUT.SetWindowInt(i);
+                g_pMainDlg->m_ctrLPMUI2.SetWindowInt(g_pMainDlg->m_ctrLPMUI2.GetWindowInt() + 1);
+                if (g_pMainDlg->m_ctrLPMUI2.GetWindowInt() == 25)
+                    g_pMainDlg->m_ctrLPMUI2.SetWindowInt(0);
+            }
+            else if (g_pMainDlg->m_bDummy == true)
+            {
+                g_pMainDlg->m_nDummy_Count++;
+            }
+            if (g_pMainDlg->m_ctrOUTPUT.GetWindowInt() != 0
+                && g_pMainDlg->m_ctrOUTPUT.GetWindowInt() % (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt) * (g_pMainDlg->m_nPM_Clean_Wafer_Count)) == 0)
+            {
+                /*g_pMainDlg->m_bClean_Time_Start = false;*/
+                g_pMainDlg->m_bDummy = true;
+            }
+            if (g_pMainDlg->m_nDummy_Count == (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt) ))
+            {
+                g_pMainDlg->m_bClean_Time_Start = false;
+                g_pMainDlg->m_bDummy = false;
+                g_pMainDlg->m_nDummy_Count = 0;
+            }
             g_pMainDlg->m_nWafer_Count--;
             if (nEFEM_cnt == 0) break;  //EFEM(ATM ROBOT)에 남아있는 wafer가 없다
-            g_pMainDlg->m_ctrLPMUI2.SetWindowInt(g_pMainDlg->m_ctrLPMUI2.GetWindowInt() + 1);
-            if (g_pMainDlg->m_ctrLPMUI2.GetWindowInt() == 25)
-                g_pMainDlg->m_ctrLPMUI2.SetWindowInt(0);
+            
             nEFEM_cnt--;
+            
         }
     }
     g_pMainDlg->m_noutput_count = g_pMainDlg->m_ctrOUTPUT.GetWindowInt();
@@ -2175,49 +2215,104 @@ DWORD WINAPI PM(LPVOID p)
         nPM_Check = g_pMainDlg->m_nPM_Thread2;
         if (nPM_Check == 1)
         {
-            if (g_pMainDlg->m_CtrStatic_PM1.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nClean_Count==0)
+            if (g_pMainDlg->m_CtrStatic_PM1.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
+            {
                 nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+            }
+            else
+            {
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+            }
         }
         else if (nPM_Check == 2)
         {
-            if (g_pMainDlg->m_CtrStatic_PM2.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nClean_Count==0)
+            if (g_pMainDlg->m_CtrStatic_PM2.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
+            {
                 nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+            }
+            else
+            {
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+            }
         }
         else if (nPM_Check == 3)
         {
-            if (g_pMainDlg->m_CtrStatic_PM3.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nClean_Count==0)
+            if (g_pMainDlg->m_CtrStatic_PM3.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
+            {
                 nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+            }
+            else
+            {
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+            }
         }
         else if (nPM_Check == 4)
         {
-            if (g_pMainDlg->m_CtrStatic_PM4.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nClean_Count==0)
+            if (g_pMainDlg->m_CtrStatic_PM4.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
+            {
                 nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+            }
+            else
+            {
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+            }
         }
         else if (nPM_Check == 5)
         {
-            if (g_pMainDlg->m_CtrStatic_PM5.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nClean_Count==0)
+            if (g_pMainDlg->m_CtrStatic_PM5.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
+            {
                 nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+            }
+            else
+            {
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+            }
         }
         else if (nPM_Check == 6)
         {
-            if (g_pMainDlg->m_CtrStatic_PM6.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nClean_Count==0)
+            if (g_pMainDlg->m_CtrStatic_PM6.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
+            {
                 nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+            }
+            else
+            {
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+            }
         }
+       
         for (int i = 1; i <= 100; i++)
         {
             Sleep(nPM_Time / (g_pMainDlg->m_nSpeed * 100));
             if (nPM_Check == 1)
+            {
                 g_pMainDlg->m_ctrPROGRESS_PM1.SetPos(i);
+                g_pMainDlg->m_ctrPM_Count1.SetWindowInt(i);
+            }
             else if (nPM_Check == 2)
+            {
                 g_pMainDlg->m_ctrPROGRESS_PM2.SetPos(i);
+                g_pMainDlg->m_ctrPM_Count2.SetWindowInt(i);
+            }
             else if (nPM_Check == 3)
+            {
                 g_pMainDlg->m_ctrPROGRESS_PM3.SetPos(i);
+                g_pMainDlg->m_ctrPM_Count3.SetWindowInt(i);
+            }
             else if (nPM_Check == 4)
+            {
                 g_pMainDlg->m_ctrPROGRESS_PM4.SetPos(i);
+                g_pMainDlg->m_ctrPM_Count4.SetWindowInt(i);
+            }
             else if (nPM_Check == 5)
+            {
                 g_pMainDlg->m_ctrPROGRESS_PM5.SetPos(i);
+                g_pMainDlg->m_ctrPM_Count5.SetWindowInt(i);
+            }
             else if (nPM_Check == 6)
+            {
                 g_pMainDlg->m_ctrPROGRESS_PM6.SetPos(i);
+                g_pMainDlg->m_ctrPM_Count6.SetWindowInt(i);
+            }
 
             //프로그래스바 1/100 충전
         }
@@ -2227,49 +2322,103 @@ DWORD WINAPI PM(LPVOID p)
         nPM_Check = g_pMainDlg->m_nPM_Thread3;
         if (nPM_Check == 1)
         {
-            if (g_pMainDlg->m_CtrStatic_PM1.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nClean_Count == 0)
+            if (g_pMainDlg->m_CtrStatic_PM1.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count == 0)
+            {
                 nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+            }
+            else
+            {
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+            }
         }
         else if (nPM_Check == 2)
         {
-            if (g_pMainDlg->m_CtrStatic_PM2.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nClean_Count == 0)
+            if (g_pMainDlg->m_CtrStatic_PM2.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count == 0)
+            {
                 nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+            }
+            else
+            {
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+            }
         }
         else if (nPM_Check == 3)
         {
-            if (g_pMainDlg->m_CtrStatic_PM3.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nClean_Count == 0)
+            if (g_pMainDlg->m_CtrStatic_PM3.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count == 0)
+            {
                 nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+            }
+            else
+            {
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+            }
         }
         else if (nPM_Check == 4)
         {
-            if (g_pMainDlg->m_CtrStatic_PM4.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nClean_Count == 0)
+            if (g_pMainDlg->m_CtrStatic_PM4.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count == 0)
+            {
                 nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+            }
+            else
+            {
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+            }
         }
         else if (nPM_Check == 5)
         {
-            if (g_pMainDlg->m_CtrStatic_PM5.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nClean_Count == 0)
+            if (g_pMainDlg->m_CtrStatic_PM5.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count == 0)
+            {
                 nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+            }
+            else
+            {
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+            }
         }
         else if (nPM_Check == 6)
         {
-            if (g_pMainDlg->m_CtrStatic_PM6.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nClean_Count==0)
+            if (g_pMainDlg->m_CtrStatic_PM6.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
+            {
                 nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+            }
+            else
+            {
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+            }
         }
         for (int i = 1; i <= 100; i++)
         {
             Sleep(nPM_Time / (g_pMainDlg->m_nSpeed * 100));
             if (nPM_Check == 1)
+            {
                 g_pMainDlg->m_ctrPROGRESS_PM1.SetPos(i);
+                g_pMainDlg->m_ctrPM_Count1.SetWindowInt(i);
+            }
             else if (nPM_Check == 2)
+            {
                 g_pMainDlg->m_ctrPROGRESS_PM2.SetPos(i);
+                g_pMainDlg->m_ctrPM_Count2.SetWindowInt(i);
+            }
             else if (nPM_Check == 3)
+            {
                 g_pMainDlg->m_ctrPROGRESS_PM3.SetPos(i);
+                g_pMainDlg->m_ctrPM_Count3.SetWindowInt(i);
+            }
             else if (nPM_Check == 4)
+            {
                 g_pMainDlg->m_ctrPROGRESS_PM4.SetPos(i);
+                g_pMainDlg->m_ctrPM_Count4.SetWindowInt(i);
+            }
             else if (nPM_Check == 5)
+            {
                 g_pMainDlg->m_ctrPROGRESS_PM5.SetPos(i);
+                g_pMainDlg->m_ctrPM_Count5.SetWindowInt(i);
+            }
             else if (nPM_Check == 6)
+            {
                 g_pMainDlg->m_ctrPROGRESS_PM6.SetPos(i);
+                g_pMainDlg->m_ctrPM_Count6.SetWindowInt(i);
+            }
 
             //프로그래스바 1/100 충전
         }
@@ -2373,38 +2522,66 @@ DWORD WINAPI Thread_Start(LPVOID p)
 
 DWORD WINAPI TotalTime(LPVOID p)
 {
-    CString strTime;
-    int n_D = 0;
-    int n_H = 0;
-    int n_M = 0;
-    int n_S = 0;
+    CString strTime_Total;
+    int n_D_Total = 0;
+    int n_H_Total = 0;
+    int n_M_Total = 0;
+    int n_S_Total = 0;
+
+    CString strTime_Clean;
+    int n_D_Clean = 0;
+    int n_H_Clean = 0;
+    int n_M_Clean = 0;
+    int n_S_Clean = 0;
     while (true)
     {
         Sleep(1000 / g_pMainDlg->m_nSpeed);
-        n_S++;
-        if (n_S == 60)
+        n_S_Total++;
+        if (n_S_Total == 60)
         {
-            n_S = 0;
-            n_M++;
+            n_S_Total = 0;
+            n_M_Total++;
         }
-        if (n_M == 60)
+        if (n_M_Total == 60)
         {
-            n_M = 0;
-            n_H++;
+            n_M_Total = 0;
+            n_H_Total++;
         }
-        if (n_H == 24)
+        if (n_H_Total == 24)
         {
-            n_H = 0;
-            n_D++;
+            n_H_Total = 0;
+            n_D_Total++;
         }
         //g_pMainDlg->m_strCurTime = CTime::GetCurrentTime();
         //g_pMainDlg->m_strDiffTime = g_pMainDlg->m_strCurTime - g_pMainDlg->m_strInitTime;
-        strTime.Format(_T("%02d:%02d:%02d:%02d"), n_D,n_H, n_M, n_S);
-        if (n_S % 3 == 0)
-            g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(strTime);
-        if (n_H == 1)
+        strTime_Total.Format(_T("%02d:%02d:%02d:%02d"), n_D_Total,n_H_Total, n_M_Total, n_S_Total);
+        if (n_S_Total % 3 == 0)
+            g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(strTime_Total);
+        if (n_H_Total == 1)
         {
             g_pMainDlg->m_ctrOUTPUT.GetWindowInt();
+        }
+        if (g_pMainDlg->m_bClean_Time_Start==true)
+        {
+            n_S_Clean++;
+            if (n_S_Clean == 60)
+            {
+                n_S_Clean = 0;
+                n_M_Clean++;
+            }
+            if (n_M_Clean == 60)
+            {
+                n_M_Clean = 0;
+                n_H_Clean++;
+            }
+            if (n_H_Clean == 24)
+            {
+                n_H_Clean = 0;
+                n_D_Clean++;
+            }
+            strTime_Clean.Format(_T("%02d:%02d:%02d:%02d"), n_D_Clean, n_H_Clean, n_M_Clean, n_S_Clean);
+            if (n_S_Clean % 3 == 0)
+                g_pMainDlg->m_ctrTotal_Clean_Time.SetWindowText(strTime_Clean);
         }
     }
 }

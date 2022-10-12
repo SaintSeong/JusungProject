@@ -193,7 +193,18 @@ public:
 	//int m_nAfter= RGB(255, 100, 200);
 
 	int m_nTotal_Input;			// 웨이퍼 총 INPUT 값
-	int m_nTotal_Dummy_Count=0;	// 들어간 더미 웨이퍼 총 값
-	int m_nClean_Count;
+
+	bool m_bClean_Time_Start;	// Clean 공정 시작/종료 시간 알림
 	afx_msg void OnBnClickedBoxPm1();
+	C주성Btn m_ctrPM_Count1;
+	C주성Btn m_ctrPM_Count2;
+	C주성Btn m_ctrPM_Count3;
+	C주성Btn m_ctrPM_Count4;
+	C주성Btn m_ctrPM_Count5;
+	C주성Btn m_ctrPM_Count6;
+	CStatic m_ctrTotal_Clean_Time;
+	CButton m_ctrThroughput;
+
+	int m_nDummy_Count = 0;
+	bool m_bDummy = false;
 };

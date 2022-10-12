@@ -166,6 +166,27 @@
 #define IDC_GUI_PM6                     1122
 #define IDC_GUI_EFEM                    1123
 #define IDC_BUTTON_Save                 1124
+#define IDC_PM_COUNT1                   1130
+#define IDC_PM_COUNT2                   1131
+#define IDC_PM_COUNT3                   1132
+#define IDC_PM_COUNT4                   1133
+#define IDC_PM_COUNT5                   1134
+#define IDC_PM_COUNT6                   1135
+#define IDC_CHECK_PROCESS1              1142
+#define IDC_CHECK_CLEAN1                1143
+#define IDC_CHECK_PROCESS2              1144
+#define IDC_CHECK_CLEAN2                1145
+#define IDC_CHECK_PROCESS3              1146
+#define IDC_CHECK_CLEAN3                1147
+#define IDC_CHECK_PROCESS4              1148
+#define IDC_CHECK_CLEAN4                1149
+#define IDC_CHECK_PROCESS5              1150
+#define IDC_CHECK_CLEAN5                1151
+#define IDC_CHECK_PROCESS6              1152
+#define IDC_CHECK_CLEAN6                1153
+#define IDC_STATIC_CLEAN_TIME           1154
+#define IDC_BUTTON2                     1155
+#define IDC_CLEAN_OUTPUT                1155
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -181,7 +202,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        147
 #define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         1124
+#define _APS_NEXT_CONTROL_VALUE         1156
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
