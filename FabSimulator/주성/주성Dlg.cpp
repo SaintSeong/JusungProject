@@ -2657,8 +2657,21 @@ void C주성Dlg::OnBnClickedButtonSaveThroughput()
             , curTime.GetHour(), curTime.GetMinute(), curTime.GetSecond());
         cfile.Open(strName, CFile::modeCreate | CFile::modeWrite);
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
+        strValue = _T("/////////////////////////////////////////////////////\n\n\n");
+        cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
 
-        strValue = _T("/////////////////////////////////////////////////////");
+        strValue = _T("Total Time, Clean Time, Throughput\n");
+        cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
+        strValue = _T("%d, %d, %d\n");
+        cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
+
+        strValue = _T("VAC ARM, LL Module, LL Slot, PM Module, PM Slot\n");
+        cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
+        strValue = _T("%d, %d, %d, %d, %d\n\n", m_strVacArmCnt, m_strLLModuleCnt, m_strLLSlotCnt
+            m_strPMModuleCnt, m_strPMSlotCnt);
+        cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
+
+        strValue = _T("/////////////////////////////////////////////////////\n\n\n");
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
 
         cfile.Close();
