@@ -118,12 +118,18 @@ void C주성Dlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_PROGRESS_LL4, m_ctrPROGRESS_LL4);
     DDX_Control(pDX, IDC_STATIC_Time, m_ctrlStaticTotalTime);
 
+
+
     DDX_Control(pDX, IDC_STATIC_SPEED, m_ctrStatic_Speed);//
     //LPM UI 스태틱 변수
     DDX_Control(pDX, IDC_NUM_LPM1, m_ctrLPMUI1);
     DDX_Control(pDX, IDC_NUM_LPM2, m_ctrLPMUI2);
     DDX_Control(pDX, IDC_GUI_TM, m_Gui_TM);
-    DDX_Control(pDX, IDC_GUI_PM1, m_Ctrl__Gui_PM1);
+    DDX_Control(pDX, IDC_GUI_PM1, m_Ctrl_Gui_PM1);
+    DDX_Control(pDX, IDC_GUI_PM2, m_Ctrl_Gui_PM2);
+    DDX_Control(pDX, IDC_GUI_PM3, m_Ctrl_Gui_PM3);
+    DDX_Control(pDX, IDC_GUI_PM4, m_Ctrl_Gui_PM4);
+    DDX_Control(pDX, IDC_GUI_PM5, m_Ctrl_Gui_PM5);
     DDX_Control(pDX, IDC_GUI_PM6, m_Ctrl_Gui_PM6);
     DDX_Control(pDX, IDC_GUI_EFEM, m_Ctrl_Gui_EFEM);
     DDX_Control(pDX, IDC_PM_COUNT1, m_ctrPM_Count1);
@@ -171,7 +177,6 @@ BEGIN_MESSAGE_MAP(C주성Dlg, CDialogEx)
     ON_WM_RBUTTONDOWN()
     ON_BN_CLICKED(IDC_BUTTON_LOAD_SYSTEMCONFIG, &C주성Dlg::OnBnClickedButtonLoadSystemconfig)
     ON_BN_CLICKED(IDC_BUTTON_LOAD_THROUGHPUT, &C주성Dlg::OnBnClickedButtonLoadThroughput)
-    ON_BN_CLICKED(IDC_BUTTON_Clear, &C주성Dlg::OnBnClickedButtonClear)
 END_MESSAGE_MAP()
 
 
@@ -598,6 +603,84 @@ void C주성Dlg::OnPaint()
         pDC->Rectangle(rect);
 
         ReleaseDC(pDC);
+
+        CDC* dc;
+        CString EFEM1, EFEM2, TM_Dual, TM_Quad, PM_Left, PM_Right, PM_Upper;
+
+        if (true)
+        {
+            m_Ctrl_Gui_EFEM.GetWindowRect(rect);
+            dc = m_Ctrl_Gui_EFEM.GetDC();
+            CImage image;
+            EFEM1.Format(_T("res\\UI\\EFEM1\\슬라이드1.png"));
+            image.Load(EFEM1);
+            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+        }
+        if (true)
+        {
+            m_Gui_TM.GetWindowRect(rect);
+            dc = m_Gui_TM.GetDC();
+            CImage image;
+            TM_Quad.Format(_T("res\\UI\\TM(Quad)\\슬라이드1.png"));
+            image.Load(TM_Quad);
+            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+        }
+        if (true)
+        {
+            m_Ctrl_Gui_PM1.GetWindowRect(rect);
+            dc = m_Ctrl_Gui_PM1.GetDC();
+            CImage image;
+            PM_Left.Format(_T("res\\UI\\PM_Left\\슬라이드1.png"));
+            image.Load(PM_Left);
+            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+        }
+        if (true)
+        {
+            m_Ctrl_Gui_PM2.GetWindowRect(rect);
+            dc = m_Ctrl_Gui_PM2.GetDC();
+            CImage image;
+            PM_Left.Format(_T("res\\UI\\PM_Left\\슬라이드1.png"));
+            image.Load(PM_Left);
+            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+        }
+        if (true)
+        {
+            m_Ctrl_Gui_PM3.GetWindowRect(rect);
+            dc = m_Ctrl_Gui_PM3.GetDC();
+            CImage image;
+            PM_Upper.Format(_T("res\\UI\\PM_Upper\\슬라이드1.png"));
+            image.Load(PM_Upper);
+            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+        }
+        if (true)
+        {
+            m_Ctrl_Gui_PM4.GetWindowRect(rect);
+            dc = m_Ctrl_Gui_PM4.GetDC();
+            CImage image;
+            PM_Upper.Format(_T("res\\UI\\PM_Upper\\슬라이드1.png"));
+            image.Load(PM_Upper);
+            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+        }
+        if (true)
+        {
+            m_Ctrl_Gui_PM5.GetWindowRect(rect);
+            dc = m_Ctrl_Gui_PM5.GetDC();
+            CImage image;
+            PM_Right.Format(_T("res\\UI\\PM_Right\\슬라이드1.png"));
+            image.Load(PM_Right);
+            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+        }
+        if (true)
+        {
+            m_Ctrl_Gui_PM6.GetWindowRect(rect);
+            dc = m_Ctrl_Gui_PM6.GetDC();
+            CImage image;
+            PM_Right.Format(_T("res\\UI\\PM_Right\\슬라이드1.png"));
+            image.Load(PM_Right);
+            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+        }
+
+        ReleaseDC(dc);
         CDialogEx::OnPaint();
     }
 }
@@ -2045,7 +2128,6 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
                 g_pMainDlg->m_ctrOutput.SetWindowInt(i);
                 double dTotalSec = g_pMainDlg->m_nTotalSec - g_pMainDlg->m_nCleanSec;
                 double dTotalHour = dTotalSec / 3600;
-                //strValue.Format(_T("%s, %s, %.2f\n"), strTotalTime, strCleanTime, dOutput / (dTotalSec / 3600.0));
                 g_pMainDlg->m_ctrThrought.SetWindowInt(int(i / dTotalHour));
                 
                 g_pMainDlg->m_ctrLPMUI2.SetWindowInt(g_pMainDlg->m_ctrLPMUI2.GetWindowInt() + nEFEM_cnt);
@@ -2950,16 +3032,4 @@ void C주성Dlg::OnBnClickedButtonLoadThroughput()
     {
         ShellExecute(NULL, _T("open"), fileDlg.GetPathName(), NULL, NULL, SW_SHOW);
     }
-}
-
-
-void C주성Dlg::OnBnClickedBoxPm1()
-{
-    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-}
-
-
-void C주성Dlg::OnBnClickedButtonClear()
-{
-
 }

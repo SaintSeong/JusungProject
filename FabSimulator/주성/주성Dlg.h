@@ -158,7 +158,6 @@ public:
 	afx_msg void OnBnClickedButtonSaveThroughput();
 	afx_msg void OnBnClickedButtonLoadSystemconfig();
 	afx_msg void OnBnClickedButtonLoadThroughput();
-	afx_msg void OnBnClickedButtonClear();
 
 	CStatic m_ctrlStaticTotalTime;
 
@@ -179,7 +178,11 @@ public:
 	C주성Btn m_ctrLPMUI1;
 	C주성Btn m_ctrLPMUI2;
 	CStatic m_Gui_TM;
-	CStatic m_Ctrl__Gui_PM1;
+	CStatic m_Ctrl_Gui_PM1;
+	CStatic m_Ctrl_Gui_PM2;
+	CStatic m_Ctrl_Gui_PM3;
+	CStatic m_Ctrl_Gui_PM4;
+	CStatic m_Ctrl_Gui_PM5;
 	CStatic m_Ctrl_Gui_PM6;
 	CStatic m_Ctrl_Gui_EFEM;
 
@@ -195,7 +198,6 @@ public:
 	int m_nTotal_Input;			// 웨이퍼 총 INPUT 값
 
 	bool m_bClean_Time_Start;	// Clean 공정 시작/종료 시간 알림
-	afx_msg void OnBnClickedBoxPm1();
 	C주성Btn m_ctrPM_Count1;
 	C주성Btn m_ctrPM_Count2;
 	C주성Btn m_ctrPM_Count3;
@@ -229,4 +231,6 @@ public:
 	CStatic m_ctrStaticGreen;
 	CStatic m_ctrStaticBlue;
 	CStatic m_ctrStaticRed;
+
+
 };
