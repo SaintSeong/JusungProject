@@ -70,6 +70,8 @@ C주성Dlg::C주성Dlg(CWnd* pParent /*=nullptr*/)
     , m_strVacArmCnt(_T("2"))
     , m_strPMModuleCnt(_T("1"))
     , m_strPMSlotCnt(_T("1"))
+    , m_nTotalSec(0)
+    , m_nCleanSec(0)
 
 {
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
@@ -2510,6 +2512,7 @@ DWORD WINAPI TotalTime(LPVOID p)
         strTime_Total.Format(_T("%02d:%02d:%02d:%02d"), n_D_Total,n_H_Total, n_M_Total, n_S_Total);
         if (n_S_Total % 3 == 0)
             g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(strTime_Total);
+        g_pMainDlg->m_nTotalSec++;
         if (n_H_Total == 1)
         {
             g_pMainDlg->m_ctrOUTPUT.GetWindowInt();
@@ -2535,6 +2538,7 @@ DWORD WINAPI TotalTime(LPVOID p)
             strTime_Clean.Format(_T("%02d:%02d:%02d:%02d"), n_D_Clean, n_H_Clean, n_M_Clean, n_S_Clean);
             if (n_S_Clean % 3 == 0)
                 g_pMainDlg->m_ctrTotal_Clean_Time.SetWindowText(strTime_Clean);
+            g_pMainDlg->m_nCleanSec++;
         }
     }
 }
@@ -2837,7 +2841,8 @@ void C주성Dlg::OnBnClickedButtonSaveThroughput()
 
         CFile cfile;
         CString strValue;
-        CString strUse4Time;
+        CString strTotalTime;
+        CString strCleanTime;
         CTime curTime = CTime::GetCurrentTime();
 
         strValue.Format(_T("Jusung Fab Simulator, %d/%d/%d, %d:%d:%d\n")
@@ -2848,19 +2853,16 @@ void C주성Dlg::OnBnClickedButtonSaveThroughput()
         strValue = _T("/////////////////////////////////////////////////////\n");
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
 
-        strValue = _T("Total Time, Clean Time, Throughput\n");
+        strValue = _T("TotalTime, CleanTime, Throughput\n");
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
 
         strValue = _T("");
-        m_ctrlStaticTotalTime.GetWindowText(strUse4Time);
-        strValue += strUse4Time;
-        strValue += _T(",");
-        m_ctrTotal_Clean_Time.GetWindowText(strUse4Time);
-        strValue += strUse4Time;
-        strValue += _T(",");
-        m_ctrOUTPUT.GetWindowText(strUse4Time);
-        strValue += strUse4Time;
-        strValue += _T("\n");
+        m_ctrlStaticTotalTime.GetWindowText(strTotalTime);
+        m_ctrTotal_Clean_Time.GetWindowText(strCleanTime);
+        double dTotalSec = m_nTotalSec - m_nCleanSec;
+        m_ctrOUTPUT.GetWindowText(strValue);
+        double dOutput = _ttof(strValue);
+        strValue.Format(_T("%s, %s, %.2f\n"), strTotalTime, strCleanTime, dOutput / (dTotalSec / 3600.0));
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
 
         strValue = _T("/////////////////////////////////////////////////////\n");
@@ -2869,13 +2871,13 @@ void C주성Dlg::OnBnClickedButtonSaveThroughput()
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
         strValue = _T("");
         strValue += m_strLLModuleCnt;
-        strValue += _T(",");
+        strValue += _T(", ");
         strValue += m_strLLSlotCnt;
-        strValue += _T(",");
+        strValue += _T(", ");
         strValue += m_strPMModuleCnt;
-        strValue += _T(",");
+        strValue += _T(", ");
         strValue += m_strPMSlotCnt;
-        strValue += _T(",");
+        strValue += _T(", ");
         strValue += m_strVacArmCnt;
         strValue += _T("\n");
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
