@@ -1632,7 +1632,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 PM_Count = 0;
                 g_pMainDlg->m_nThread3_PM++;
                 g_pMainDlg->m_nPM_Processing++;
-                g_hThread_LL[g_pMainDlg->m_nThread3_PM-2] = (CreateThread(NULL, 0, PM, 0, 0, 0));
+                g_hThread_PM[g_pMainDlg->m_nThread3_PM-2] = (CreateThread(NULL, 0, PM, 0, 0, 0));
             }
 
             if (g_pMainDlg->m_nThread3_PM == _ttoi(g_pMainDlg->m_strPMModuleCnt) + 1)
@@ -2600,7 +2600,7 @@ void C주성Dlg::OnBnClickedStart()
             m_ctrStatic_Speed.SetWindowInt(_ttoi(m_strSpeed));
             m_ctrLPM.SetWindowInt(99999999);
             m_nLLMAX = _ttoi(m_strLLSlotCnt) * _ttoi(m_strLLModuleCnt);
-            CloseHandle(CreateThread(NULL, 0, TotalTime, 0, 0, 0));
+            (CreateThread(NULL, 0, TotalTime, 0, 0, 0));
             g_hThread_Thread_Start=(CreateThread(NULL, 0, Thread_Start, 0, 0, 0));
             //ResumeThread()
         }
@@ -2612,7 +2612,6 @@ void C주성Dlg::OnBnClickedStart()
             GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(TRUE);
             GetDlgItem(IDC_BUTTON_LOAD_THROUGHPUT)->EnableWindow(TRUE);
 
-            
             SuspendThread(g_hThread1[0]);
             SuspendThread(g_hThread1[1]);
             SuspendThread(g_hThread2);
@@ -2697,7 +2696,6 @@ void C주성Dlg::OnBnClickedStart()
 
 void C주성Dlg::OnClose()
 {
-    CloseHandle(g_hEventStart);
     CDialogEx::OnClose();
 }
 
