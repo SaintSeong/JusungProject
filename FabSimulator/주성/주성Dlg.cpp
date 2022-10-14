@@ -295,10 +295,9 @@ BOOL C주성Dlg::OnInitDialog()
     m_ctrTotal_Clean_Time.SetFont(&m_font, TRUE);
     GetDlgItem(IDC_START)->EnableWindow(FALSE);
     GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(FALSE);
-    GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(FALSE);
+    GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(TRUE);
     GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(FALSE);
-    GetDlgItem(IDC_BUTTON_LOAD_THROUGHPUT)->EnableWindow(FALSE);
-
+    GetDlgItem(IDC_BUTTON_LOAD_THROUGHPUT)->EnableWindow(TRUE);
     UpdateData(0);
     return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -2828,6 +2827,12 @@ void C주성Dlg::OnBnClickedButtonLoadSystemconfig()
         m_nPM_Clean_Wafer_Count = ::GetPrivateProfileInt(_T("PM"), _T("CleanCount"), -1, strLoadName);
         m_nPM_Slot_Valve_Open = ::GetPrivateProfileInt(_T("PM"), _T("SlotOpenTime"), -1, strLoadName) * 1000;
         m_nPM_Slot_Valve_Close = ::GetPrivateProfileInt(_T("PM"), _T("SlotCloseTime"), -1, strLoadName) * 1000;
+
+        GetDlgItem(IDC_START)->EnableWindow(TRUE);
+        GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(TRUE);
+        GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(TRUE);
+        GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(TRUE);
+        GetDlgItem(IDC_BUTTON_LOAD_THROUGHPUT)->EnableWindow(TRUE);
 
     }
 }

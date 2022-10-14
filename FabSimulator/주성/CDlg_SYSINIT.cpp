@@ -236,6 +236,9 @@ BOOL CDlg_SYSINIT::OnInitDialog()
 
 	InitComboBox();
 
+	nVacArmIdx = m_ctrlComboVacArm.FindStringExact(0, m_strVacArmCount);
+	m_ctrlComboVacArm.SetCurSel(nLLModuleIdx);
+
 	m_ctrlComboVacArm.GetLBText(nVacArmIdx, strValue);
 	nValue = _ttoi(strValue);
 
