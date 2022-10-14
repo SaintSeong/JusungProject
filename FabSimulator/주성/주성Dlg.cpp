@@ -358,7 +358,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = 24; i >= 0; i--)
             {
-                pDC->Rectangle(55, 140 + (14.6 * i), 121, 154.6 + (14.6 * i));
+                pDC->Rectangle(85, 140 + (14.6 * i), 151, 154.6 + (14.6 * i));
             }
         }
         if (true)//LPM1
@@ -370,7 +370,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = m_ctrLPMUI1.GetWindowInt() - 1; i >= 0; i--)
             {
-                pDC->Rectangle(55, 140 + (14.6 * i), 121, 154.6 + (14.6 * i));
+                pDC->Rectangle(85, 140 + (14.6 * i), 151, 154.6 + (14.6 * i));
             }
         }
 
@@ -383,7 +383,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = 24; i >= 0; i--)
             {
-                pDC->Rectangle(160, 140 + (14.6 * i), 225, 154.6 + (14.6 * i));
+                pDC->Rectangle(190, 140 + (14.6 * i), 255, 154.6 + (14.6 * i));
             }
 
         }
@@ -396,7 +396,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = 24; i > 24 - m_ctrLPMUI2.GetWindowInt(); i--)
             {
-                pDC->Rectangle(160, 140 + (14.6 * i), 225, 154.6 + (14.6 * i));
+                pDC->Rectangle(190, 140 + (14.6 * i), 255, 154.6 + (14.6 * i));
             }
         }
 
