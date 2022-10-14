@@ -138,6 +138,18 @@ void C주성Dlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_PM_COUNT5, m_ctrPM_Count5);
     DDX_Control(pDX, IDC_PM_COUNT6, m_ctrPM_Count6);
     DDX_Control(pDX, IDC_STATIC_CLEAN_TIME, m_ctrTotal_Clean_Time);
+    DDX_Control(pDX, IDC_RADIO_Process1, m_ctrRadio_Process1);
+    DDX_Control(pDX, IDC_RADIO_Process2, m_ctrRadio_Process2);
+    DDX_Control(pDX, IDC_RADIO_Process3, m_ctrRadio_Process3);
+    DDX_Control(pDX, IDC_RADIO_Process4, m_ctrRadio_Process4);
+    DDX_Control(pDX, IDC_RADIO_Process5, m_ctrRadio_Process5);
+    DDX_Control(pDX, IDC_RADIO_Process6, m_ctrRadio_Process6);
+    DDX_Control(pDX, IDC_RADIO_Clean1, m_ctrRadio_Clean1);
+    DDX_Control(pDX, IDC_RADIO_Clean2, m_ctrRadio_Clean2);
+    DDX_Control(pDX, IDC_RADIO_Clean3, m_ctrRadio_Clean3);
+    DDX_Control(pDX, IDC_RADIO_Clean4, m_ctrRadio_Clean4);
+    DDX_Control(pDX, IDC_RADIO_Clean5, m_ctrRadio_Clean5);
+    DDX_Control(pDX, IDC_RADIO_Clean6, m_ctrRadio_Clean6);
 }
 
 BEGIN_MESSAGE_MAP(C주성Dlg, CDialogEx)
@@ -161,7 +173,6 @@ END_MESSAGE_MAP()
 BOOL C주성Dlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
-
     // 시스템 메뉴에 "정보..." 메뉴 항목을 추가합니다.
 
     // IDM_ABOUTBOX는 시스템 명령 범위에 있어야 합니다.
@@ -188,7 +199,6 @@ BOOL C주성Dlg::OnInitDialog()
     SetIcon(m_hIcon, FALSE);      // 작은 아이콘을 설정합니다.
 
     // TODO: 여기에 추가 초기화 작업을 추가합니다.
-
     m_nWafer_Count = 0;
     g_hEventStart = CreateEvent(NULL, FALSE, FALSE, NULL);//자동리셋 이벤트
     g_hEventLL_Modul_one_Thread1and2 = CreateEvent(NULL, FALSE, FALSE, NULL);//자동리셋 이벤트
@@ -283,7 +293,7 @@ BOOL C주성Dlg::OnInitDialog()
     GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(FALSE);
     GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(FALSE);
     GetDlgItem(IDC_BUTTON_LOAD_THROUGHPUT)->EnableWindow(FALSE);
-    
+
     UpdateData(0);
     return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -1605,9 +1615,6 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 if (i == _ttoi(g_pMainDlg->m_strPMSlotCnt)) break;  //PM이 가득 찼다면 종료
                 PM_Count++;
                 nTM_cnt--;
-
-
-
             }
 
 
@@ -2005,21 +2012,20 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
             if (g_pMainDlg->m_bDummy == false)
             {
                 g_pMainDlg->m_ctrOUTPUT.SetWindowInt(i);
-                g_pMainDlg->m_ctrLPMUI2.SetWindowInt(g_pMainDlg->m_ctrLPMUI2.GetWindowInt() + 1);
+                g_pMainDlg->m_ctrLPMUI2.SetWindowInt(g_pMainDlg->m_ctrLPMUI2.GetWindowInt() + nEFEM_cnt);
                 if (g_pMainDlg->m_ctrLPMUI2.GetWindowInt() == 25)
                     g_pMainDlg->m_ctrLPMUI2.SetWindowInt(0);
             }
-            else if (g_pMainDlg->m_bDummy == true)
+            if (g_pMainDlg->m_bDummy == true)
             {
-                g_pMainDlg->m_nDummy_Count++;
+                g_pMainDlg->m_nDummy_Count= g_pMainDlg->m_nDummy_Count+ nEFEM_cnt;
             }
             if (g_pMainDlg->m_ctrOUTPUT.GetWindowInt() != 0
                 && g_pMainDlg->m_ctrOUTPUT.GetWindowInt() % (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt) * (g_pMainDlg->m_nPM_Clean_Wafer_Count)) == 0)
             {
-                /*g_pMainDlg->m_bClean_Time_Start = false;*/
                 g_pMainDlg->m_bDummy = true;
             }
-            if (g_pMainDlg->m_nDummy_Count == (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt) ))
+            if (g_pMainDlg->m_nDummy_Count-1 == (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt) ))
             {
                 g_pMainDlg->m_bClean_Time_Start = false;
                 g_pMainDlg->m_bDummy = false;
@@ -2059,66 +2065,114 @@ DWORD WINAPI PM(LPVOID p)
         {
             if (g_pMainDlg->m_CtrStatic_PM1.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean1)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process1)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Process1.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean1.SetCheck(FALSE);
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process1)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean1)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean1.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Process1.SetCheck(FALSE);
             }
         }
         else if (nPM_Check == 2)
         {
             if (g_pMainDlg->m_CtrStatic_PM2.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean2)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process2)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Process2.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean2.SetCheck(FALSE);
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process2)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean2)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean2.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Process2.SetCheck(FALSE);
             }
         }
         else if (nPM_Check == 3)
         {
             if (g_pMainDlg->m_CtrStatic_PM3.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean3)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process3)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Process3.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean3.SetCheck(FALSE);
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process3)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean3)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean3.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Process3.SetCheck(FALSE);
             }
         }
         else if (nPM_Check == 4)
         {
             if (g_pMainDlg->m_CtrStatic_PM4.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean4)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process4)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Process4.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean4.SetCheck(FALSE);
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process4)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean4)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean4.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Process4.SetCheck(FALSE);
             }
         }
         else if (nPM_Check == 5)
         {
             if (g_pMainDlg->m_CtrStatic_PM5.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean5)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process5)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Process5.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean5.SetCheck(FALSE);
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process5)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean5)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean5.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Process5.SetCheck(FALSE);
             }
         }
         else if (nPM_Check == 6)
         {
             if (g_pMainDlg->m_CtrStatic_PM6.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean6)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process6)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Process6.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean6.SetCheck(FALSE);
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process6)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean6)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean6.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Process6.SetCheck(FALSE);
             }
         }
        
@@ -2166,66 +2220,114 @@ DWORD WINAPI PM(LPVOID p)
         {
             if (g_pMainDlg->m_CtrStatic_PM1.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count == 0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean1)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process1)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Process1.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean1.SetCheck(FALSE);
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process1)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean1)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean1.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Process1.SetCheck(FALSE);
             }
         }
         else if (nPM_Check == 2)
         {
             if (g_pMainDlg->m_CtrStatic_PM2.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count == 0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean2)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process2)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Process2.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean2.SetCheck(FALSE);
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process2)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean2)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean2.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Process2.SetCheck(FALSE);
             }
         }
         else if (nPM_Check == 3)
         {
             if (g_pMainDlg->m_CtrStatic_PM3.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count == 0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean3)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process3)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Process3.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean3.SetCheck(FALSE);
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process3)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean3)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean3.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Process3.SetCheck(FALSE);
             }
         }
         else if (nPM_Check == 4)
         {
             if (g_pMainDlg->m_CtrStatic_PM4.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count == 0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean4)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process4)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Process4.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean4.SetCheck(FALSE);
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process4)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean4)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean4.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Process4.SetCheck(FALSE);
             }
         }
         else if (nPM_Check == 5)
         {
             if (g_pMainDlg->m_CtrStatic_PM5.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count == 0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean5)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process5)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Process5.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean5.SetCheck(FALSE);
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process5)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean5)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean5.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Process5.SetCheck(FALSE);
             }
         }
         else if (nPM_Check == 6)
         {
             if (g_pMainDlg->m_CtrStatic_PM6.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean6)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process6)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Process6.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean6.SetCheck(FALSE);
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Process6)->EnableWindow(FALSE);
+                g_pMainDlg->GetDlgItem(IDC_RADIO_Clean6)->EnableWindow(TRUE);
+                g_pMainDlg->m_ctrRadio_Clean6.SetCheck(TRUE);
+                g_pMainDlg->m_ctrRadio_Process6.SetCheck(FALSE);
             }
         }
         for (int i = 1; i <= 100; i++)
@@ -2418,7 +2520,7 @@ DWORD WINAPI TotalTime(LPVOID p)
             if (n_S_Clean == 60)
             {
                 n_S_Clean = 0;
-                n_M_Clean++;
+                n_M_Clean++; 
             }
             if (n_M_Clean == 60)
             {
@@ -2441,11 +2543,26 @@ void C주성Dlg::OnBnClickedStart()
 {
     //if (Thread_Start == NULL)
     {
-       
+
+        CString strLL_UI;
+        CString strPM_UI;
+        strLL_UI.Format(_T("/ %d"), _ttoi(m_strLLSlotCnt));
+        strPM_UI.Format(_T("/ %d"), _ttoi(m_strPMSlotCnt));
         CString strValue;
         GetDlgItem(IDC_START)->GetWindowText(strValue);
         if (strValue == _T("START"))
         {
+            GetDlgItem(IDC_LL_SLOT_MAX1)->SetWindowText(strLL_UI);
+            GetDlgItem(IDC_LL_SLOT_MAX2)->SetWindowText(strLL_UI);
+            GetDlgItem(IDC_LL_SLOT_MAX3)->SetWindowText(strLL_UI);
+            GetDlgItem(IDC_LL_SLOT_MAX4)->SetWindowText(strLL_UI);
+
+            GetDlgItem(IDC_PM_SLOT_MAX1)->SetWindowText(strPM_UI);
+            GetDlgItem(IDC_PM_SLOT_MAX2)->SetWindowText(strPM_UI);
+            GetDlgItem(IDC_PM_SLOT_MAX3)->SetWindowText(strPM_UI);
+            GetDlgItem(IDC_PM_SLOT_MAX4)->SetWindowText(strPM_UI);
+            GetDlgItem(IDC_PM_SLOT_MAX5)->SetWindowText(strPM_UI);
+            GetDlgItem(IDC_PM_SLOT_MAX6)->SetWindowText(strPM_UI);
             GetDlgItem(IDC_START)->SetWindowText(_T("STOP"));
             GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(FALSE);
             GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(FALSE);

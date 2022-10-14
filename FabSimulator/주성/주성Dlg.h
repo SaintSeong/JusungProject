@@ -208,4 +208,17 @@ public:
 	int m_nDummy_Count = 0;
 	bool m_bDummy = false;
 
+	//라디오 버튼 모음
+	CButton m_ctrRadio_Process1;
+	CButton m_ctrRadio_Process2;
+	CButton m_ctrRadio_Process3;
+	CButton m_ctrRadio_Process4;
+	CButton m_ctrRadio_Process5;
+	CButton m_ctrRadio_Process6;
+	CButton m_ctrRadio_Clean1;
+	CButton m_ctrRadio_Clean2;
+	CButton m_ctrRadio_Clean3;
+	CButton m_ctrRadio_Clean4;
+	CButton m_ctrRadio_Clean5;
+	CButton m_ctrRadio_Clean6;
 };

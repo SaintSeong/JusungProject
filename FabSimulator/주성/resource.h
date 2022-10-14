@@ -25,6 +25,7 @@
 #define IDC_EDIT1                       1012
 #define IDC_INPUT                       1012
 #define IDC_EDIT_EFEM_PICKTIME          1012
+#define IDC_OUTPUT2                     1012
 #define IDC_LPM                         1013
 #define IDC_PM_WAFER                    1014
 #define IDC_LL_ROOM                     1015
@@ -58,6 +59,7 @@
 #define IDC_PROGRESS1                   1044
 #define IDC_PROGRESS_PM1                1044
 #define IDC_FOAM_FILENAME2              1045
+#define IDC_TOTAL_WAFER2                1045
 #define IDC_PROGRESS2                   1046
 #define IDC_PROGRESS_PM2                1046
 #define IDC_PROGRESS3                   1047
@@ -76,6 +78,7 @@
 #define IDC_PROGRESS_PM5                1053
 #define IDC_PROGRESS10                  1054
 #define IDC_PROGRESS_PM6                1054
+#define IDC_TOTAL_WAFER3                1055
 #define IDC_SYS_INITIAL                 1056
 #define IDC_SYS_INFO                    1056
 #define IDC_SYSTEM_INFO                 1056
@@ -152,6 +155,7 @@
 #define IDC_COLOR_AFTER                 1109
 #define IDC_COLOR_PROCESS               1110
 #define IDC_COLOR_DUMMY                 1111
+#define IDC_STATIC_PM7                  1111
 #define IDC_NUM_LPM1                    1112
 #define IDC_NUM_LPM2                    1113
 #define IDC_NUM_LPM3                    1114
@@ -167,6 +171,7 @@
 #define IDC_GUI_PM6                     1122
 #define IDC_GUI_EFEM                    1123
 #define IDC_BUTTON_Save                 1124
+#define IDC_STATIC_PM8                  1124
 #define IDC_PM_COUNT1                   1130
 #define IDC_PM_COUNT2                   1131
 #define IDC_PM_COUNT3                   1132
@@ -187,8 +192,30 @@
 #define IDC_CHECK_CLEAN6                1153
 #define IDC_STATIC_CLEAN_TIME           1154
 #define IDC_RADIO2                      1157
+#define IDC_RADIO_Process1              1157
 #define IDC_RADIO3                      1158
+#define IDC_RADIO_Clean1                1158
 #define IDC_BUTTON_Clear                1159
+#define IDC_RADIO_Process2              1160
+#define IDC_RADIO_Clean2                1161
+#define IDC_RADIO_Process3              1162
+#define IDC_RADIO_Clean3                1163
+#define IDC_RADIO_Process4              1164
+#define IDC_RADIO_Clean4                1165
+#define IDC_RADIO_Process5              1166
+#define IDC_RADIO_Clean5                1167
+#define IDC_RADIO_Process6              1168
+#define IDC_RADIO_Clean6                1169
+#define IDC_LL_SLOT_MAX1                1170
+#define IDC_LL_SLOT_MAX2                1171
+#define IDC_LL_SLOT_MAX3                1172
+#define IDC_LL_SLOT_MAX4                1173
+#define IDC_PM_SLOT_MAX1                1174
+#define IDC_PM_SLOT_MAX2                1175
+#define IDC_PM_SLOT_MAX3                1176
+#define IDC_PM_SLOT_MAX4                1177
+#define IDC_PM_SLOT_MAX5                1178
+#define IDC_PM_SLOT_MAX6                1179
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -204,7 +231,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        147
 #define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         1160
+#define _APS_NEXT_CONTROL_VALUE         1180
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

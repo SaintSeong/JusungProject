@@ -469,7 +469,7 @@ void CDlg_SYSINIT::OnCbnSelchangeComboVacArm()
 		m_ctrlComboLLSlot.AddString(_T("3"));
 		m_ctrlComboLLSlot.AddString(_T("4"));
 		m_ctrlComboLLSlot.AddString(_T("5"));
-		m_ctrlComboLLSlot.AddString(_T("6"));
+		m_ctrlComboLLSlot.AddString(_T("6"));/*
 		m_ctrlComboLLSlot.AddString(_T("7"));
 		m_ctrlComboLLSlot.AddString(_T("8"));
 		m_ctrlComboLLSlot.AddString(_T("9"));
@@ -488,7 +488,7 @@ void CDlg_SYSINIT::OnCbnSelchangeComboVacArm()
 		m_ctrlComboLLSlot.AddString(_T("22"));
 		m_ctrlComboLLSlot.AddString(_T("23"));
 		m_ctrlComboLLSlot.AddString(_T("24"));
-		m_ctrlComboLLSlot.AddString(_T("25"));
+		m_ctrlComboLLSlot.AddString(_T("25"));*/
 		m_ctrlComboLLSlot.SetCurSel(0);
 	}
 
@@ -509,7 +509,7 @@ void CDlg_SYSINIT::OnCbnSelchangeComboVacArm()
 
 		m_ctrlComboLLSlot.InsertString(0, _T("2"));
 		m_ctrlComboLLSlot.AddString(_T("4"));
-		m_ctrlComboLLSlot.AddString(_T("6"));
+		m_ctrlComboLLSlot.AddString(_T("6"));/*
 		m_ctrlComboLLSlot.AddString(_T("8"));
 		m_ctrlComboLLSlot.AddString(_T("10"));
 		m_ctrlComboLLSlot.AddString(_T("12"));
@@ -518,7 +518,7 @@ void CDlg_SYSINIT::OnCbnSelchangeComboVacArm()
 		m_ctrlComboLLSlot.AddString(_T("18"));
 		m_ctrlComboLLSlot.AddString(_T("20"));
 		m_ctrlComboLLSlot.AddString(_T("22"));
-		m_ctrlComboLLSlot.AddString(_T("24"));
+		m_ctrlComboLLSlot.AddString(_T("24"));*/
 		m_ctrlComboLLSlot.SetCurSel(0);
 	}
 }
