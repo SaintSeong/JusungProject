@@ -2701,21 +2701,35 @@ void C주성Dlg::OnBnClickedButtonSaveThroughput()
             , curTime.GetHour(), curTime.GetMinute(), curTime.GetSecond());
         cfile.Open(strName, CFile::modeCreate | CFile::modeWrite);
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
-        strValue = _T("/////////////////////////////////////////////////////\n\n\n");
+        strValue = _T("/////////////////////////////////////////////////////\n\n");
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
 
-        strValue = _T("Total Time, Clean Time, Throughput\n");
+        strValue = _T("Total Time, Clean Time, Throughput)\n");
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
-        strValue = _T("%d, %d, %d\n");
+        strValue.Format(_T("%d, %d, %d\n"), 0, 0, 0);
+        cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
+
+        strValue = _T("/////////////////////////////////////////////////////\n");
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
 
         strValue = _T("VAC ARM, LL Module, LL Slot, PM Module, PM Slot\n");
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
-        strValue = _T("%d, %d, %d, %d, %d\n\n", m_strVacArmCnt, m_strLLModuleCnt, m_strLLSlotCnt
-            m_strPMModuleCnt, m_strPMSlotCnt);
+
+        strValue = _T("");
+        strValue += m_strVacArmCnt;
+        strValue += _T(",");
+        strValue += m_strLLModuleCnt;
+        strValue += _T(",");
+        strValue += m_strLLSlotCnt;
+        strValue += _T(",");
+        strValue += m_strPMModuleCnt;
+        strValue += _T(",");
+        strValue += m_strPMSlotCnt;
+        strValue += _T("\n");
+
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
 
-        strValue = _T("/////////////////////////////////////////////////////\n\n\n");
+        strValue = _T("/////////////////////////////////////////////////////");
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
 
         cfile.Close();
@@ -2725,7 +2739,10 @@ void C주성Dlg::OnBnClickedButtonSaveThroughput()
 
 void C주성Dlg::OnBnClickedButtonLoadThroughput()
 {
-    CFileDialog fileDlg(TRUE);
+    CFileDialog fileDlg(1, _T("*.csv")
+        , 0
+        , OFN_OVERWRITEPROMPT | OFN_LONGNAMES
+        , _T("Result Files (*.csv)|*.csv||"));
     if (fileDlg.DoModal() == IDOK)
     {
         ShellExecute(NULL, _T("open"), fileDlg.GetPathName(), NULL, NULL, SW_SHOW);
