@@ -153,6 +153,9 @@ void C주성Dlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_PM_STATIC4, m_ctrPM4);
     DDX_Control(pDX, IDC_PM_STATIC5, m_ctrPM5);
     DDX_Control(pDX, IDC_PM_STATIC6, m_ctrPM6);
+    DDX_Control(pDX, IDC_STATIC_GREEN, m_ctrStaticGreen);
+    DDX_Control(pDX, IDC_STATIC_BLUE, m_ctrStaticBlue);
+    DDX_Control(pDX, IDC_STATIC_RED, m_ctrStaticRed);
 }
 
 BEGIN_MESSAGE_MAP(C주성Dlg, CDialogEx)
@@ -573,6 +576,27 @@ void C주성Dlg::OnPaint()
             }
 
         }
+
+        CRect rect;
+        CBrush Greenbrush(RGB(0,255,0));
+        CBrush Bluebrush(RGB(0, 0, 255));
+        CBrush Redbrush(RGB(255, 0, 0));
+
+        m_ctrStaticGreen.GetWindowRect(&rect);
+        ScreenToClient(rect);
+        pDC->SelectObject(Greenbrush);
+        pDC->Rectangle(rect);
+
+        m_ctrStaticBlue.GetWindowRect(&rect);
+        ScreenToClient(rect);
+        pDC->SelectObject(Bluebrush);
+        pDC->Rectangle(rect);
+
+        m_ctrStaticRed.GetWindowRect(&rect);
+        ScreenToClient(rect);
+        pDC->SelectObject(Redbrush);
+        pDC->Rectangle(rect);
+
         ReleaseDC(pDC);
         CDialogEx::OnPaint();
     }
