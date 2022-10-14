@@ -226,4 +226,7 @@ public:
 	int m_nCleanSec;
 	C주성Btn m_ctrOutput;
 	C주성Btn m_ctrThrought;
+	CStatic m_ctrStaticGreen;
+	CStatic m_ctrStaticBlue;
+	CStatic m_ctrStaticRed;
 };
