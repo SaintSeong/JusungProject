@@ -203,7 +203,6 @@ public:
 	C주성Btn m_ctrPM_Count5;
 	C주성Btn m_ctrPM_Count6;
 	CStatic m_ctrTotal_Clean_Time;
-	CButton m_ctrThroughput;
 
 	int m_nDummy_Count = 0;
 	bool m_bDummy = false;

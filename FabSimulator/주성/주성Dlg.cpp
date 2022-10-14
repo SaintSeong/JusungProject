@@ -135,7 +135,6 @@ void C주성Dlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_PM_COUNT5, m_ctrPM_Count5);
     DDX_Control(pDX, IDC_PM_COUNT6, m_ctrPM_Count6);
     DDX_Control(pDX, IDC_STATIC_CLEAN_TIME, m_ctrTotal_Clean_Time);
-    DDX_Control(pDX, IDC_CLEAN_OUTPUT, m_ctrThroughput);
 }
 
 BEGIN_MESSAGE_MAP(C주성Dlg, CDialogEx)
@@ -274,7 +273,7 @@ BOOL C주성Dlg::OnInitDialog()
         DEFAULT_PITCH | FF_DONTCARE,// nPitchAndFamily                               
         _T("고딕"));
     m_ctrlStaticTotalTime.SetFont(&m_font, TRUE);
-
+    m_ctrTotal_Clean_Time.SetFont(&m_font, TRUE);
     GetDlgItem(IDC_START)->EnableWindow(FALSE);
     GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(FALSE);
     GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(FALSE);
@@ -2590,16 +2589,7 @@ void C주성Dlg::OnBnClickedStart()
 {
     //if (Thread_Start == NULL)
     {
-
-        UpdateData(1);
-        g_pMainDlg->InvalidateRect(g_CRtemp, false);
-        m_nSpeed = _ttoi(m_strSpeed);
-        m_ctrStatic_Speed.SetWindowInt(_ttoi(m_strSpeed));
-        m_ctrLPM.SetWindowInt(99999999);
-        m_nLLMAX = _ttoi(m_strLLSlotCnt) * _ttoi(m_strLLModuleCnt);
-        CloseHandle(CreateThread(NULL, 0, TotalTime, 0, 0, 0));
-        CloseHandle(CreateThread(NULL, 0, Thread_Start, 0, 0, 0));
-
+       
         CString strValue;
         GetDlgItem(IDC_START)->GetWindowText(strValue);
         if (strValue == _T("START"))
@@ -2608,6 +2598,15 @@ void C주성Dlg::OnBnClickedStart()
             GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(FALSE);
             GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(FALSE);
             GetDlgItem(IDC_SYS_INFO)->EnableWindow(FALSE);
+            UpdateData(1);
+            g_pMainDlg->InvalidateRect(g_CRtemp, false);
+            m_nSpeed = _ttoi(m_strSpeed);
+            m_ctrStatic_Speed.SetWindowInt(_ttoi(m_strSpeed));
+            m_ctrLPM.SetWindowInt(99999999);
+            m_nLLMAX = _ttoi(m_strLLSlotCnt) * _ttoi(m_strLLModuleCnt);
+            CloseHandle(CreateThread(NULL, 0, TotalTime, 0, 0, 0));
+            CloseHandle(CreateThread(NULL, 0, Thread_Start, 0, 0, 0));
+
         }
         else
         {

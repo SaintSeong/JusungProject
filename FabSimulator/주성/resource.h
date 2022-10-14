@@ -185,7 +185,6 @@
 #define IDC_CHECK_PROCESS6              1152
 #define IDC_CHECK_CLEAN6                1153
 #define IDC_STATIC_CLEAN_TIME           1154
-#define IDC_BUTTON2                     1155
 #define IDC_CLEAN_OUTPUT                1155
 #define ID_32771                        32771
 #define ID_32772                        32772
