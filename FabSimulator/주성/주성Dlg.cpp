@@ -2763,7 +2763,7 @@ void C주성Dlg::OnBnClickedButtonLoadSystemconfig()
 {
     CFileDialog loadFile(1, _T("*.cfg")
         , 0
-        , OFN_OVERWRITEPROMPT | OFN_LONGNAMES
+        , OFN_OVERWRITEPROMPT | OFN_LONGNAMES | OFN_FILEMUSTEXIST
         , _T("System Configulation Files (*.cfg)|*.cfg||")
     );
     if (loadFile.DoModal() == IDOK)
@@ -2826,6 +2826,7 @@ void C주성Dlg::OnBnClickedButtonSaveThroughput()
 
         CFile cfile;
         CString strValue;
+        CString strUse4Time;
         CTime curTime = CTime::GetCurrentTime();
 
         strValue.Format(_T("Jusung Fab Simulator, %d/%d/%d, %d:%d:%d\n")
@@ -2833,23 +2834,29 @@ void C주성Dlg::OnBnClickedButtonSaveThroughput()
             , curTime.GetHour(), curTime.GetMinute(), curTime.GetSecond());
         cfile.Open(strName, CFile::modeCreate | CFile::modeWrite);
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
-        strValue = _T("/////////////////////////////////////////////////////\n\n");
+        strValue = _T("/////////////////////////////////////////////////////\n");
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
 
-        strValue = _T("Total Time, Clean Time, Throughput)\n");
+        strValue = _T("Total Time, Clean Time, Throughput\n");
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
-        strValue.Format(_T("%d, %d, %d\n"), 0, 0, 0);
+
+        strValue = _T("");
+        m_ctrlStaticTotalTime.GetWindowText(strUse4Time);
+        strValue += strUse4Time;
+        strValue += _T(",");
+        m_ctrTotal_Clean_Time.GetWindowText(strUse4Time);
+        strValue += strUse4Time;
+        strValue += _T(",");
+        m_ctrOUTPUT.GetWindowText(strUse4Time);
+        strValue += strUse4Time;
+        strValue += _T("\n");
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
 
         strValue = _T("/////////////////////////////////////////////////////\n");
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
-
-        strValue = _T("VAC ARM, LL Module, LL Slot, PM Module, PM Slot\n");
+        strValue = _T("LL_M, LL_S, PM_M, PM_S, VAC\n");
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
-
         strValue = _T("");
-        strValue += m_strVacArmCnt;
-        strValue += _T(",");
         strValue += m_strLLModuleCnt;
         strValue += _T(",");
         strValue += m_strLLSlotCnt;
@@ -2857,8 +2864,9 @@ void C주성Dlg::OnBnClickedButtonSaveThroughput()
         strValue += m_strPMModuleCnt;
         strValue += _T(",");
         strValue += m_strPMSlotCnt;
+        strValue += _T(",");
+        strValue += m_strVacArmCnt;
         strValue += _T("\n");
-
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
 
         strValue = _T("/////////////////////////////////////////////////////");
@@ -2873,7 +2881,7 @@ void C주성Dlg::OnBnClickedButtonLoadThroughput()
 {
     CFileDialog fileDlg(1, _T("*.csv")
         , 0
-        , OFN_OVERWRITEPROMPT | OFN_LONGNAMES
+        , OFN_OVERWRITEPROMPT | OFN_LONGNAMES | OFN_FILEMUSTEXIST
         , _T("Result Files (*.csv)|*.csv||"));
     if (fileDlg.DoModal() == IDOK)
     {
