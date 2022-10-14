@@ -36,6 +36,7 @@
 #define IDC_BOX_LPM                     1023
 #define IDC_BOX_LL                      1024
 #define IDC_BOX_THROUGHPUT              1025
+#define IDC_BOX_OUTPUT                  1025
 #define IDC_BOX_FABTIME                 1026
 #define IDC_BOX_LPM1                    1027
 #define IDC_BOX_LPM2                    1028
@@ -185,7 +186,9 @@
 #define IDC_CHECK_PROCESS6              1152
 #define IDC_CHECK_CLEAN6                1153
 #define IDC_STATIC_CLEAN_TIME           1154
-#define IDC_CLEAN_OUTPUT                1155
+#define IDC_RADIO2                      1157
+#define IDC_RADIO3                      1158
+#define IDC_BUTTON_Clear                1159
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -201,7 +204,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        147
 #define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         1156
+#define _APS_NEXT_CONTROL_VALUE         1160
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

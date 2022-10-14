@@ -159,6 +159,7 @@ public:
 	afx_msg void OnBnClickedButtonSaveThroughput();
 	afx_msg void OnBnClickedButtonLoadSystemconfig();
 	afx_msg void OnBnClickedButtonLoadThroughput();
+	afx_msg void OnBnClickedButtonClear();
 
 	CStatic m_ctrlStaticTotalTime;
 
@@ -206,4 +207,5 @@ public:
 
 	int m_nDummy_Count = 0;
 	bool m_bDummy = false;
+
 };

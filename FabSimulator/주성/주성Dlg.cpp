@@ -153,6 +153,7 @@ BEGIN_MESSAGE_MAP(C주성Dlg, CDialogEx)
     ON_WM_RBUTTONDOWN()
     ON_BN_CLICKED(IDC_BUTTON_LOAD_SYSTEMCONFIG, &C주성Dlg::OnBnClickedButtonLoadSystemconfig)
     ON_BN_CLICKED(IDC_BUTTON_LOAD_THROUGHPUT, &C주성Dlg::OnBnClickedButtonLoadThroughput)
+    ON_BN_CLICKED(IDC_BUTTON_Clear, &C주성Dlg::OnBnClickedButtonClear)
 END_MESSAGE_MAP()
 
 
@@ -2447,7 +2448,9 @@ void C주성Dlg::OnBnClickedStart()
         {
             GetDlgItem(IDC_START)->SetWindowText(_T("STOP"));
             GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(FALSE);
+            GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(FALSE);
             GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(FALSE);
+            GetDlgItem(IDC_BUTTON_LOAD_THROUGHPUT)->EnableWindow(FALSE);
             GetDlgItem(IDC_SYS_INFO)->EnableWindow(FALSE);
             UpdateData(1);
             g_pMainDlg->InvalidateRect(g_CRtemp, false);
@@ -2457,16 +2460,17 @@ void C주성Dlg::OnBnClickedStart()
             m_nLLMAX = _ttoi(m_strLLSlotCnt) * _ttoi(m_strLLModuleCnt);
             g_hThread_TotalTime=(CreateThread(NULL, 0, TotalTime, 0, 0, 0));
             g_hThread_Thread_Start=(CreateThread(NULL, 0, Thread_Start, 0, 0, 0));
-
+            //ResumeThread()
         }
-        else
+        else if (strValue == _T("STOP"))
         {
-            GetDlgItem(IDC_START)->SetWindowText(_T("START"));
+            GetDlgItem(IDC_START)->SetWindowText(_T("Resume"));
             GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(TRUE);
+            GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(FALSE);
             GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(TRUE);
-            GetDlgItem(IDC_SYS_INFO)->EnableWindow(TRUE);
+            GetDlgItem(IDC_BUTTON_LOAD_THROUGHPUT)->EnableWindow(TRUE);
+
             
-            GetDlgItem(IDC_START)->EnableWindow(FALSE);
             SuspendThread(g_hThread1[0]);
             SuspendThread(g_hThread1[1]);
             SuspendThread(g_hThread2);
@@ -2483,7 +2487,29 @@ void C주성Dlg::OnBnClickedStart()
                 SuspendThread(g_hThread_PM[i]);
             }
         }
-
+        else if (strValue == _T("Resume"))
+        {
+            GetDlgItem(IDC_START)->SetWindowText(_T("STOP"));
+            GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(FALSE);
+            GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(FALSE);
+            GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(FALSE);
+            GetDlgItem(IDC_BUTTON_LOAD_THROUGHPUT)->EnableWindow(FALSE);
+            ResumeThread(g_hThread1[0]);
+            ResumeThread(g_hThread1[1]);
+            ResumeThread(g_hThread2);
+            ResumeThread(g_hThread3);
+            ResumeThread(g_hThread4);
+            ResumeThread(g_hThread_TotalTime);
+            ResumeThread(g_hThread_Thread_Start);
+            for (int i = 0; i < 4; i++)
+            {
+                ResumeThread(g_hThread_LL[i]);
+            }
+            for (int i = 0; i < 6; i++)
+            {
+                ResumeThread(g_hThread_PM[i]);
+            }
+        }
         //CRect rect;
 
         //CDC* dc;
@@ -2753,4 +2779,10 @@ void C주성Dlg::OnBnClickedButtonLoadThroughput()
 void C주성Dlg::OnBnClickedBoxPm1()
 {
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void C주성Dlg::OnBnClickedButtonClear()
+{
+
 }
