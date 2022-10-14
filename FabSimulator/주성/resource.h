@@ -25,7 +25,6 @@
 #define IDC_EDIT1                       1012
 #define IDC_INPUT                       1012
 #define IDC_EDIT_EFEM_PICKTIME          1012
-#define IDC_OUTPUT2                     1012
 #define IDC_LPM                         1013
 #define IDC_PM_WAFER                    1014
 #define IDC_LL_ROOM                     1015
@@ -155,7 +154,7 @@
 #define IDC_COLOR_AFTER                 1109
 #define IDC_COLOR_PROCESS               1110
 #define IDC_COLOR_DUMMY                 1111
-#define IDC_STATIC_PM7                  1111
+#define IDC_STATIC_OUTPUT               1111
 #define IDC_NUM_LPM1                    1112
 #define IDC_NUM_LPM2                    1113
 #define IDC_NUM_LPM3                    1114
@@ -171,7 +170,7 @@
 #define IDC_GUI_PM6                     1122
 #define IDC_GUI_EFEM                    1123
 #define IDC_BUTTON_Save                 1124
-#define IDC_STATIC_PM8                  1124
+#define IDC_STATIC_THROUGHTPUT          1124
 #define IDC_PM_COUNT1                   1130
 #define IDC_PM_COUNT2                   1131
 #define IDC_PM_COUNT3                   1132
@@ -216,6 +215,16 @@
 #define IDC_PM_SLOT_MAX4                1177
 #define IDC_PM_SLOT_MAX5                1178
 #define IDC_PM_SLOT_MAX6                1179
+#define IDC_PM_STATIC1                  1182
+#define IDC_PM_STATIC2                  1183
+#define IDC_PM_STATIC3                  1184
+#define IDC_PM_STATIC4                  1185
+#define IDC_PM_STATIC5                  1186
+#define IDC_PM_STATIC6                  1187
+#define IDC_LL_STATIC1                  1188
+#define IDC_LL_STATIC2                  1189
+#define IDC_LL_STATIC3                  1190
+#define IDC_LL_STATIC4                  1191
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -231,7 +240,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        147
 #define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         1180
+#define _APS_NEXT_CONTROL_VALUE         1192
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -88,15 +88,11 @@ void C주성Dlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_EFEMARM, m_ctrEFEM);
     DDX_Control(pDX, IDC_ALIGNER, m_ctrALIGNER);
     DDX_Control(pDX, IDC_TM, m_ctrTM);
-    DDX_Control(pDX, IDC_PM1, m_ctrPM1);
-    DDX_Control(pDX, IDC_PM2, m_ctrPM2);
-    DDX_Control(pDX, IDC_PM3, m_ctrPM3);
-    DDX_Control(pDX, IDC_PM4, m_ctrPM4);
-    DDX_Control(pDX, IDC_PM5, m_ctrPM5);
-    DDX_Control(pDX, IDC_PM6, m_ctrPM6);
-    DDX_Control(pDX, IDC_OUTPUT, m_ctrOUTPUT);
     DDX_Control(pDX, IDC_LPM, m_ctrLPM);
-    DDX_Control(pDX, IDC_LL1, m_ctrLL1);
+    DDX_Control(pDX, IDC_LL_STATIC1, m_ctrLL1);
+    DDX_Control(pDX, IDC_LL_STATIC2, m_ctrLL2);
+    DDX_Control(pDX, IDC_LL_STATIC3, m_ctrLL3);
+    DDX_Control(pDX, IDC_LL_STATIC4, m_ctrLL4);
     // PM 스태틱 컨트롤
     DDX_Control(pDX, IDC_STATIC_PM1, m_CtrStatic_PM1);
     DDX_Control(pDX, IDC_STATIC_PM2, m_CtrStatic_PM2);
@@ -109,9 +105,6 @@ void C주성Dlg::DoDataExchange(CDataExchange* pDX)
     // 콤보박스 값
     DDX_CBString(pDX, IDC_COMBO_SPEED, m_strSpeed);
 
-    DDX_Control(pDX, IDC_LL2, m_ctrLL2);
-    DDX_Control(pDX, IDC_LL3, m_ctrLL3);
-    DDX_Control(pDX, IDC_LL4, m_ctrLL4);
     //프로그래스바
     DDX_Control(pDX, IDC_PROGRESS_PM1, m_ctrPROGRESS_PM1);
     DDX_Control(pDX, IDC_PROGRESS_PM2, m_ctrPROGRESS_PM2);
@@ -152,6 +145,14 @@ void C주성Dlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_RADIO_Clean4, m_ctrRadio_Clean4);
     DDX_Control(pDX, IDC_RADIO_Clean5, m_ctrRadio_Clean5);
     DDX_Control(pDX, IDC_RADIO_Clean6, m_ctrRadio_Clean6);
+    DDX_Control(pDX, IDC_STATIC_OUTPUT, m_ctrOutput);
+    DDX_Control(pDX, IDC_STATIC_THROUGHTPUT, m_ctrThrought);
+    DDX_Control(pDX, IDC_PM_STATIC1, m_ctrPM1);
+    DDX_Control(pDX, IDC_PM_STATIC2, m_ctrPM2);
+    DDX_Control(pDX, IDC_PM_STATIC3, m_ctrPM3);
+    DDX_Control(pDX, IDC_PM_STATIC4, m_ctrPM4);
+    DDX_Control(pDX, IDC_PM_STATIC5, m_ctrPM5);
+    DDX_Control(pDX, IDC_PM_STATIC6, m_ctrPM6);
 }
 
 BEGIN_MESSAGE_MAP(C주성Dlg, CDialogEx)
@@ -209,7 +210,7 @@ BOOL C주성Dlg::OnInitDialog()
     g_hEventThread4_wait = CreateEvent(NULL, FALSE, FALSE, NULL);
     g_hEvent_PM_MAX = CreateEvent(NULL, FALSE, FALSE, NULL);
     g_hEventLL_Modul_one_Thread4and1 = CreateEvent(NULL, FALSE, FALSE, NULL);
-
+    g_hThread_TotalTime= CreateEvent(NULL, FALSE, FALSE, NULL);
     g_pMainDlg->m_ctrTotal_Clean_Time.SetWindowText(_T("00:00:00:00"));
     g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(_T("00:00:00:00"));
 
@@ -2008,7 +2009,7 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
         }
 
         nEFEM_cnt = g_pMainDlg->m_ctrEFEM.GetWindowInt();
-        nOUTPUT_cnt = g_pMainDlg->m_ctrOUTPUT.GetWindowInt();
+        nOUTPUT_cnt = g_pMainDlg->m_ctrOutput.GetWindowInt();
         //PLACE : ATM ROBOT -> LPM(OUTPUT)
         Sleep(g_pMainDlg->m_nATM_Place / g_pMainDlg->m_nSpeed);
         Sleep(g_pMainDlg->m_nATM_Rotate / g_pMainDlg->m_nSpeed);
@@ -2017,7 +2018,12 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
             g_pMainDlg->m_ctrEFEM.SetWindowInt(nEFEM_cnt);
             if (g_pMainDlg->m_bDummy == false)
             {
-                g_pMainDlg->m_ctrOUTPUT.SetWindowInt(i);
+                g_pMainDlg->m_ctrOutput.SetWindowInt(i);
+                double dTotalSec = g_pMainDlg->m_nTotalSec - g_pMainDlg->m_nCleanSec;
+                double dTotalHour = dTotalSec / 3600;
+                //strValue.Format(_T("%s, %s, %.2f\n"), strTotalTime, strCleanTime, dOutput / (dTotalSec / 3600.0));
+                g_pMainDlg->m_ctrThrought.SetWindowInt(int(i / dTotalHour));
+                
                 g_pMainDlg->m_ctrLPMUI2.SetWindowInt(g_pMainDlg->m_ctrLPMUI2.GetWindowInt() + nEFEM_cnt);
                 if (g_pMainDlg->m_ctrLPMUI2.GetWindowInt() == 25)
                     g_pMainDlg->m_ctrLPMUI2.SetWindowInt(0);
@@ -2026,8 +2032,8 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
             {
                 g_pMainDlg->m_nDummy_Count= g_pMainDlg->m_nDummy_Count+ nEFEM_cnt;
             }
-            if (g_pMainDlg->m_ctrOUTPUT.GetWindowInt() != 0
-                && g_pMainDlg->m_ctrOUTPUT.GetWindowInt() % (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt) * (g_pMainDlg->m_nPM_Clean_Wafer_Count)) == 0)
+            if (g_pMainDlg->m_ctrOutput.GetWindowInt() != 0
+                && g_pMainDlg->m_ctrOutput.GetWindowInt() % (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt) * (g_pMainDlg->m_nPM_Clean_Wafer_Count)) == 0)
             {
                 g_pMainDlg->m_bDummy = true;
             }
@@ -2044,7 +2050,7 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
             
         }
     }
-    g_pMainDlg->m_noutput_count = g_pMainDlg->m_ctrOUTPUT.GetWindowInt();
+    g_pMainDlg->m_noutput_count = g_pMainDlg->m_ctrOutput.GetWindowInt();
     //if (g_pMainDlg->m_noutput_count == 0)
 
 
@@ -2495,6 +2501,19 @@ DWORD WINAPI TotalTime(LPVOID p)
     while (true)
     {
         Sleep(1000 / g_pMainDlg->m_nSpeed);
+        if (g_pMainDlg->m_bTime_STOP==true)
+        {
+            OutputDebugString(_T("111111111111111"));
+
+            ResetEvent(g_hThread_TotalTime);
+
+            OutputDebugString(_T("22222222222222222222"));
+
+            WaitForSingleObject(g_hThread_TotalTime, INFINITE);
+
+
+            OutputDebugString(_T("3333333333333333333333333333333"));
+        }
         n_S_Total++;
         if (n_S_Total == 60)
         {
@@ -2517,10 +2536,6 @@ DWORD WINAPI TotalTime(LPVOID p)
         if (n_S_Total % 3 == 0)
             g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(strTime_Total);
         g_pMainDlg->m_nTotalSec++;
-        if (n_H_Total == 1)
-        {
-            g_pMainDlg->m_ctrOUTPUT.GetWindowInt();
-        }
         if (g_pMainDlg->m_bClean_Time_Start==true)
         {
             n_S_Clean++;
@@ -2545,13 +2560,15 @@ DWORD WINAPI TotalTime(LPVOID p)
             g_pMainDlg->m_nCleanSec++;
         }
     }
+
+    return 0;
 }
 
 void C주성Dlg::OnBnClickedStart()
 {
     //if (Thread_Start == NULL)
     {
-
+        
         CString strLL_UI;
         CString strPM_UI;
         strLL_UI.Format(_T("/ %d"), _ttoi(m_strLLSlotCnt));
@@ -2583,7 +2600,7 @@ void C주성Dlg::OnBnClickedStart()
             m_ctrStatic_Speed.SetWindowInt(_ttoi(m_strSpeed));
             m_ctrLPM.SetWindowInt(99999999);
             m_nLLMAX = _ttoi(m_strLLSlotCnt) * _ttoi(m_strLLModuleCnt);
-            g_hThread_TotalTime=(CreateThread(NULL, 0, TotalTime, 0, 0, 0));
+            CloseHandle(CreateThread(NULL, 0, TotalTime, 0, 0, 0));
             g_hThread_Thread_Start=(CreateThread(NULL, 0, Thread_Start, 0, 0, 0));
             //ResumeThread()
         }
@@ -2601,7 +2618,6 @@ void C주성Dlg::OnBnClickedStart()
             SuspendThread(g_hThread2);
             SuspendThread(g_hThread3);
             SuspendThread(g_hThread4);
-            SuspendThread(g_hThread_TotalTime);
             SuspendThread(g_hThread_Thread_Start);
             for (int i = 0; i < 4; i++)
             {
@@ -2611,6 +2627,7 @@ void C주성Dlg::OnBnClickedStart()
             {
                 SuspendThread(g_hThread_PM[i]);
             }
+            m_bTime_STOP = true;
         }
         else if (strValue == _T("Resume"))
         {
@@ -2624,7 +2641,6 @@ void C주성Dlg::OnBnClickedStart()
             ResumeThread(g_hThread2);
             ResumeThread(g_hThread3);
             ResumeThread(g_hThread4);
-            ResumeThread(g_hThread_TotalTime);
             ResumeThread(g_hThread_Thread_Start);
             for (int i = 0; i < 4; i++)
             {
@@ -2634,6 +2650,8 @@ void C주성Dlg::OnBnClickedStart()
             {
                 ResumeThread(g_hThread_PM[i]);
             }
+            m_bTime_STOP = false;
+            SetEvent(g_hThread_TotalTime);
         }
         //CRect rect;
 
@@ -2870,7 +2888,7 @@ void C주성Dlg::OnBnClickedButtonSaveThroughput()
         m_ctrlStaticTotalTime.GetWindowText(strTotalTime);
         m_ctrTotal_Clean_Time.GetWindowText(strCleanTime);
         double dTotalSec = m_nTotalSec - m_nCleanSec;
-        m_ctrOUTPUT.GetWindowText(strValue);
+        m_ctrOutput.GetWindowText(strValue);
         double dOutput = _ttof(strValue);
         strValue.Format(_T("%s, %s, %.2f\n"), strTotalTime, strCleanTime, dOutput / (dTotalSec / 3600.0));
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));

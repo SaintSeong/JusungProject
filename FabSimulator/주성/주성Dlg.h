@@ -138,14 +138,13 @@ public:
 	C주성Btn m_ctrLL3;
 	C주성Btn m_ctrLL4;
 	C주성Btn m_ctrTM;
+	C주성Btn m_ctrLPM;
 	C주성Btn m_ctrPM1;
 	C주성Btn m_ctrPM2;
 	C주성Btn m_ctrPM3;
 	C주성Btn m_ctrPM4;
 	C주성Btn m_ctrPM5;
 	C주성Btn m_ctrPM6;
-	C주성Btn m_ctrOUTPUT;
-	C주성Btn m_ctrLPM;
 
 	//초기 세팅을 위한 컨트롤 변수 모음
 
@@ -205,6 +204,7 @@ public:
 	C주성Btn m_ctrPM_Count6;
 	CStatic m_ctrTotal_Clean_Time;
 
+	bool m_bTime_STOP = false;
 	int m_nDummy_Count = 0;
 	bool m_bDummy = false;
 
@@ -224,4 +224,6 @@ public:
 
 	int m_nTotalSec;
 	int m_nCleanSec;
+	C주성Btn m_ctrOutput;
+	C주성Btn m_ctrThrought;
 };
