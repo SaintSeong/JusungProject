@@ -221,4 +221,7 @@ public:
 	CButton m_ctrRadio_Clean4;
 	CButton m_ctrRadio_Clean5;
 	CButton m_ctrRadio_Clean6;
+
+	int m_nTotalSec;
+	int m_nCleanSec;
 };
