@@ -3291,7 +3291,7 @@ DWORD WINAPI TotalTime(LPVOID p)
         //g_pMainDlg->m_strCurTime = CTime::GetCurrentTime();
         //g_pMainDlg->m_strDiffTime = g_pMainDlg->m_strCurTime - g_pMainDlg->m_strInitTime;
         strTime_Total.Format(_T("%02d:%02d:%02d:%02d"), n_D_Total,n_H_Total, n_M_Total, n_S_Total);
-        if (n_S_Total % 3 == 0)
+        if (n_S_Total % 1 == 0)
             g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(strTime_Total);
         g_pMainDlg->m_nTotalSec++;
         if (g_pMainDlg->m_bClean_Time_Start==true)
@@ -3313,7 +3313,7 @@ DWORD WINAPI TotalTime(LPVOID p)
                 n_D_Clean++;
             }
             strTime_Clean.Format(_T("%02d:%02d:%02d:%02d"), n_D_Clean, n_H_Clean, n_M_Clean, n_S_Clean);
-            if (n_S_Clean % 3 == 0)
+            if (n_S_Clean % 1 == 0)
                 g_pMainDlg->m_ctrTotal_Clean_Time.SetWindowText(strTime_Clean);
             g_pMainDlg->m_nCleanSec++;
         }
