@@ -234,4 +234,5 @@ public:
 
 
 	CStatic m_ctrPicture_Back;
+	CStatic m_ctrStaticGray;
 };

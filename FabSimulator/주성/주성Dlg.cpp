@@ -121,7 +121,7 @@ void C주성Dlg::DoDataExchange(CDataExchange* pDX)
 
 
     DDX_Control(pDX, IDC_STATIC_SPEED, m_ctrStatic_Speed);//
-    //LPM UI 스태틱 변수
+                                                          //LPM UI 스태틱 변수
     DDX_Control(pDX, IDC_NUM_LPM1, m_ctrLPMUI1);
     DDX_Control(pDX, IDC_NUM_LPM2, m_ctrLPMUI2);
     DDX_Control(pDX, IDC_GUI_TM, m_Gui_TM);
@@ -163,6 +163,7 @@ void C주성Dlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_STATIC_BLUE, m_ctrStaticBlue);
     DDX_Control(pDX, IDC_STATIC_RED, m_ctrStaticRed);
     DDX_Control(pDX, IDC_PICTURE_BACK, m_ctrPicture_Back);
+    DDX_Control(pDX, IDC_STATIC_GRAY, m_ctrStaticGray);
 }
 
 BEGIN_MESSAGE_MAP(C주성Dlg, CDialogEx)
@@ -501,7 +502,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
             {
-                pDC->Rectangle(970, 331 + (22.5 * i), 1035, 356.5 + (22.5 * i));
+                pDC->Rectangle(970, 331 + (21.8 * i), 1035, 352.8 + (21.8 * i));
 
             }
 
@@ -516,7 +517,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = (m_ctrLL3.GetWindowInt() - 1); i >= 0; i--)
             {
-                pDC->Rectangle(970, 331 + (22.5 * i), 1035, 356.5 + (22.5 * i));
+                pDC->Rectangle(970, 331 + (21.8 * i), 1035, 352.8 + (21.8 * i));
 
             }
 
@@ -532,7 +533,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = m_nWafer_Process[2] - 1; i >= 0; i--)
             {
-                pDC->Rectangle(970, 331 + (22.5 * i), 1035, 356.5 + (22.5 * i));
+                pDC->Rectangle(970, 331 + (21.8 * i), 1035, 352.8 + (21.8 * i));
 
             }
 
@@ -546,7 +547,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
             {
-                pDC->Rectangle(1100, 331 + (22.5 * i), 1165, 356.5 + (22.5 * i));
+                pDC->Rectangle(1100, 331 + (21.8 * i), 1165, 352.8 + (21.8 * i));
 
             }
 
@@ -561,7 +562,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = (m_ctrLL4.GetWindowInt() - 1); i >= 0; i--)
             {
-                pDC->Rectangle(1100, 331 + (22.5 * i), 1165, 356.5 + (22.5 * i));
+                pDC->Rectangle(1100, 331 + (21.8 * i), 1165, 352.8 + (21.8 * i));
 
             }
 
@@ -577,7 +578,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = m_nWafer_Process[3] - 1; i >= 0; i--)
             {
-                pDC->Rectangle(1100, 331 + (22.5 * i), 1165, 356.5 + (22.5 * i));
+                pDC->Rectangle(1100, 331 + (21.8 * i), 1165, 352.8 + (21.8 * i));
 
             }
 
@@ -587,6 +588,7 @@ void C주성Dlg::OnPaint()
         CBrush Greenbrush(RGB(0,255,0));
         CBrush Bluebrush(RGB(0, 0, 255));
         CBrush Redbrush(RGB(255, 0, 0));
+        CBrush Graybrush(RGB(140, 140, 140));
 
         m_ctrStaticGreen.GetWindowRect(&rect);
         ScreenToClient(rect);
@@ -601,6 +603,11 @@ void C주성Dlg::OnPaint()
         m_ctrStaticRed.GetWindowRect(&rect);
         ScreenToClient(rect);
         pDC->SelectObject(Redbrush);
+        pDC->Rectangle(rect);
+
+        m_ctrStaticGray.GetWindowRect(&rect);
+        ScreenToClient(rect);
+        pDC->SelectObject(Graybrush);
         pDC->Rectangle(rect);
 
         ReleaseDC(pDC);
