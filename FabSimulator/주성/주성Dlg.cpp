@@ -364,7 +364,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = 24; i >= 0; i--)
             {
-                pDC->Rectangle(85, 140 + (14.6 * i), 151, 154.6 + (14.6 * i));
+                pDC->Rectangle(85, 118 + (14.6 * i), 151, 132.6 + (14.6 * i));
             }
         }
         if (true)//LPM1
@@ -376,7 +376,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = m_ctrLPMUI1.GetWindowInt() - 1; i >= 0; i--)
             {
-                pDC->Rectangle(85, 140 + (14.6 * i), 151, 154.6 + (14.6 * i));
+                pDC->Rectangle(85, 118 + (14.6 * i), 151, 132.6 + (14.6 * i));
             }
         }
 
@@ -389,11 +389,11 @@ void C주성Dlg::OnPaint()
 
             for (int i = 24; i >= 0; i--)
             {
-                pDC->Rectangle(190, 140 + (14.6 * i), 255, 154.6 + (14.6 * i));
+                pDC->Rectangle(190, 118 + (14.6 * i), 255, 132.6 + (14.6 * i));
             }
 
         }
-        if (true)//LPM1 공정후
+        if (true)//LPM2 공정후
         {
             CBrush brush;
             CBrush* oldBrush;
@@ -402,7 +402,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = 24; i > 24 - m_ctrLPMUI2.GetWindowInt(); i--)
             {
-                pDC->Rectangle(190, 140 + (14.6 * i), 255, 154.6 + (14.6 * i));
+                pDC->Rectangle(190, 118 + (14.6 * i), 255, 132.6 + (14.6 * i));
             }
         }
 
@@ -416,7 +416,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
             {
-                pDC->Rectangle(970, 139 + (21.8 * i), 1035, 160.8 + (21.8 * i));
+                pDC->Rectangle(970, 110 + (21.8 * i), 1035, 131.8 + (21.8 * i));
             }
 
         }
@@ -430,7 +430,7 @@ void C주성Dlg::OnPaint()
             //
             for (int i = (m_ctrLL1.GetWindowInt() - 1); i >= 0; i--)
             {
-                pDC->Rectangle(970, 139 + (21.8 * i), 1035, 160.8 + (21.8 * i));
+                pDC->Rectangle(970, 110 + (21.8 * i), 1035, 131.8 + (21.8 * i));
             }
         }
        
@@ -443,7 +443,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = m_nWafer_Process[0] - 1; i >= 0; i--)
             {
-                pDC->Rectangle(970, 139 + (21.8 * i), 1035, 160.8 + (21.8 * i));
+                pDC->Rectangle(970, 110 + (21.8 * i), 1035, 131.8 + (21.8 * i));
             }
 
         }
@@ -457,7 +457,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
             {
-                pDC->Rectangle(1100, 139 + (21.8 * i), 1165, 160.8 + (21.8 * i));
+                pDC->Rectangle(1100, 110 + (21.8 * i), 1165, 131.8 + (21.8 * i));
             }
         }
         if (true)//LL2
@@ -470,7 +470,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = (m_ctrLL2.GetWindowInt() - 1); i >= 0; i--)
             {
-                pDC->Rectangle(1100, 139 + (21.8 * i), 1165, 160.8 + (21.8 * i));
+                pDC->Rectangle(1100, 110 + (21.8 * i), 1165, 131.8 + (21.8 * i));
 
             }
 
@@ -486,7 +486,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = m_nWafer_Process[1] - 1; i >= 0; i--)
             {
-                pDC->Rectangle(1100, 139 + (21.8 * i), 1165, 160.8 + (21.8 * i));
+                pDC->Rectangle(1100, 110 + (21.8 * i), 1165, 131.8 + (21.8 * i));
 
             }
 
@@ -501,7 +501,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
             {
-                pDC->Rectangle(970, 364 + (22.5 * i), 1035, 386.5 + (22.5 * i));
+                pDC->Rectangle(970, 331 + (22.5 * i), 1035, 356.5 + (22.5 * i));
 
             }
 
@@ -516,7 +516,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = (m_ctrLL3.GetWindowInt() - 1); i >= 0; i--)
             {
-                pDC->Rectangle(970, 364 + (22.5 * i), 1035, 386.5 + (22.5 * i));
+                pDC->Rectangle(970, 331 + (22.5 * i), 1035, 356.5 + (22.5 * i));
 
             }
 
@@ -532,7 +532,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = m_nWafer_Process[2] - 1; i >= 0; i--)
             {
-                pDC->Rectangle(970, 364 + (22.5 * i), 1035, 386.5 + (22.5 * i));
+                pDC->Rectangle(970, 331 + (22.5 * i), 1035, 356.5 + (22.5 * i));
 
             }
 
@@ -546,7 +546,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
             {
-                pDC->Rectangle(1100, 364 + (22.5 * i), 1165, 386.5 + (22.5 * i));
+                pDC->Rectangle(1100, 331 + (22.5 * i), 1165, 356.5 + (22.5 * i));
 
             }
 
@@ -561,7 +561,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = (m_ctrLL4.GetWindowInt() - 1); i >= 0; i--)
             {
-                pDC->Rectangle(1100, 364 + (22.5 * i), 1165, 386.5 + (22.5 * i));
+                pDC->Rectangle(1100, 331 + (22.5 * i), 1165, 356.5 + (22.5 * i));
 
             }
 
@@ -577,7 +577,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = m_nWafer_Process[3] - 1; i >= 0; i--)
             {
-                pDC->Rectangle(1100, 364 + (22.5 * i), 1165, 386.5 + (22.5 * i));
+                pDC->Rectangle(1100, 331 + (22.5 * i), 1165, 356.5 + (22.5 * i));
 
             }
 

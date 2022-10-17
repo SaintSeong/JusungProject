@@ -171,6 +171,7 @@
 #define IDC_GUI_EFEM                    1123
 #define IDC_BUTTON_Save                 1124
 #define IDC_STATIC_THROUGHTPUT          1124
+#define IDC_GUI_EFEM2                   1125
 #define IDC_PM_COUNT1                   1130
 #define IDC_PM_COUNT2                   1131
 #define IDC_PM_COUNT3                   1132
