@@ -162,6 +162,7 @@ void C주성Dlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_STATIC_GREEN, m_ctrStaticGreen);
     DDX_Control(pDX, IDC_STATIC_BLUE, m_ctrStaticBlue);
     DDX_Control(pDX, IDC_STATIC_RED, m_ctrStaticRed);
+    DDX_Control(pDX, IDC_PICTURE_BACK, m_ctrPicture_Back);
 }
 
 BEGIN_MESSAGE_MAP(C주성Dlg, CDialogEx)
@@ -286,7 +287,6 @@ BOOL C주성Dlg::OnInitDialog()
     m_ctrALIGNER.ShowWindow(SW_HIDE);
     m_ctrTM.ShowWindow(SW_HIDE);
     m_ctrLPM.ShowWindow(SW_HIDE);
-
     m_font.CreateFont(45,// nHeight 
         30, // nWidth                               
         0, // nEscapement                               
@@ -416,7 +416,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
             {
-                pDC->Rectangle(950, 139 + (21.8 * i), 1077, 160.8 + (21.8 * i));
+                pDC->Rectangle(970, 139 + (21.8 * i), 1035, 160.8 + (21.8 * i));
             }
 
         }
@@ -430,7 +430,7 @@ void C주성Dlg::OnPaint()
             //
             for (int i = (m_ctrLL1.GetWindowInt() - 1); i >= 0; i--)
             {
-                pDC->Rectangle(950, 139 + (21.8 * i), 1077, 160.8 + (21.8 * i));
+                pDC->Rectangle(970, 139 + (21.8 * i), 1035, 160.8 + (21.8 * i));
             }
         }
        
@@ -443,7 +443,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = m_nWafer_Process[0] - 1; i >= 0; i--)
             {
-                pDC->Rectangle(950, 139 + (21.8 * i), 1077, 160.8 + (21.8 * i));
+                pDC->Rectangle(970, 139 + (21.8 * i), 1035, 160.8 + (21.8 * i));
             }
 
         }
@@ -457,7 +457,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
             {
-                pDC->Rectangle(1103, 139 + (21.8 * i), 1229, 160.8 + (21.8 * i));
+                pDC->Rectangle(1100, 139 + (21.8 * i), 1165, 160.8 + (21.8 * i));
             }
         }
         if (true)//LL2
@@ -470,7 +470,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = (m_ctrLL2.GetWindowInt() - 1); i >= 0; i--)
             {
-                pDC->Rectangle(1103, 139 + (21.8 * i), 1229, 160.8 + (21.8 * i));
+                pDC->Rectangle(1100, 139 + (21.8 * i), 1165, 160.8 + (21.8 * i));
 
             }
 
@@ -486,7 +486,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = m_nWafer_Process[1] - 1; i >= 0; i--)
             {
-                pDC->Rectangle(1103, 139 + (21.8 * i), 1229, 160.8 + (21.8 * i));
+                pDC->Rectangle(1100, 139 + (21.8 * i), 1165, 160.8 + (21.8 * i));
 
             }
 
@@ -501,7 +501,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
             {
-                pDC->Rectangle(950, 364 + (22.5 * i), 1077, 386.5 + (22.5 * i));
+                pDC->Rectangle(970, 364 + (22.5 * i), 1035, 386.5 + (22.5 * i));
 
             }
 
@@ -516,7 +516,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = (m_ctrLL3.GetWindowInt() - 1); i >= 0; i--)
             {
-                pDC->Rectangle(950, 364 + (22.5 * i), 1077, 386.5 + (22.5 * i));
+                pDC->Rectangle(970, 364 + (22.5 * i), 1035, 386.5 + (22.5 * i));
 
             }
 
@@ -532,7 +532,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = m_nWafer_Process[2] - 1; i >= 0; i--)
             {
-                pDC->Rectangle(950, 364 + (22.5 * i), 1077, 386.5 + (22.5 * i));
+                pDC->Rectangle(970, 364 + (22.5 * i), 1035, 386.5 + (22.5 * i));
 
             }
 
@@ -546,7 +546,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
             {
-                pDC->Rectangle(1103, 364 + (22.5 * i), 1229, 386.5 + (22.5 * i));
+                pDC->Rectangle(1100, 364 + (22.5 * i), 1165, 386.5 + (22.5 * i));
 
             }
 
@@ -561,7 +561,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = (m_ctrLL4.GetWindowInt() - 1); i >= 0; i--)
             {
-                pDC->Rectangle(1103, 364 + (22.5 * i), 1229, 386.5 + (22.5 * i));
+                pDC->Rectangle(1100, 364 + (22.5 * i), 1165, 386.5 + (22.5 * i));
 
             }
 
@@ -577,7 +577,7 @@ void C주성Dlg::OnPaint()
 
             for (int i = m_nWafer_Process[3] - 1; i >= 0; i--)
             {
-                pDC->Rectangle(1103, 364 + (22.5 * i), 1229, 386.5 + (22.5 * i));
+                pDC->Rectangle(1100, 364 + (22.5 * i), 1165, 386.5 + (22.5 * i));
 
             }
 
@@ -2420,6 +2420,7 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
     CRect rect;//픽쳐 컨트롤의 크기를 저장할 CRect 객체
     CDC* dc=0; //픽쳐 컨트롤의 DC를 가져올  CDC 포인터
     CString Image_Load;
+    CString strTmep;
     nThread4_LL = g_pMainDlg->m_nThread4_LL;
 
     /*if (nLL_cnt = g_pMainDlg->m_ctrLL1.GetWindowInt() != 0)
@@ -2523,7 +2524,8 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
                 g_pMainDlg->m_ctrOutput.SetWindowInt(i);
                 double dTotalSec = g_pMainDlg->m_nTotalSec - g_pMainDlg->m_nCleanSec;
                 double dTotalHour = dTotalSec / 3600;
-                g_pMainDlg->m_ctrThrought.SetWindowInt(int(i / dTotalHour));
+                strTmep.Format(_T("%.2f"), (i / dTotalHour));
+                g_pMainDlg->m_ctrThrought.SetWindowText(strTmep);
                 
                 g_pMainDlg->m_ctrLPMUI2.SetWindowInt(g_pMainDlg->m_ctrLPMUI2.GetWindowInt() + nEFEM_cnt);
                 if (g_pMainDlg->m_ctrLPMUI2.GetWindowInt() == 25)
@@ -3291,7 +3293,7 @@ DWORD WINAPI TotalTime(LPVOID p)
         //g_pMainDlg->m_strCurTime = CTime::GetCurrentTime();
         //g_pMainDlg->m_strDiffTime = g_pMainDlg->m_strCurTime - g_pMainDlg->m_strInitTime;
         strTime_Total.Format(_T("%02d:%02d:%02d:%02d"), n_D_Total,n_H_Total, n_M_Total, n_S_Total);
-        if (n_S_Total % 1 == 0)
+        if (n_S_Total % 3 == 0)
             g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(strTime_Total);
         g_pMainDlg->m_nTotalSec++;
         if (g_pMainDlg->m_bClean_Time_Start==true)
@@ -3313,7 +3315,7 @@ DWORD WINAPI TotalTime(LPVOID p)
                 n_D_Clean++;
             }
             strTime_Clean.Format(_T("%02d:%02d:%02d:%02d"), n_D_Clean, n_H_Clean, n_M_Clean, n_S_Clean);
-            if (n_S_Clean % 1 == 0)
+            if (n_S_Clean % 3 == 0)
                 g_pMainDlg->m_ctrTotal_Clean_Time.SetWindowText(strTime_Clean);
             g_pMainDlg->m_nCleanSec++;
         }
@@ -3328,7 +3330,8 @@ void C주성Dlg::OnBnClickedStart()
     {
         CDC* dc;
         CString EFEM1, EFEM2, TM_Dual, TM_Quad, PM_Left, PM_Right, PM_Upper;
-        CRect rect;
+        CRect rect; 
+        
         if (true)
         {
             m_Ctrl_Gui_EFEM.GetWindowRect(rect);

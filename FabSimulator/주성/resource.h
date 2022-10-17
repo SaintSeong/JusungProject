@@ -228,6 +228,7 @@
 #define IDC_STATIC_GREEN                1192
 #define IDC_STATIC_BLUE                 1193
 #define IDC_STATIC_RED                  1194
+#define IDC_PICTURE_BACK                1195
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -243,7 +244,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        147
 #define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         1195
+#define _APS_NEXT_CONTROL_VALUE         1196
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
