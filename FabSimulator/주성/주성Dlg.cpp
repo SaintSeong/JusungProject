@@ -3581,9 +3581,51 @@ void C주성Dlg::OnBnClickedSetSpeed()
     UpdateData(0);
 }
 
+//void C주성Dlg::OnBnClickedSysInitial()
+//{
+//    m_dlgSysInit.DoModal();
+//}
+
+#define MSEC 1000
 void C주성Dlg::OnBnClickedSysInitial()
 {
-    m_dlgSysInit.DoModal();
+    if (m_dlgSysInit.DoModal() == IDOK)
+    {
+        m_nATM_Pick = m_dlgSysInit.m_nEFEMPickTime * MSEC;
+        m_nATM_Place = m_dlgSysInit.m_nEFEMPlaceTime * MSEC;
+        m_nATM_Rotate = m_dlgSysInit.m_nEFEMRotateTime * MSEC;
+        m_nATM_ZRotate = m_dlgSysInit.m_nEFEMMoveTime * MSEC;
+
+        m_strLLModuleCnt = m_dlgSysInit.m_strLLModuleCount;
+        m_strLLSlotCnt = m_dlgSysInit.m_strLLSlotCount;
+        m_nLL_Pump = m_dlgSysInit.m_nLLPumpTime * MSEC;
+        m_nLL_Pump_Stable_Time = m_dlgSysInit.m_nLLPumpStableTime * MSEC;
+        m_nLL_Vent = m_dlgSysInit.m_nLLVentTime * MSEC;
+        m_nLL_Vent_Stable_Time = m_dlgSysInit.m_nLLVentStableTime * MSEC;
+        m_nLL_Slot_Valve_Open = m_dlgSysInit.m_nLLSlotOpenTime * MSEC;
+        m_nLL_Slot_Valve_Close = m_dlgSysInit.m_nLLSlotCloseTime * MSEC;
+        m_nLL_Door_Valve_Open = m_dlgSysInit.m_nLLDoorOpenTime * MSEC;
+        m_nLL_Door_Valve_Close = m_dlgSysInit.m_nLLDoorCloseTime * MSEC;
+
+        m_strVacArmCnt = m_dlgSysInit.m_strVacArmCount;
+        m_nVAC_Pick = m_dlgSysInit.m_nTMPickTime * MSEC;
+        m_nVAC_Place = m_dlgSysInit.m_nTMPlaceTime * MSEC;
+        m_nRotate = m_dlgSysInit.m_nTMRotate * MSEC;
+
+        m_strPMModuleCnt = m_dlgSysInit.m_strPMModuleCount;
+        m_strPMSlotCnt = m_dlgSysInit.m_strPMSlotCount;
+        m_nPM_Clean_Time = m_dlgSysInit.m_nPMProcessTime * 2 * MSEC;
+        m_nPM_Clean_Wafer_Count = m_dlgSysInit.m_nCleanCount;
+        m_nPM_Time = m_dlgSysInit.m_nPMProcessTime * MSEC;
+        m_nPM_Slot_Valve_Open = m_dlgSysInit.m_nPMSlotOpenTime * MSEC;
+        m_nPM_Slot_Valve_Close = m_dlgSysInit.m_nPMSlotCloseTime * MSEC;
+
+        GetDlgItem(IDC_START)->EnableWindow(TRUE);
+        GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(TRUE);
+        GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(TRUE);
+        GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(TRUE);
+        GetDlgItem(IDC_BUTTON_LOAD_THROUGHPUT)->EnableWindow(TRUE);
+    }
 }
 
 void C주성Dlg::OnBnClickedButtonSaveSystemconfig()

@@ -355,48 +355,47 @@ void CDlg_SYSINIT::OnBnClickedOk()
 
 	else
 	{
-		UpdateData(1);
-
-		C주성Dlg* pMainDlg = (C주성Dlg*)GetParent();
-		pMainDlg->m_nATM_Pick = m_nEFEMPickTime * MSEC;
-		pMainDlg->m_nATM_Place = m_nEFEMPlaceTime * MSEC;
-		pMainDlg->m_nATM_Rotate = m_nEFEMRotateTime * MSEC;
-		pMainDlg->m_nATM_ZRotate = m_nEFEMMoveTime * MSEC;
-
-		pMainDlg->m_strLLModuleCnt = m_strLLModuleCount;
-		pMainDlg->m_strLLSlotCnt = m_strLLSlotCount;
-		pMainDlg->m_nLL_Pump = m_nLLPumpTime * MSEC;
-		pMainDlg->m_nLL_Pump_Stable_Time = m_nLLPumpStableTime * MSEC;
-		pMainDlg->m_nLL_Vent = m_nLLVentTime * MSEC;
-		pMainDlg->m_nLL_Vent_Stable_Time = m_nLLVentStableTime * MSEC;
-		pMainDlg->m_nLL_Slot_Valve_Open = m_nLLSlotOpenTime * MSEC;
-		pMainDlg->m_nLL_Slot_Valve_Close = m_nLLSlotCloseTime * MSEC;
-		pMainDlg->m_nLL_Door_Valve_Open = m_nLLDoorOpenTime * MSEC;
-		pMainDlg->m_nLL_Door_Valve_Close = m_nLLDoorCloseTime * MSEC;
-
-		pMainDlg->m_strVacArmCnt = m_strVacArmCount;
-		pMainDlg->m_nVAC_Pick = m_nTMPickTime * MSEC;
-		pMainDlg->m_nVAC_Place = m_nTMPlaceTime * MSEC;
-		pMainDlg->m_nRotate = m_nTMRotate * MSEC;
-
-		pMainDlg->m_strPMModuleCnt = m_strPMModuleCount;
-		pMainDlg->m_strPMSlotCnt = m_strPMSlotCount;
-		pMainDlg->m_nPM_Clean_Time = m_nPMProcessTime * 2 * MSEC;
-		pMainDlg->m_nPM_Clean_Wafer_Count = m_nCleanCount;
-		pMainDlg->m_nPM_Time = m_nPMProcessTime * MSEC;
-		pMainDlg->m_nPM_Slot_Valve_Open = m_nPMSlotOpenTime * MSEC;
-		pMainDlg->m_nPM_Slot_Valve_Close = m_nPMSlotCloseTime * MSEC;
-
-		pMainDlg->GetDlgItem(IDC_START)->EnableWindow(TRUE);
-		pMainDlg->GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(TRUE);
-		pMainDlg->GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(TRUE);
-		pMainDlg->GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(TRUE);
-		pMainDlg->GetDlgItem(IDC_BUTTON_LOAD_THROUGHPUT)->EnableWindow(TRUE);
-
 		CDialogEx::OnOK();
 	}
 }
 
+//UpdateData(1);
+//
+//C주성Dlg* pMainDlg = (C주성Dlg*)GetParent();
+//pMainDlg->m_nATM_Pick = m_nEFEMPickTime * MSEC;
+//pMainDlg->m_nATM_Place = m_nEFEMPlaceTime * MSEC;
+//pMainDlg->m_nATM_Rotate = m_nEFEMRotateTime * MSEC;
+//pMainDlg->m_nATM_ZRotate = m_nEFEMMoveTime * MSEC;
+//
+//pMainDlg->m_strLLModuleCnt = m_strLLModuleCount;
+//pMainDlg->m_strLLSlotCnt = m_strLLSlotCount;
+//pMainDlg->m_nLL_Pump = m_nLLPumpTime * MSEC;
+//pMainDlg->m_nLL_Pump_Stable_Time = m_nLLPumpStableTime * MSEC;
+//pMainDlg->m_nLL_Vent = m_nLLVentTime * MSEC;
+//pMainDlg->m_nLL_Vent_Stable_Time = m_nLLVentStableTime * MSEC;
+//pMainDlg->m_nLL_Slot_Valve_Open = m_nLLSlotOpenTime * MSEC;
+//pMainDlg->m_nLL_Slot_Valve_Close = m_nLLSlotCloseTime * MSEC;
+//pMainDlg->m_nLL_Door_Valve_Open = m_nLLDoorOpenTime * MSEC;
+//pMainDlg->m_nLL_Door_Valve_Close = m_nLLDoorCloseTime * MSEC;
+//
+//pMainDlg->m_strVacArmCnt = m_strVacArmCount;
+//pMainDlg->m_nVAC_Pick = m_nTMPickTime * MSEC;
+//pMainDlg->m_nVAC_Place = m_nTMPlaceTime * MSEC;
+//pMainDlg->m_nRotate = m_nTMRotate * MSEC;
+//
+//pMainDlg->m_strPMModuleCnt = m_strPMModuleCount;
+//pMainDlg->m_strPMSlotCnt = m_strPMSlotCount;
+//pMainDlg->m_nPM_Clean_Time = m_nPMProcessTime * 2 * MSEC;
+//pMainDlg->m_nPM_Clean_Wafer_Count = m_nCleanCount;
+//pMainDlg->m_nPM_Time = m_nPMProcessTime * MSEC;
+//pMainDlg->m_nPM_Slot_Valve_Open = m_nPMSlotOpenTime * MSEC;
+//pMainDlg->m_nPM_Slot_Valve_Close = m_nPMSlotCloseTime * MSEC;
+//
+//pMainDlg->GetDlgItem(IDC_START)->EnableWindow(TRUE);
+//pMainDlg->GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(TRUE);
+//pMainDlg->GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(TRUE);
+//pMainDlg->GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(TRUE);
+//pMainDlg->GetDlgItem(IDC_BUTTON_LOAD_THROUGHPUT)->EnableWindow(TRUE);
 
 void CDlg_SYSINIT::OnCbnSelchangeComboVacArm()
 {
