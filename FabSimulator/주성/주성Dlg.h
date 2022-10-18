@@ -118,17 +118,6 @@ public:
 	CString m_strPMModuleCnt;//콤보박스 PM 모듈 개수 값 변수
 	CString m_strPMSlotCnt; //콤보박스 PM 웨이퍼 개수 값 변수
 
-	//CString m_strLLWaferCount; //콤보박스 LL 방 개수 값 변수
-	//CString m_strLLRoomCount;  //콤보박스 LL 웨이퍼 개수 값 변수
-	//CString m_strTMCount;      //콤보박스 TM 웨이퍼 개수 값 변수
-	//CString m_strPMModuleCount;//콤보박스 PM 모듈 개수 값 변수
-	//CString m_strPMWaferCount; //콤보박스 PM 웨이퍼 개수 값 변수
-
-	//CString m_strLLModuleCnt;//콤보박스 LL 방 개수 값 변수
-	//CString m_strLLSlotCnt;	 //콤보박스 LL 웨이퍼 개수 값 변수
-	//CString m_strVacArmCnt;	 //콤보박스 TM 웨이퍼 개수 값 변수
-	//CString m_strPMModuleCnt;//콤보박스 PM 모듈 개수 값 변수
-	//CString m_strPMSlotCnt;	 //콤보박스 PM 웨이퍼 개수 값 변수
 
 	//UI로 사용자에게 보여지는 버튼 값 UI 변수
 	C주성Btn m_ctrEFEM;
@@ -190,10 +179,6 @@ public:
 	int m_nDummy_Wafer_Count;	//들어간 더미 웨이퍼 개수
 	bool m_bLL_Dummy;			
 
-	//RGB 값
-	int m_nBefore = RGB(0, 255, 0);
-	int m_nAfter = RGB(0, 0, 255);
-	//int m_nAfter= RGB(255, 100, 200);
 
 	int m_nTotal_Input;			// 웨이퍼 총 INPUT 값
 
@@ -235,4 +220,10 @@ public:
 
 	CStatic m_ctrPicture_Back;
 	CStatic m_ctrStaticGray;
+
+	//OnPaint	
+	CBrush m_brGreen;
+	CBrush m_brBlue;
+	CBrush m_brRed;
+	CBrush m_brGray;	
 };
