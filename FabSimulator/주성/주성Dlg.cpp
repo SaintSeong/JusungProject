@@ -702,6 +702,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
    
 
      //1. PICK : LPM -> ATM ROBOT
+    Sleep(g_pMainDlg->m_nATM_ZRotate / g_pMainDlg->m_nSpeed);
     Sleep(g_pMainDlg->m_nATM_Pick / g_pMainDlg->m_nSpeed);
     for (int i = 1; i < 5; i++)
     {
@@ -899,9 +900,9 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
             nLL_cnt = g_pMainDlg->m_ctrLL4.GetWindowInt();
         //4) PLACE : ATM ROBOT -> LL
         Sleep(g_pMainDlg->m_nATM_Rotate / g_pMainDlg->m_nSpeed);
+        Sleep(g_pMainDlg->m_nLL_Door_Valve_Open / g_pMainDlg->m_nSpeed);
         Sleep(g_pMainDlg->m_nATM_ZRotate / g_pMainDlg->m_nSpeed);
         Sleep(g_pMainDlg->m_nATM_Place / g_pMainDlg->m_nSpeed);
-        Sleep(g_pMainDlg->m_nLL_Door_Valve_Open / g_pMainDlg->m_nSpeed);
         for (int i = 13; i < 16; i++)
         {
             CImage image;//불러오고 싶은 이미지를 로드할 CImage
@@ -979,9 +980,9 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
 
     //5. PLACE : ATM ROBOT -> LL(Last One)
     Sleep(g_pMainDlg->m_nATM_Rotate / g_pMainDlg->m_nSpeed);
+    Sleep(g_pMainDlg->m_nLL_Door_Valve_Open / g_pMainDlg->m_nSpeed);
     Sleep(g_pMainDlg->m_nATM_ZRotate / g_pMainDlg->m_nSpeed);
     Sleep(g_pMainDlg->m_nATM_Place / g_pMainDlg->m_nSpeed);
-    Sleep(g_pMainDlg->m_nLL_Door_Valve_Open / g_pMainDlg->m_nSpeed);
     for (int i = 27; i < 30; i++)
     {
         CImage image;//불러오고 싶은 이미지를 로드할 CImage
@@ -1578,6 +1579,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
             g_pMainDlg->m_nThread4_LL = 1;
         }
         //PICK : PM1 -> VAC ROBOT
+        Sleep(g_pMainDlg->m_nRotate / g_pMainDlg->m_nSpeed);
         Sleep(g_pMainDlg->m_nPM_Slot_Valve_Open / g_pMainDlg->m_nSpeed);
         Sleep(g_pMainDlg->m_nVAC_Pick / g_pMainDlg->m_nSpeed);
         for (int i = 23; i <= 27; i++)
@@ -1661,8 +1663,8 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
             nLL_cnt = g_pMainDlg->m_ctrLL4.GetWindowInt();
 
         //LL->VAC
-        Sleep(g_pMainDlg->m_nLL_Slot_Valve_Open / g_pMainDlg->m_nSpeed);
         Sleep(g_pMainDlg->m_nRotate / g_pMainDlg->m_nSpeed);
+        Sleep(g_pMainDlg->m_nLL_Slot_Valve_Open / g_pMainDlg->m_nSpeed);
         Sleep(g_pMainDlg->m_nVAC_Pick / g_pMainDlg->m_nSpeed);
         for (int i = 27; i <= 30; i++)
         {
@@ -1901,8 +1903,8 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
             }
 
             //TM->PM
-            
             Sleep(g_pMainDlg->m_nRotate / g_pMainDlg->m_nSpeed);
+            Sleep(g_pMainDlg->m_nPM_Slot_Valve_Open / g_pMainDlg->m_nSpeed);
             Sleep(g_pMainDlg->m_nVAC_Place / g_pMainDlg->m_nSpeed);
             if (g_pMainDlg->m_nThread3_PM == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
             {
@@ -2478,8 +2480,10 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
         nEFEM_cnt = g_pMainDlg->m_ctrEFEM.GetWindowInt();
 
         //PICK : LL -> ATM ROBOT
-        Sleep(g_pMainDlg->m_nATM_Pick / g_pMainDlg->m_nSpeed);
         Sleep(g_pMainDlg->m_nATM_Rotate / g_pMainDlg->m_nSpeed);
+        Sleep(g_pMainDlg->m_nATM_ZRotate / g_pMainDlg->m_nSpeed);
+        Sleep(g_pMainDlg->m_nLL_Slot_Valve_Open / g_pMainDlg->m_nSpeed);
+        Sleep(g_pMainDlg->m_nATM_Pick / g_pMainDlg->m_nSpeed);
         for (int i = 1; i <= 3; i++)
         {
             CImage image;//불러오고 싶은 이미지를 로드할 CImage
@@ -2513,8 +2517,9 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
         nEFEM_cnt = g_pMainDlg->m_ctrEFEM.GetWindowInt();
         nOUTPUT_cnt = g_pMainDlg->m_ctrOutput.GetWindowInt();
         //PLACE : ATM ROBOT -> LPM(OUTPUT)
-        Sleep(g_pMainDlg->m_nATM_Place / g_pMainDlg->m_nSpeed);
         Sleep(g_pMainDlg->m_nATM_Rotate / g_pMainDlg->m_nSpeed);
+        Sleep(g_pMainDlg->m_nATM_ZRotate / g_pMainDlg->m_nSpeed);
+        Sleep(g_pMainDlg->m_nATM_Place / g_pMainDlg->m_nSpeed);
         for (int i = 4; i <= 7; i++)
         {
             CImage image;//불러오고 싶은 이미지를 로드할 CImage
