@@ -2530,10 +2530,7 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
             if (g_pMainDlg->m_bDummy == false)
             {
                 g_pMainDlg->m_ctrOutput.SetWindowInt(i);
-                double dTotalSec = g_pMainDlg->m_nTotalSec - g_pMainDlg->m_nCleanSec;
-                double dTotalHour = dTotalSec / 3600;
-                strTmep.Format(_T("%.2f"), (i / dTotalHour));
-                g_pMainDlg->m_ctrThrought.SetWindowText(strTmep);
+                
                 
                 g_pMainDlg->m_ctrLPMUI2.SetWindowInt(g_pMainDlg->m_ctrLPMUI2.GetWindowInt() + nEFEM_cnt);
                 if (g_pMainDlg->m_ctrLPMUI2.GetWindowInt() == 25)
@@ -3267,12 +3264,14 @@ DWORD WINAPI TotalTime(LPVOID p)
     int n_H_Total = 0;
     int n_M_Total = 0;
     int n_S_Total = 0;
-
+    int i= g_pMainDlg->m_ctrOutput.GetWindowInt();
+    CString strTmep;
     CString strTime_Clean;
     int n_D_Clean = 0;
     int n_H_Clean = 0;
     int n_M_Clean = 0;
     int n_S_Clean = 0;
+    
     while (true)
     {
         Sleep(1000 / g_pMainDlg->m_nSpeed);
@@ -3331,6 +3330,13 @@ DWORD WINAPI TotalTime(LPVOID p)
                 g_pMainDlg->m_ctrTotal_Clean_Time.SetWindowText(strTime_Clean);
             g_pMainDlg->m_nCleanSec++;
         }
+
+        double dTotalSec = g_pMainDlg->m_nTotalSec - g_pMainDlg->m_nCleanSec;
+        double dTotalHour = dTotalSec / 3600;
+        i = g_pMainDlg->m_ctrOutput.GetWindowInt();
+        strTmep.Format(_T("%.2f"), (i / dTotalHour));
+        g_pMainDlg->m_ctrThrought.SetWindowText(strTmep);
+        
     }
 
     return 0;
