@@ -356,17 +356,9 @@ void C주성Dlg::OnPaint()
     }
     else
     {
-        //핑크 255,100,200
-        /*m_ctrLPMUI1.SetWindowInt(1);
-        m_ctrLPMUI2.SetWindowInt(1);
-        m_ctrLPMUI3.SetWindowInt(1);*/
         CDC* pDC = g_pMainDlg->GetDC();
         CBrush* oldBrush = NULL;
 
-        /*m_brGreen;
-        m_brBlue;
-        m_brRed;
-        m_brGray;*/
         //if (true)//LPM1 빈공간
         {
             oldBrush = pDC->SelectObject(&m_brGray);
@@ -1419,63 +1411,45 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                 if (i == _ttoi(g_pMainDlg->m_strPMSlotCnt)) break;  //PM이 가득 찼다면 종료
 
                 nTM_cnt--;
-
-
             }
             if ((g_pMainDlg->m_ctrPM1.GetWindowInt() == _ttoi(g_pMainDlg->m_strPMSlotCnt)) && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1 && g_pMainDlg->m_nPM_Thread2 == 0)
             {
                 g_pMainDlg->m_nPM_Thread2++;
                 g_pMainDlg->m_nPM_Processing++;
                 g_hThread_PM[0] = (CreateThread(NULL, 0, PM, 0, 0, 0));
-
             }
             else if ((g_pMainDlg->m_ctrPM2.GetWindowInt() == _ttoi(g_pMainDlg->m_strPMSlotCnt)) && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2 && g_pMainDlg->m_nPM_Thread2 == 1)
             {
                 g_pMainDlg->m_nPM_Thread2++;
                 g_pMainDlg->m_nPM_Processing++;
                 g_hThread_PM[1] = (CreateThread(NULL, 0, PM, 0, 0, 0));
-
             }
-
             else if ((g_pMainDlg->m_ctrPM3.GetWindowInt() == _ttoi(g_pMainDlg->m_strPMSlotCnt)) && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3 && g_pMainDlg->m_nPM_Thread2 == 2)
             {
                 g_pMainDlg->m_nPM_Thread2++;
                 g_pMainDlg->m_nPM_Processing++;
                 g_hThread_PM[2] = (CreateThread(NULL, 0, PM, 0, 0, 0));
-
             }
-
             else if ((g_pMainDlg->m_ctrPM4.GetWindowInt() == _ttoi(g_pMainDlg->m_strPMSlotCnt)) && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4 && g_pMainDlg->m_nPM_Thread2 == 3)
             {
                 g_pMainDlg->m_nPM_Thread2++;
                 g_pMainDlg->m_nPM_Processing++;
                 g_hThread_PM[3] = (CreateThread(NULL, 0, PM, 0, 0, 0));
-
             }
-
             else if ((g_pMainDlg->m_ctrPM5.GetWindowInt() == _ttoi(g_pMainDlg->m_strPMSlotCnt)) && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5 && g_pMainDlg->m_nPM_Thread2 == 4)
             {
                 g_pMainDlg->m_nPM_Thread2++;
                 g_pMainDlg->m_nPM_Processing++;
                 g_hThread_PM[4] = (CreateThread(NULL, 0, PM, 0, 0, 0));
-
             }
-
             else if ((g_pMainDlg->m_ctrPM6.GetWindowInt() == _ttoi(g_pMainDlg->m_strPMSlotCnt)) && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6 && g_pMainDlg->m_nPM_Thread2 == 5)
             {
                 g_pMainDlg->m_nPM_Thread2++;
                 g_pMainDlg->m_nPM_Processing++;
                 g_hThread_PM[5] = (CreateThread(NULL, 0, PM, 0, 0, 0));
-
             }
         }
-
-
     }
-
-
-
-
 
     nLPM_cnt = g_pMainDlg->m_ctrLPM.GetWindowInt();
     int PM_Count = g_pMainDlg->m_ctrPM1.GetWindowInt() +
@@ -1486,7 +1460,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
         g_pMainDlg->m_ctrPM6.GetWindowInt();
     int nPM_MAX = _ttoi(g_pMainDlg->m_strPMSlotCnt) * _ttoi(g_pMainDlg->m_strPMModuleCnt);
     SetEvent(g_hEventLL_Modul_one_Thread1and2);
-     //DC 해제
+    
     return 0;
 }
 
