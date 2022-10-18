@@ -256,7 +256,7 @@ BOOL C주성Dlg::OnInitDialog()
 
     m_nATM_Pick = 4000;
     m_nATM_Place = 4000;
-    m_nATM_Rotate = 500;
+    m_nATM_Rotate = 1000;
     m_nATM_ZRotate = 1000;
     m_nLL_Pump = 15000;
     m_nLL_Pump_Stable_Time = 5000;
