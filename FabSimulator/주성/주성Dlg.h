@@ -142,7 +142,6 @@ public:
 
 
 	afx_msg void OnBnClickedSysInitial();
-	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnBnClickedButtonSaveSystemconfig();
 	afx_msg void OnBnClickedButtonSaveThroughput();
 	afx_msg void OnBnClickedButtonLoadSystemconfig();

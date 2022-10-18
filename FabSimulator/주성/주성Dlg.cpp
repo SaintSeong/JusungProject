@@ -3570,14 +3570,6 @@ void C주성Dlg::OnClose()
 }
 
 
-void C주성Dlg::OnRButtonDown(UINT nFlags, CPoint point)
-{
-    // TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-    CString A;
-    A.Format(_T("%d,%d"), point.x, point.y);
-    MessageBox(A);
-    CDialogEx::OnRButtonDown(nFlags, point);
-}
 
 void C주성Dlg::OnBnClickedSetSpeed()
 {
