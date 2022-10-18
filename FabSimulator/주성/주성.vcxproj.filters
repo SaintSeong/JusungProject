@@ -68,5 +68,65 @@
     <Image Include="logo.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="UI\EFEM1\슬라이드1.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드2.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드3.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드4.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드5.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드6.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드7.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드8.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드9.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드10.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드11.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드12.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드13.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드14.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드15.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드25.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드26.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드27.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드28.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="UI\EFEM1\슬라이드29.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

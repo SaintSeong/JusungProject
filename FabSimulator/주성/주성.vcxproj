@@ -214,6 +214,26 @@
   <ItemGroup>
     <Image Include="logo.bmp" />
     <Image Include="res\주성.ico" />
+    <Image Include="UI\EFEM1\슬라이드1.png" />
+    <Image Include="UI\EFEM1\슬라이드10.png" />
+    <Image Include="UI\EFEM1\슬라이드11.png" />
+    <Image Include="UI\EFEM1\슬라이드12.png" />
+    <Image Include="UI\EFEM1\슬라이드13.png" />
+    <Image Include="UI\EFEM1\슬라이드14.png" />
+    <Image Include="UI\EFEM1\슬라이드15.png" />
+    <Image Include="UI\EFEM1\슬라이드2.png" />
+    <Image Include="UI\EFEM1\슬라이드25.png" />
+    <Image Include="UI\EFEM1\슬라이드26.png" />
+    <Image Include="UI\EFEM1\슬라이드27.png" />
+    <Image Include="UI\EFEM1\슬라이드28.png" />
+    <Image Include="UI\EFEM1\슬라이드29.png" />
+    <Image Include="UI\EFEM1\슬라이드3.png" />
+    <Image Include="UI\EFEM1\슬라이드4.png" />
+    <Image Include="UI\EFEM1\슬라이드5.png" />
+    <Image Include="UI\EFEM1\슬라이드6.png" />
+    <Image Include="UI\EFEM1\슬라이드7.png" />
+    <Image Include="UI\EFEM1\슬라이드8.png" />
+    <Image Include="UI\EFEM1\슬라이드9.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -709,7 +709,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         Image_Load.Format(_T("UI\\EFEM1\\슬라이드%d.png"), i);
         g_pMainDlg->m_Ctrl_Gui_EFEM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
         dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-        image.Load(Image_Load);//이미지 로드
+        if(E_FAIL != image.Load(Image_Load))//이미지 로드
         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
     }
     for (int i = 0;; i++)
@@ -756,7 +756,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         Image_Load.Format(_T("UI\\EFEM1\\슬라이드%d.png"), i);
         g_pMainDlg->m_Ctrl_Gui_EFEM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
         dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-        image.Load(Image_Load);//이미지 로드
+        if(E_FAIL != image.Load(Image_Load))//이미지 로드
         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
     }
     for (int i = 0; ; i++)
@@ -794,7 +794,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
             Image_Load.Format(_T("UI\\EFEM1\\슬라이드%d.png"), i);
             g_pMainDlg->m_Ctrl_Gui_EFEM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
             dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-            image.Load(Image_Load);//이미지 로드
+            if(E_FAIL != image.Load(Image_Load))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
         }
         for (int i = 0; ; i++)
@@ -834,14 +834,15 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         Sleep(g_pMainDlg->m_nATM_Rotate / g_pMainDlg->m_nSpeed);
         Sleep(g_pMainDlg->m_nATM_ZRotate / g_pMainDlg->m_nSpeed);
         Sleep(g_pMainDlg->m_nATM_Pick / g_pMainDlg->m_nSpeed);
+        
         for (int i = 10; i < 12; i++)
         {
             CImage image;//불러오고 싶은 이미지를 로드할 CImage
             Image_Load.Format(_T("UI\\EFEM1\\슬라이드%d.png"), i);
             g_pMainDlg->m_Ctrl_Gui_EFEM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
             dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-            image.Load(Image_Load);//이미지 로드
-            image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+            if(E_FAIL != image.Load(Image_Load))//이미지 로드
+                image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
         }
         for (int i = 1; ; i++)
         {
@@ -869,7 +870,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
             Image_Load.Format(_T("UI\\EFEM1\\슬라이드%d.png"), i);
             g_pMainDlg->m_Ctrl_Gui_EFEM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
             dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-            image.Load(Image_Load);//이미지 로드
+            if(E_FAIL != image.Load(Image_Load))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
         }
         for (int i = 0;; i++)
@@ -907,7 +908,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
             Image_Load.Format(_T("UI\\EFEM1\\슬라이드%d.png"), i);
             g_pMainDlg->m_Ctrl_Gui_EFEM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
             dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-            image.Load(Image_Load);//이미지 로드
+            if(E_FAIL != image.Load(Image_Load))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
         }
         for (int i = nLL_cnt;; i++)
@@ -956,7 +957,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         Image_Load.Format(_T("UI\\EFEM1\\슬라이드%d.png"), i);
         g_pMainDlg->m_Ctrl_Gui_EFEM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
         dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-        image.Load(Image_Load);//이미지 로드
+        if(E_FAIL != image.Load(Image_Load))//이미지 로드
         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
     }
     for (int i = 0;; i++)
@@ -987,7 +988,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         Image_Load.Format(_T("UI\\EFEM1\\슬라이드%d.png"), i);
         g_pMainDlg->m_Ctrl_Gui_EFEM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
         dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-        image.Load(Image_Load);//이미지 로드
+        if(E_FAIL != image.Load(Image_Load))//이미지 로드
         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
     }
     for (int i = nLL_cnt;; i++)
@@ -1164,7 +1165,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                 Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                 g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                 dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                image.Load(Image_Load);//이미지 로드
+                if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
             }
             for (int i = 0; nTM_cnt == 0; i++)
@@ -1244,7 +1245,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     CImage image;//불러오고 싶은 이미지를 로드할 CImage
                     g_pMainDlg->m_Ctrl_Gui_PM1.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Ctrl_Gui_PM1.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(_T("UI\\PM_Left\\슬라이드2.png"));//이미지 로드
+                    if (E_FAIL != image.Load(_T("UI\\PM_Left\\슬라이드2.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
                 for (int i = 5; i <= 7; i++)
@@ -1253,7 +1254,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
                 if (true)
@@ -1261,7 +1262,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     CImage image;//불러오고 싶은 이미지를 로드할 CImage
                     g_pMainDlg->m_Ctrl_Gui_PM1.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Ctrl_Gui_PM1.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(_T("UI\\PM_Left\\슬라이드3.png"));//이미지 로드
+                    if (E_FAIL != image.Load(_T("UI\\PM_Left\\슬라이드3.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -1273,7 +1274,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     CImage image;//불러오고 싶은 이미지를 로드할 CImage
                     g_pMainDlg->m_Ctrl_Gui_PM2.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Ctrl_Gui_PM2.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(_T("UI\\PM_Left\\슬라이드2.png"));//이미지 로드
+                    if (E_FAIL != image.Load(_T("UI\\PM_Left\\슬라이드2.png")))//이미지 로드                   
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
                 for (int i = 8; i <= 10; i++)
@@ -1282,7 +1283,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
                 if (true)
@@ -1290,7 +1291,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     CImage image;//불러오고 싶은 이미지를 로드할 CImage
                     g_pMainDlg->m_Ctrl_Gui_PM2.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Ctrl_Gui_PM2.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(_T("UI\\PM_Left\\슬라이드3.png"));//이미지 로드
+                    if (E_FAIL != image.Load(_T("UI\\PM_Left\\슬라이드3.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -1302,7 +1303,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     CImage image;//불러오고 싶은 이미지를 로드할 CImage
                     g_pMainDlg->m_Ctrl_Gui_PM3.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Ctrl_Gui_PM3.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(_T("UI\\PM_Upper\\슬라이드2.png"));//이미지 로드
+                    if (E_FAIL != image.Load(_T("UI\\PM_Upper\\슬라이드2.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
                 for (int i = 11; i <= 13; i++)
@@ -1311,7 +1312,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
                 if (true)
@@ -1319,7 +1320,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     CImage image;//불러오고 싶은 이미지를 로드할 CImage
                     g_pMainDlg->m_Ctrl_Gui_PM3.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Ctrl_Gui_PM3.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(_T("UI\\PM_Upper\\슬라이드3.png"));//이미지 로드
+                    if (E_FAIL != image.Load(_T("UI\\PM_Upper\\슬라이드3.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -1331,7 +1332,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     CImage image;//불러오고 싶은 이미지를 로드할 CImage
                     g_pMainDlg->m_Ctrl_Gui_PM4.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Ctrl_Gui_PM4.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(_T("UI\\PM_Upper\\슬라이드2.png"));//이미지 로드
+                    if (E_FAIL != image.Load(_T("UI\\PM_Upper\\슬라이드2.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
                 for (int i = 14; i <= 16; i++)
@@ -1340,7 +1341,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
                 if (true)
@@ -1348,7 +1349,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     CImage image;//불러오고 싶은 이미지를 로드할 CImage
                     g_pMainDlg->m_Ctrl_Gui_PM4.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Ctrl_Gui_PM4.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(_T("UI\\PM_Upper\\슬라이드3.png"));//이미지 로드
+                    if (E_FAIL != image.Load(_T("UI\\PM_Upper\\슬라이드3.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -1360,7 +1361,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     CImage image;//불러오고 싶은 이미지를 로드할 CImage
                     g_pMainDlg->m_Ctrl_Gui_PM5.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Ctrl_Gui_PM5.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(_T("UI\\PM_Right\\슬라이드2.png"));//이미지 로드
+                    if (E_FAIL != image.Load(_T("UI\\PM_Right\\슬라이드2.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
                 for (int i = 17; i <= 19; i++)
@@ -1369,7 +1370,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
                 if (true)
@@ -1377,7 +1378,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     CImage image;//불러오고 싶은 이미지를 로드할 CImage
                     g_pMainDlg->m_Ctrl_Gui_PM5.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Ctrl_Gui_PM5.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(_T("UI\\PM_Right\\슬라이드3.png"));//이미지 로드
+                    if (E_FAIL != image.Load(_T("UI\\PM_Right\\슬라이드3.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -1389,7 +1390,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     CImage image;//불러오고 싶은 이미지를 로드할 CImage
                     g_pMainDlg->m_Ctrl_Gui_PM6.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Ctrl_Gui_PM6.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(_T("UI\\PM_Right\\슬라이드2.png"));//이미지 로드
+                    if (E_FAIL != image.Load(_T("UI\\PM_Right\\슬라이드2.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
                 for (int i = 20; i <= 22; i++)
@@ -1398,7 +1399,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
                 if (true)
@@ -1406,7 +1407,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     CImage image;//불러오고 싶은 이미지를 로드할 CImage
                     g_pMainDlg->m_Ctrl_Gui_PM6.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Ctrl_Gui_PM6.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(_T("UI\\PM_Right\\슬라이드3.png"));//이미지 로드
+                    if (E_FAIL != image.Load(_T("UI\\PM_Right\\슬라이드3.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -1585,7 +1586,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
             Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
             g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
             dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-            image.Load(Image_Load);//이미지 로드
+            if(E_FAIL != image.Load(Image_Load))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
         }
         for (int i = nTM_cnt; ; i++)
@@ -1669,7 +1670,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
             Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
             g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
             dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-            image.Load(Image_Load);//이미지 로드
+            if(E_FAIL != image.Load(Image_Load))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
         }
         for (int i = nTM_cnt;; i++)
@@ -1740,7 +1741,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                 g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                 dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                image.Load(Image_Load);//이미지 로드
+                if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
             }
             for (int i = nLL_cnt;; i++)
@@ -1817,7 +1818,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                 g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                 dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                image.Load(Image_Load);//이미지 로드
+                if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
             }
             for (int i = nTM_cnt;; i++)
@@ -1911,7 +1912,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -1924,7 +1925,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -1937,7 +1938,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -1949,7 +1950,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -1961,7 +1962,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -1974,7 +1975,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -2077,7 +2078,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -2089,7 +2090,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -2102,7 +2103,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -2115,7 +2116,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -2128,7 +2129,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -2141,7 +2142,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     Image_Load.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->m_Gui_TM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                    image.Load(Image_Load);//이미지 로드
+                    if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                 }
             }
@@ -2485,7 +2486,7 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
             Image_Load.Format(_T("UI\\EFEM2\\슬라이드%d.png"), i);
             g_pMainDlg->m_Ctrl_Gui_EFEM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
             dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-            image.Load(Image_Load);//이미지 로드
+            if(E_FAIL != image.Load(Image_Load))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
         }
         for (int i = 0;; i++)
@@ -2520,7 +2521,7 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
             Image_Load.Format(_T("UI\\EFEM2\\슬라이드%d.png"), i);
             g_pMainDlg->m_Ctrl_Gui_EFEM.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
             dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-            image.Load(Image_Load);//이미지 로드
+            if(E_FAIL != image.Load(Image_Load))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
         }
         for (int i = nOUTPUT_cnt;; i++)
@@ -2612,7 +2613,7 @@ DWORD WINAPI PM(LPVOID p)
                 Image_Load.Format(_T("UI\\PM_Left\\슬라이드%d.png"), i);
                 g_pMainDlg->m_Ctrl_Gui_PM1.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                 dc = g_pMainDlg->m_Ctrl_Gui_PM1.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                image.Load(Image_Load);//이미지 로드
+                if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
             }
         }
@@ -2642,7 +2643,7 @@ DWORD WINAPI PM(LPVOID p)
                 Image_Load.Format(_T("UI\\PM_Left\\슬라이드%d.png"), i);
                 g_pMainDlg->m_Ctrl_Gui_PM2.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                 dc = g_pMainDlg->m_Ctrl_Gui_PM2.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                image.Load(Image_Load);//이미지 로드
+                if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
             }
         }
@@ -2671,7 +2672,7 @@ DWORD WINAPI PM(LPVOID p)
                 Image_Load.Format(_T("UI\\PM_Upper\\슬라이드%d.png"), i);
                 g_pMainDlg->m_Ctrl_Gui_PM3.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                 dc = g_pMainDlg->m_Ctrl_Gui_PM3.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                image.Load(Image_Load);//이미지 로드
+                if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
             }
         }
@@ -2700,7 +2701,7 @@ DWORD WINAPI PM(LPVOID p)
                 Image_Load.Format(_T("UI\\PM_Upper\\슬라이드%d.png"), i);
                 g_pMainDlg->m_Ctrl_Gui_PM4.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                 dc = g_pMainDlg->m_Ctrl_Gui_PM4.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                image.Load(Image_Load);//이미지 로드
+                if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
             }
         }
@@ -2729,7 +2730,7 @@ DWORD WINAPI PM(LPVOID p)
                 Image_Load.Format(_T("UI\\PM_Right\\슬라이드%d.png"), i);
                 g_pMainDlg->m_Ctrl_Gui_PM5.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                 dc = g_pMainDlg->m_Ctrl_Gui_PM5.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                image.Load(Image_Load);//이미지 로드
+                if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
             }
         }
@@ -2758,7 +2759,7 @@ DWORD WINAPI PM(LPVOID p)
                 Image_Load.Format(_T("UI\\PM_Right\\슬라이드%d.png"), i);
                 g_pMainDlg->m_Ctrl_Gui_PM6.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                 dc = g_pMainDlg->m_Ctrl_Gui_PM6.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                image.Load(Image_Load);//이미지 로드
+                if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
             }
         }
@@ -2778,7 +2779,7 @@ DWORD WINAPI PM(LPVOID p)
                         Image_Load.Format(_T("UI\\PM_Left\\슬라이드%d.png"), i);
                         g_pMainDlg->m_Ctrl_Gui_PM1.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                         dc = g_pMainDlg->m_Ctrl_Gui_PM1.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                        image.Load(Image_Load);//이미지 로드
+                        if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                     }
                 }
@@ -2795,7 +2796,7 @@ DWORD WINAPI PM(LPVOID p)
                         Image_Load.Format(_T("UI\\PM_Left\\슬라이드%d.png"), i);
                         g_pMainDlg->m_Ctrl_Gui_PM2.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                         dc = g_pMainDlg->m_Ctrl_Gui_PM2.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                        image.Load(Image_Load);//이미지 로드
+                        if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                     }
                 }
@@ -2812,7 +2813,7 @@ DWORD WINAPI PM(LPVOID p)
                         Image_Load.Format(_T("UI\\PM_Upper\\슬라이드%d.png"), i);
                         g_pMainDlg->m_Ctrl_Gui_PM3.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                         dc = g_pMainDlg->m_Ctrl_Gui_PM3.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                        image.Load(Image_Load);//이미지 로드
+                        if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                     }
                 }
@@ -2829,7 +2830,7 @@ DWORD WINAPI PM(LPVOID p)
                         Image_Load.Format(_T("UI\\PM_Upper\\슬라이드%d.png"), i);
                         g_pMainDlg->m_Ctrl_Gui_PM4.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                         dc = g_pMainDlg->m_Ctrl_Gui_PM4.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                        image.Load(Image_Load);//이미지 로드
+                        if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                     }
                 }
@@ -2846,7 +2847,7 @@ DWORD WINAPI PM(LPVOID p)
                         Image_Load.Format(_T("UI\\PM_Right\\슬라이드%d.png"), i);
                         g_pMainDlg->m_Ctrl_Gui_PM5.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                         dc = g_pMainDlg->m_Ctrl_Gui_PM5.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                        image.Load(Image_Load);//이미지 로드
+                        if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                     }
                 }
@@ -2863,7 +2864,7 @@ DWORD WINAPI PM(LPVOID p)
                         Image_Load.Format(_T("UI\\PM_Right\\슬라이드%d.png"), i);
                         g_pMainDlg->m_Ctrl_Gui_PM6.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                         dc = g_pMainDlg->m_Ctrl_Gui_PM6.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                        image.Load(Image_Load);//이미지 로드
+                        if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                     }
                 }
@@ -2899,7 +2900,7 @@ DWORD WINAPI PM(LPVOID p)
                 Image_Load.Format(_T("UI\\PM_Left\\슬라이드%d.png"), i);
                 g_pMainDlg->m_Ctrl_Gui_PM1.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                 dc = g_pMainDlg->m_Ctrl_Gui_PM1.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                image.Load(Image_Load);//이미지 로드
+                if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
             }
         }
@@ -2927,7 +2928,7 @@ DWORD WINAPI PM(LPVOID p)
                 Image_Load.Format(_T("UI\\PM_Left\\슬라이드%d.png"), i);
                 g_pMainDlg->m_Ctrl_Gui_PM2.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                 dc = g_pMainDlg->m_Ctrl_Gui_PM2.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                image.Load(Image_Load);//이미지 로드
+                if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
             }
         }
@@ -2955,7 +2956,7 @@ DWORD WINAPI PM(LPVOID p)
                 Image_Load.Format(_T("UI\\PM_Upper\\슬라이드%d.png"), i);
                 g_pMainDlg->m_Ctrl_Gui_PM3.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                 dc = g_pMainDlg->m_Ctrl_Gui_PM3.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                image.Load(Image_Load);//이미지 로드
+                if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
             }
         }
@@ -2983,7 +2984,7 @@ DWORD WINAPI PM(LPVOID p)
                 Image_Load.Format(_T("UI\\PM_Upper\\슬라이드%d.png"), i);
                 g_pMainDlg->m_Ctrl_Gui_PM4.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                 dc = g_pMainDlg->m_Ctrl_Gui_PM4.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                image.Load(Image_Load);//이미지 로드
+                if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
             }
         }
@@ -3011,7 +3012,7 @@ DWORD WINAPI PM(LPVOID p)
                 Image_Load.Format(_T("UI\\PM_Right\\슬라이드%d.png"), i);
                 g_pMainDlg->m_Ctrl_Gui_PM5.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                 dc = g_pMainDlg->m_Ctrl_Gui_PM5.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                image.Load(Image_Load);//이미지 로드
+                if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
             }
         }
@@ -3039,7 +3040,7 @@ DWORD WINAPI PM(LPVOID p)
                 Image_Load.Format(_T("UI\\PM_Right\\슬라이드%d.png"), i);
                 g_pMainDlg->m_Ctrl_Gui_PM6.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                 dc = g_pMainDlg->m_Ctrl_Gui_PM6.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                image.Load(Image_Load);//이미지 로드
+                if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
             }
         }
@@ -3058,7 +3059,7 @@ DWORD WINAPI PM(LPVOID p)
                         Image_Load.Format(_T("UI\\PM_Left\\슬라이드%d.png"), i);
                         g_pMainDlg->m_Ctrl_Gui_PM1.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                         dc = g_pMainDlg->m_Ctrl_Gui_PM1.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                        image.Load(Image_Load);//이미지 로드
+                        if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                     }
                 }
@@ -3075,7 +3076,7 @@ DWORD WINAPI PM(LPVOID p)
                         Image_Load.Format(_T("UI\\PM_Left\\슬라이드%d.png"), i);
                         g_pMainDlg->m_Ctrl_Gui_PM2.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                         dc = g_pMainDlg->m_Ctrl_Gui_PM2.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                        image.Load(Image_Load);//이미지 로드
+                        if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                     }
                 }
@@ -3092,7 +3093,7 @@ DWORD WINAPI PM(LPVOID p)
                         Image_Load.Format(_T("UI\\PM_Upper\\슬라이드%d.png"), i);
                         g_pMainDlg->m_Ctrl_Gui_PM3.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                         dc = g_pMainDlg->m_Ctrl_Gui_PM3.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                        image.Load(Image_Load);//이미지 로드
+                        if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                     }
                 }
@@ -3109,7 +3110,7 @@ DWORD WINAPI PM(LPVOID p)
                         Image_Load.Format(_T("UI\\PM_Upper\\슬라이드%d.png"), i);
                         g_pMainDlg->m_Ctrl_Gui_PM4.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                         dc = g_pMainDlg->m_Ctrl_Gui_PM4.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                        image.Load(Image_Load);//이미지 로드
+                        if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                     }
                 }
@@ -3126,7 +3127,7 @@ DWORD WINAPI PM(LPVOID p)
                         Image_Load.Format(_T("UI\\PM_Right\\슬라이드%d.png"), i);
                         g_pMainDlg->m_Ctrl_Gui_PM5.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                         dc = g_pMainDlg->m_Ctrl_Gui_PM5.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                        image.Load(Image_Load);//이미지 로드
+                        if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                     }
                 }
@@ -3143,7 +3144,7 @@ DWORD WINAPI PM(LPVOID p)
                         Image_Load.Format(_T("UI\\PM_Right\\슬라이드%d.png"), i);
                         g_pMainDlg->m_Ctrl_Gui_PM6.GetWindowRect(rect);//GetWindowRect를 사용해서 픽쳐 컨트롤의 크기를 받는다.
                         dc = g_pMainDlg->m_Ctrl_Gui_PM6.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-                        image.Load(Image_Load);//이미지 로드
+                        if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
                     }
                 }
@@ -3275,7 +3276,7 @@ DWORD WINAPI TotalTime(LPVOID p)
     while (true)
     {
         Sleep(1000 / g_pMainDlg->m_nSpeed);
-        if (g_pMainDlg->m_bTime_STOP==true)
+        if (g_pMainDlg->m_bTime_STOP == true)
         {
             ResetEvent(g_hThread_TotalTime);
             WaitForSingleObject(g_hThread_TotalTime, INFINITE);
@@ -3299,17 +3300,19 @@ DWORD WINAPI TotalTime(LPVOID p)
         }
         //g_pMainDlg->m_strCurTime = CTime::GetCurrentTime();
         //g_pMainDlg->m_strDiffTime = g_pMainDlg->m_strCurTime - g_pMainDlg->m_strInitTime;
-        strTime_Total.Format(_T("%02d:%02d:%02d:%02d"), n_D_Total,n_H_Total, n_M_Total, n_S_Total);
-        if (n_S_Total % 3 == 0)
+        strTime_Total.Format(_T("%02d:%02d:%02d:%02d"), n_D_Total, n_H_Total, n_M_Total, n_S_Total);
+        if (g_pMainDlg->m_ctrStatic_Speed.GetWindowInt() == 1)
+            g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(strTime_Total);
+        else if (n_S_Total % 3 == 0)
             g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(strTime_Total);
         g_pMainDlg->m_nTotalSec++;
-        if (g_pMainDlg->m_bClean_Time_Start==true)
+        if (g_pMainDlg->m_bClean_Time_Start == true)
         {
             n_S_Clean++;
             if (n_S_Clean == 60)
             {
                 n_S_Clean = 0;
-                n_M_Clean++; 
+                n_M_Clean++;
             }
             if (n_M_Clean == 60)
             {
@@ -3322,7 +3325,9 @@ DWORD WINAPI TotalTime(LPVOID p)
                 n_D_Clean++;
             }
             strTime_Clean.Format(_T("%02d:%02d:%02d:%02d"), n_D_Clean, n_H_Clean, n_M_Clean, n_S_Clean);
-            if (n_S_Clean % 3 == 0)
+            if (g_pMainDlg->m_ctrStatic_Speed.GetWindowInt() == 1)
+                g_pMainDlg->m_ctrTotal_Clean_Time.SetWindowText(strTime_Clean);
+            else if (n_S_Clean % 3 == 0)
                 g_pMainDlg->m_ctrTotal_Clean_Time.SetWindowText(strTime_Clean);
             g_pMainDlg->m_nCleanSec++;
         }
@@ -3345,7 +3350,7 @@ void C주성Dlg::OnBnClickedStart()
             dc = m_Ctrl_Gui_EFEM.GetDC();
             CImage image;
             EFEM1.Format(_T("UI\\EFEM1\\슬라이드1.png"));
-            image.Load(EFEM1);
+            if (E_FAIL != image.Load(EFEM1))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
         }
         if (true)
@@ -3354,7 +3359,7 @@ void C주성Dlg::OnBnClickedStart()
             dc = m_Gui_TM.GetDC();
             CImage image;
             TM_Quad.Format(_T("UI\\TM(Quad)\\슬라이드1.png"));
-            image.Load(TM_Quad);
+            if (E_FAIL != image.Load(TM_Quad))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
         }
         if (true)
@@ -3363,7 +3368,7 @@ void C주성Dlg::OnBnClickedStart()
             dc = m_Ctrl_Gui_PM1.GetDC();
             CImage image;
             PM_Left.Format(_T("UI\\PM_Left\\슬라이드1.png"));
-            image.Load(PM_Left);
+            if (E_FAIL != image.Load(PM_Left))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
         }
         if (true)
@@ -3372,7 +3377,7 @@ void C주성Dlg::OnBnClickedStart()
             dc = m_Ctrl_Gui_PM2.GetDC();
             CImage image;
             PM_Left.Format(_T("UI\\PM_Left\\슬라이드1.png"));
-            image.Load(PM_Left);
+            if (E_FAIL != image.Load(PM_Left))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
         }
         if (true)
@@ -3381,7 +3386,7 @@ void C주성Dlg::OnBnClickedStart()
             dc = m_Ctrl_Gui_PM3.GetDC();
             CImage image;
             PM_Upper.Format(_T("UI\\PM_Upper\\슬라이드1.png"));
-            image.Load(PM_Upper);
+            if (E_FAIL != image.Load(PM_Upper))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
         }
         if (true)
@@ -3390,7 +3395,8 @@ void C주성Dlg::OnBnClickedStart()
             dc = m_Ctrl_Gui_PM4.GetDC();
             CImage image;
             PM_Upper.Format(_T("UI\\PM_Upper\\슬라이드1.png"));
-            image.Load(PM_Upper);
+            
+            if (E_FAIL != image.Load(PM_Upper))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
         }
         if (true)
@@ -3399,7 +3405,7 @@ void C주성Dlg::OnBnClickedStart()
             dc = m_Ctrl_Gui_PM5.GetDC();
             CImage image;
             PM_Right.Format(_T("UI\\PM_Right\\슬라이드1.png"));
-            image.Load(PM_Right);
+            if (E_FAIL != image.Load(PM_Right))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
         }
         if (true)
@@ -3408,7 +3414,7 @@ void C주성Dlg::OnBnClickedStart()
             dc = m_Ctrl_Gui_PM6.GetDC();
             CImage image;
             PM_Right.Format(_T("UI\\PM_Right\\슬라이드1.png"));
-            image.Load(PM_Right);
+            if (E_FAIL != image.Load(PM_Right))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
         }
 
