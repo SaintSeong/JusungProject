@@ -72,6 +72,10 @@ C주성Dlg::C주성Dlg(CWnd* pParent /*=nullptr*/)
     , m_strPMSlotCnt(_T("1"))
     , m_nTotalSec(0)
     , m_nCleanSec(0)
+    , m_brGreen(RGB(0, 255, 0))
+    , m_brBlue(RGB(0, 0, 255))
+    , m_brRed(RGB(255, 0, 0))
+    , m_brGray(RGB(140, 140, 140))
 
 {
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
@@ -224,6 +228,7 @@ BOOL C주성Dlg::OnInitDialog()
     g_pMainDlg->m_ctrTotal_Clean_Time.SetWindowText(_T("00:00:00:00"));
     g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(_T("00:00:00:00"));
 
+
     m_bLL_Dummy = false;
     m_bClean_Time_Start = false;
     m_ctrSpeed.AddString(_T("1"));
@@ -356,263 +361,187 @@ void C주성Dlg::OnPaint()
         m_ctrLPMUI2.SetWindowInt(1);
         m_ctrLPMUI3.SetWindowInt(1);*/
         CDC* pDC = g_pMainDlg->GetDC();
-        if (true)//LPM1 빈공간
-        {
-            CBrush brush;
-            CBrush* oldBrush;
-            brush.CreateSolidBrush(RGB(140, 140, 140));
-            oldBrush = pDC->SelectObject(&brush);
+        CBrush* oldBrush = NULL;
 
+        /*m_brGreen;
+        m_brBlue;
+        m_brRed;
+        m_brGray;*/
+        //if (true)//LPM1 빈공간
+        {
+            oldBrush = pDC->SelectObject(&m_brGray);
             for (int i = 24; i >= 0; i--)
             {
                 pDC->Rectangle(85, 118 + (14.6 * i), 151, 132.6 + (14.6 * i));
             }
+            pDC->SelectObject(oldBrush);
         }
-        if (true)//LPM1
+        //if (true)//LPM1
         {
-            CBrush brush;
-            CBrush* oldBrush;
-            brush.CreateSolidBrush(m_nBefore);
-            oldBrush = pDC->SelectObject(&brush);
+            oldBrush = pDC->SelectObject(&m_brGreen);
 
             for (int i = m_ctrLPMUI1.GetWindowInt() - 1; i >= 0; i--)
             {
                 pDC->Rectangle(85, 118 + (14.6 * i), 151, 132.6 + (14.6 * i));
             }
+            pDC->SelectObject(oldBrush);
         }
-
-        if (true)//LPM2 빈공간
+        //if (true)//LPM2 빈공간
         {
-            CBrush brush;
-            CBrush* oldBrush;
-            brush.CreateSolidBrush(RGB(140, 140, 140));
-            oldBrush = pDC->SelectObject(&brush);
-
+            oldBrush = pDC->SelectObject(&m_brGray);
             for (int i = 24; i >= 0; i--)
             {
                 pDC->Rectangle(190, 118 + (14.6 * i), 255, 132.6 + (14.6 * i));
             }
-
+            pDC->SelectObject(oldBrush);
         }
-        if (true)//LPM2 공정후
+        //if (true)//LPM2 공정후
         {
-            CBrush brush;
-            CBrush* oldBrush;
-            brush.CreateSolidBrush(m_nAfter);
-            oldBrush = pDC->SelectObject(&brush);
-
+            oldBrush = pDC->SelectObject(&m_brBlue);
             for (int i = 24; i > 24 - m_ctrLPMUI2.GetWindowInt(); i--)
             {
                 pDC->Rectangle(190, 118 + (14.6 * i), 255, 132.6 + (14.6 * i));
             }
+            pDC->SelectObject(oldBrush);
         }
-
-        if (true)//LL1 빈공간
+        //if (true)//LL1 빈공간
         {
-
-            CBrush brush;
-            CBrush* oldBrush;
-            brush.CreateSolidBrush(RGB(140, 140, 140));     // 공정 전
-            oldBrush = pDC->SelectObject(&brush);
-
+            oldBrush = pDC->SelectObject(&m_brGray);
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
             {
                 pDC->Rectangle(970, 110 + (21.8 * i), 1035, 131.8 + (21.8 * i));
             }
-
+            pDC->SelectObject(oldBrush);
         }
-
-        if (true)//LL1
+        //if (true)//LL1
         {
-            CBrush brush;
-            CBrush* oldBrush;
-            brush.CreateSolidBrush(m_nBefore);     // 공정 전
-            oldBrush = pDC->SelectObject(&brush);
-            //
+            oldBrush = pDC->SelectObject(&m_brGreen);
             for (int i = (m_ctrLL1.GetWindowInt() - 1); i >= 0; i--)
             {
                 pDC->Rectangle(970, 110 + (21.8 * i), 1035, 131.8 + (21.8 * i));
             }
-        }
-       
-        if (true)//LL1 의 공정 끝낸 웨이퍼 개수
+            pDC->SelectObject(oldBrush);
+        }       
+        //if (true)//LL1 의 공정 끝낸 웨이퍼 개수
         {
-            CBrush brush;
-            CBrush* oldBrush;
-            brush.CreateSolidBrush(m_nAfter);     // 공정 전
-            oldBrush = pDC->SelectObject(&brush);
-
+            oldBrush = pDC->SelectObject(&m_brBlue);
             for (int i = m_nWafer_Process[0] - 1; i >= 0; i--)
             {
                 pDC->Rectangle(970, 110 + (21.8 * i), 1035, 131.8 + (21.8 * i));
             }
-
+            pDC->SelectObject(oldBrush);
         }
-
-        if (true)//LL2 빈공간
+        //if (true)//LL2 빈공간
         {
-            CBrush brush;
-            CBrush* oldBrush;
-            brush.CreateSolidBrush(RGB(140, 140, 140));     // 공정 전
-            oldBrush = pDC->SelectObject(&brush);
-
+            oldBrush = pDC->SelectObject(&m_brGray);
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
             {
                 pDC->Rectangle(1100, 110 + (21.8 * i), 1165, 131.8 + (21.8 * i));
             }
+            pDC->SelectObject(oldBrush);
         }
-        if (true)//LL2
+        //if (true)//LL2
         {
-
-            CBrush brush;
-            CBrush* oldBrush;
-            brush.CreateSolidBrush(m_nBefore);     // 공정 전
-            oldBrush = pDC->SelectObject(&brush);
-
+            oldBrush = pDC->SelectObject(&m_brGreen);
             for (int i = (m_ctrLL2.GetWindowInt() - 1); i >= 0; i--)
             {
                 pDC->Rectangle(1100, 110 + (21.8 * i), 1165, 131.8 + (21.8 * i));
-
             }
-
-        }
-        
-        if (true)//LL2 의 공정 끝낸 웨이퍼 개수
+            pDC->SelectObject(oldBrush);
+        }        
+        //if (true)//LL2 의 공정 끝낸 웨이퍼 개수
         {
-
-            CBrush brush;
-            CBrush* oldBrush;
-            brush.CreateSolidBrush(m_nAfter);
-            oldBrush = pDC->SelectObject(&brush);
-
+            oldBrush = pDC->SelectObject(&m_brBlue);
             for (int i = m_nWafer_Process[1] - 1; i >= 0; i--)
             {
                 pDC->Rectangle(1100, 110 + (21.8 * i), 1165, 131.8 + (21.8 * i));
-
             }
-
+            pDC->SelectObject(oldBrush);
         }
-        if (true)//LL3 빈공간
+        //if (true)//LL3 빈공간
         {
-
-            CBrush brush;
-            CBrush* oldBrush;
-            brush.CreateSolidBrush(RGB(140, 140, 140));     // 공정 전
-            oldBrush = pDC->SelectObject(&brush);
-
+            oldBrush = pDC->SelectObject(&m_brGray);
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
             {
                 pDC->Rectangle(970, 331 + (21.8 * i), 1035, 352.8 + (21.8 * i));
-
             }
-
+            pDC->SelectObject(oldBrush);
         }
-        if (true)//LL3
+        //if (true)//LL3
         {
-
-            CBrush brush;
-            CBrush* oldBrush;
-            brush.CreateSolidBrush(m_nBefore);     // 공정 전
-            oldBrush = pDC->SelectObject(&brush);
-
+            oldBrush = pDC->SelectObject(&m_brGreen);
             for (int i = (m_ctrLL3.GetWindowInt() - 1); i >= 0; i--)
             {
                 pDC->Rectangle(970, 331 + (21.8 * i), 1035, 352.8 + (21.8 * i));
-
             }
-
+            pDC->SelectObject(oldBrush);
         }
         
-        if (true)//LL3 의 공정끝낸 웨이퍼 개수
+        //if (true)//LL3 의 공정끝낸 웨이퍼 개수
         {
-
-            CBrush brush;
-            CBrush* oldBrush;
-            brush.CreateSolidBrush(m_nAfter);
-            oldBrush = pDC->SelectObject(&brush);
-
+            oldBrush = pDC->SelectObject(&m_brBlue);
             for (int i = m_nWafer_Process[2] - 1; i >= 0; i--)
             {
                 pDC->Rectangle(970, 331 + (21.8 * i), 1035, 352.8 + (21.8 * i));
-
             }
-
+            pDC->SelectObject(oldBrush);
         }
-        if (true)//LL4 빈공간
+        //if (true)//LL4 빈공간
         {
-            CBrush brush;
-            CBrush* oldBrush;
-            brush.CreateSolidBrush(RGB(140, 140, 140));     // 공정 전
-            oldBrush = pDC->SelectObject(&brush);
-
+            oldBrush = pDC->SelectObject(&m_brGray);
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
             {
                 pDC->Rectangle(1100, 331 + (21.8 * i), 1165, 352.8 + (21.8 * i));
 
             }
-
+            pDC->SelectObject(oldBrush);
         }
-        if (true)//LL4
+        //if (true)//LL4
         {
-
-            CBrush brush;
-            CBrush* oldBrush;
-            brush.CreateSolidBrush(m_nBefore);     // 공정 전
-            oldBrush = pDC->SelectObject(&brush);
-
+            oldBrush = pDC->SelectObject(&m_brGreen);
             for (int i = (m_ctrLL4.GetWindowInt() - 1); i >= 0; i--)
             {
                 pDC->Rectangle(1100, 331 + (21.8 * i), 1165, 352.8 + (21.8 * i));
-
             }
-
-        }
-        
-        if (true)//LL4 의 공정끝낸 웨이퍼 개수
+            pDC->SelectObject(oldBrush);
+        }        
+        //if (true)//LL4 의 공정끝낸 웨이퍼 개수
         {
-
-            CBrush brush;
-            CBrush* oldBrush;
-            brush.CreateSolidBrush(m_nAfter);     // 공정 전
-            oldBrush = pDC->SelectObject(&brush);
-
+            oldBrush = pDC->SelectObject(&m_brBlue);
             for (int i = m_nWafer_Process[3] - 1; i >= 0; i--)
             {
                 pDC->Rectangle(1100, 331 + (21.8 * i), 1165, 352.8 + (21.8 * i));
-
             }
-
-        }
+            pDC->SelectObject(oldBrush);
+        }       
 
         CRect rect;
-        CBrush Greenbrush(RGB(0,255,0));
-        CBrush Bluebrush(RGB(0, 0, 255));
-        CBrush Redbrush(RGB(255, 0, 0));
-        CBrush Graybrush(RGB(140, 140, 140));
 
         m_ctrStaticGreen.GetWindowRect(&rect);
         ScreenToClient(rect);
-        pDC->SelectObject(Greenbrush);
+        oldBrush = pDC->SelectObject(&m_brGreen);
         pDC->Rectangle(rect);
+        pDC->SelectObject(oldBrush);
 
         m_ctrStaticBlue.GetWindowRect(&rect);
         ScreenToClient(rect);
-        pDC->SelectObject(Bluebrush);
+        oldBrush = pDC->SelectObject(&m_brBlue);
         pDC->Rectangle(rect);
+        pDC->SelectObject(oldBrush);
 
         m_ctrStaticRed.GetWindowRect(&rect);
         ScreenToClient(rect);
-        pDC->SelectObject(Redbrush);
+        oldBrush = pDC->SelectObject(&m_brRed);
         pDC->Rectangle(rect);
+        pDC->SelectObject(oldBrush);
 
         m_ctrStaticGray.GetWindowRect(&rect);
         ScreenToClient(rect);
-        pDC->SelectObject(Graybrush);
+        oldBrush = pDC->SelectObject(&m_brGray);
         pDC->Rectangle(rect);
+        pDC->SelectObject(oldBrush);
 
-        ReleaseDC(pDC);
-
-        
+        ReleaseDC(pDC);        
         CDialogEx::OnPaint();
     }
 }
@@ -712,6 +641,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
         if(E_FAIL != image.Load(Image_Load))//이미지 로드
         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+        g_pMainDlg->m_Ctrl_Gui_EFEM.ReleaseDC(dc);
     }
     for (int i = 0;; i++)
     {
@@ -759,6 +689,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
         if(E_FAIL != image.Load(Image_Load))//이미지 로드
         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+        g_pMainDlg->m_Ctrl_Gui_EFEM.ReleaseDC(dc);
     }
     for (int i = 0; ; i++)
     {
@@ -797,6 +728,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
             dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
             if(E_FAIL != image.Load(Image_Load))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+            g_pMainDlg->m_Ctrl_Gui_EFEM.ReleaseDC(dc);
         }
         for (int i = 0; ; i++)
         {
@@ -844,6 +776,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
             dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
             if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+            g_pMainDlg->m_Ctrl_Gui_EFEM.ReleaseDC(dc);
         }
         for (int i = 1; ; i++)
         {
@@ -873,6 +806,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
             dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
             if(E_FAIL != image.Load(Image_Load))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+            g_pMainDlg->m_Ctrl_Gui_EFEM.ReleaseDC(dc);
         }
         for (int i = 0;; i++)
         {
@@ -911,6 +845,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
             dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
             if(E_FAIL != image.Load(Image_Load))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+            g_pMainDlg->m_Ctrl_Gui_EFEM.ReleaseDC(dc);
         }
         for (int i = nLL_cnt;; i++)
         {
@@ -960,6 +895,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
         if(E_FAIL != image.Load(Image_Load))//이미지 로드
         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+        g_pMainDlg->m_Ctrl_Gui_EFEM.ReleaseDC(dc);
     }
     for (int i = 0;; i++)
     {
@@ -991,6 +927,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
         if(E_FAIL != image.Load(Image_Load))//이미지 로드
         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+        g_pMainDlg->m_Ctrl_Gui_EFEM.ReleaseDC(dc);
     }
     for (int i = nLL_cnt;; i++)
     {
@@ -1077,8 +1014,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
     {
         g_hThread2=(CreateThread(NULL, 0, Thread_2_LL2PM, 0, 0, 0));
     }
-    g_pMainDlg->ReleaseDC(dc);//DC 해제
-    
+    g_pMainDlg->ReleaseDC(dc);
     return 0;
 }
 
@@ -1168,6 +1104,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                 dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                 if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
             }
             for (int i = 0; nTM_cnt == 0; i++)
             {
@@ -1248,6 +1185,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Ctrl_Gui_PM1.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if (E_FAIL != image.Load(_T("UI\\PM_Left\\슬라이드2.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Ctrl_Gui_PM1.ReleaseDC(dc);
                 }
                 for (int i = 5; i <= 7; i++)
                 {
@@ -1257,6 +1195,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
                 if (true)
                 {
@@ -1265,6 +1204,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Ctrl_Gui_PM1.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if (E_FAIL != image.Load(_T("UI\\PM_Left\\슬라이드3.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Ctrl_Gui_PM1.ReleaseDC(dc);
                 }
             }
 
@@ -1277,6 +1217,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Ctrl_Gui_PM2.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if (E_FAIL != image.Load(_T("UI\\PM_Left\\슬라이드2.png")))//이미지 로드                   
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Ctrl_Gui_PM2.ReleaseDC(dc);
                 }
                 for (int i = 8; i <= 10; i++)
                 {
@@ -1286,6 +1227,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
                 if (true)
                 {
@@ -1294,6 +1236,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Ctrl_Gui_PM2.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if (E_FAIL != image.Load(_T("UI\\PM_Left\\슬라이드3.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Ctrl_Gui_PM2.ReleaseDC(dc);
                 }
             }
 
@@ -1306,6 +1249,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Ctrl_Gui_PM3.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if (E_FAIL != image.Load(_T("UI\\PM_Upper\\슬라이드2.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Ctrl_Gui_PM3.ReleaseDC(dc);
                 }
                 for (int i = 11; i <= 13; i++)
                 {
@@ -1315,6 +1259,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
                 if (true)
                 {
@@ -1323,6 +1268,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Ctrl_Gui_PM3.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if (E_FAIL != image.Load(_T("UI\\PM_Upper\\슬라이드3.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Ctrl_Gui_PM3.ReleaseDC(dc);
                 }
             }
 
@@ -1335,6 +1281,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Ctrl_Gui_PM4.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if (E_FAIL != image.Load(_T("UI\\PM_Upper\\슬라이드2.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Ctrl_Gui_PM4.ReleaseDC(dc);
                 }
                 for (int i = 14; i <= 16; i++)
                 {
@@ -1344,6 +1291,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
                 if (true)
                 {
@@ -1352,6 +1300,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Ctrl_Gui_PM4.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if (E_FAIL != image.Load(_T("UI\\PM_Upper\\슬라이드3.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Ctrl_Gui_PM4.ReleaseDC(dc);
                 }
             }
 
@@ -1364,6 +1313,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Ctrl_Gui_PM5.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if (E_FAIL != image.Load(_T("UI\\PM_Right\\슬라이드2.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Ctrl_Gui_PM5.ReleaseDC(dc);
                 }
                 for (int i = 17; i <= 19; i++)
                 {
@@ -1373,6 +1323,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
                 if (true)
                 {
@@ -1381,6 +1332,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Ctrl_Gui_PM5.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if (E_FAIL != image.Load(_T("UI\\PM_Right\\슬라이드3.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Ctrl_Gui_PM5.ReleaseDC(dc);
                 }
             }
 
@@ -1393,6 +1345,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Ctrl_Gui_PM6.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if (E_FAIL != image.Load(_T("UI\\PM_Right\\슬라이드2.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Ctrl_Gui_PM6.ReleaseDC(dc);
                 }
                 for (int i = 20; i <= 22; i++)
                 {
@@ -1402,6 +1355,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
                 if (true)
                 {
@@ -1410,6 +1364,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     dc = g_pMainDlg->m_Ctrl_Gui_PM6.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if (E_FAIL != image.Load(_T("UI\\PM_Right\\슬라이드3.png")))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Ctrl_Gui_PM6.ReleaseDC(dc);
                 }
             }
             for (int i = nPM_cnt;; i++)
@@ -1531,7 +1486,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
         g_pMainDlg->m_ctrPM6.GetWindowInt();
     int nPM_MAX = _ttoi(g_pMainDlg->m_strPMSlotCnt) * _ttoi(g_pMainDlg->m_strPMModuleCnt);
     SetEvent(g_hEventLL_Modul_one_Thread1and2);
-    g_pMainDlg->ReleaseDC(dc);//DC 해제
+     //DC 해제
     return 0;
 }
 
@@ -1590,6 +1545,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
             dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
             if(E_FAIL != image.Load(Image_Load))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+            g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
         }
         for (int i = nTM_cnt; ; i++)
         {
@@ -1674,6 +1630,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
             dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
             if(E_FAIL != image.Load(Image_Load))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+            g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
         }
         for (int i = nTM_cnt;; i++)
         {
@@ -1745,6 +1702,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                 if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
             }
             for (int i = nLL_cnt;; i++)
             {
@@ -1822,6 +1780,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                 if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
             }
             for (int i = nTM_cnt;; i++)
             {
@@ -1916,6 +1875,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
             }
 
@@ -1929,6 +1889,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
             }
 
@@ -1942,6 +1903,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
             }
             if (g_pMainDlg->m_nThread3_PM == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
@@ -1954,6 +1916,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
             }
             if (g_pMainDlg->m_nThread3_PM == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
@@ -1966,6 +1929,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
             }
 
@@ -1979,6 +1943,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
             }
             
@@ -2082,6 +2047,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
             }
             if (g_pMainDlg->m_ctrPM2.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 2)
@@ -2094,6 +2060,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
             }
 
@@ -2107,6 +2074,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
             }
 
@@ -2120,6 +2088,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
             }
 
@@ -2133,6 +2102,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
             }
 
@@ -2146,6 +2116,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     dc = g_pMainDlg->m_Gui_TM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                     if(E_FAIL != image.Load(Image_Load))//이미지 로드
                     image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                    g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
                 }
             }
             
@@ -2492,6 +2463,7 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
             dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
             if(E_FAIL != image.Load(Image_Load))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+            g_pMainDlg->m_Ctrl_Gui_EFEM.ReleaseDC(dc);
         }
         for (int i = 0;; i++)
         {
@@ -2528,6 +2500,7 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
             dc = g_pMainDlg->m_Ctrl_Gui_EFEM.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
             if(E_FAIL != image.Load(Image_Load))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+            g_pMainDlg->m_Ctrl_Gui_EFEM.ReleaseDC(dc);
         }
         for (int i = nOUTPUT_cnt;; i++)
         {
@@ -2569,7 +2542,7 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
     //g_pMainDlg->m_nThread_Time_Error--;
 
     SetEvent(g_hEventThread4_wait);
-    g_pMainDlg->ReleaseDC(dc);//DC 해제
+     //DC 해제
     return 0;
 }
 
@@ -2616,6 +2589,7 @@ DWORD WINAPI PM(LPVOID p)
                 dc = g_pMainDlg->m_Ctrl_Gui_PM1.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                 if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                g_pMainDlg->m_Ctrl_Gui_PM1.ReleaseDC(dc);
             }
         }
         else if (nPM_Check == 2)
@@ -2646,6 +2620,7 @@ DWORD WINAPI PM(LPVOID p)
                 dc = g_pMainDlg->m_Ctrl_Gui_PM2.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                 if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                g_pMainDlg->m_Ctrl_Gui_PM2.ReleaseDC(dc);
             }
         }
         else if (nPM_Check == 3)
@@ -2675,6 +2650,7 @@ DWORD WINAPI PM(LPVOID p)
                 dc = g_pMainDlg->m_Ctrl_Gui_PM3.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                 if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                g_pMainDlg->m_Ctrl_Gui_PM3.ReleaseDC(dc);
             }
         }
         else if (nPM_Check == 4)
@@ -2704,6 +2680,7 @@ DWORD WINAPI PM(LPVOID p)
                 dc = g_pMainDlg->m_Ctrl_Gui_PM4.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                 if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                g_pMainDlg->m_Ctrl_Gui_PM4.ReleaseDC(dc);
             }
         }
         else if (nPM_Check == 5)
@@ -2733,6 +2710,7 @@ DWORD WINAPI PM(LPVOID p)
                 dc = g_pMainDlg->m_Ctrl_Gui_PM5.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                 if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                g_pMainDlg->m_Ctrl_Gui_PM5.ReleaseDC(dc);
             }
         }
         else if (nPM_Check == 6)
@@ -2762,6 +2740,7 @@ DWORD WINAPI PM(LPVOID p)
                 dc = g_pMainDlg->m_Ctrl_Gui_PM6.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                 if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                g_pMainDlg->m_Ctrl_Gui_PM6.ReleaseDC(dc);
             }
         }
        
@@ -2782,6 +2761,7 @@ DWORD WINAPI PM(LPVOID p)
                         dc = g_pMainDlg->m_Ctrl_Gui_PM1.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                         if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                        g_pMainDlg->m_Ctrl_Gui_PM1.ReleaseDC(dc);
                     }
                 }
             }
@@ -2799,6 +2779,7 @@ DWORD WINAPI PM(LPVOID p)
                         dc = g_pMainDlg->m_Ctrl_Gui_PM2.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                         if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                        g_pMainDlg->m_Ctrl_Gui_PM2.ReleaseDC(dc);
                     }
                 }
             }
@@ -2816,6 +2797,7 @@ DWORD WINAPI PM(LPVOID p)
                         dc = g_pMainDlg->m_Ctrl_Gui_PM3.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                         if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                        g_pMainDlg->m_Ctrl_Gui_PM3.ReleaseDC(dc);
                     }
                 }
             }
@@ -2833,6 +2815,7 @@ DWORD WINAPI PM(LPVOID p)
                         dc = g_pMainDlg->m_Ctrl_Gui_PM4.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                         if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                        g_pMainDlg->m_Ctrl_Gui_PM4.ReleaseDC(dc);
                     }
                 }
             }
@@ -2850,6 +2833,7 @@ DWORD WINAPI PM(LPVOID p)
                         dc = g_pMainDlg->m_Ctrl_Gui_PM5.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                         if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                        g_pMainDlg->m_Ctrl_Gui_PM5.ReleaseDC(dc);
                     }
                 }
             }
@@ -2867,6 +2851,7 @@ DWORD WINAPI PM(LPVOID p)
                         dc = g_pMainDlg->m_Ctrl_Gui_PM6.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                         if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                        g_pMainDlg->m_Ctrl_Gui_PM6.ReleaseDC(dc);
                     }
                 }
             }
@@ -2903,6 +2888,7 @@ DWORD WINAPI PM(LPVOID p)
                 dc = g_pMainDlg->m_Ctrl_Gui_PM1.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                 if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                g_pMainDlg->m_Ctrl_Gui_PM1.ReleaseDC(dc);
             }
         }
         else if (nPM_Check == 2)
@@ -2931,6 +2917,7 @@ DWORD WINAPI PM(LPVOID p)
                 dc = g_pMainDlg->m_Ctrl_Gui_PM2.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                 if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                g_pMainDlg->m_Ctrl_Gui_PM2.ReleaseDC(dc);
             }
         }
         else if (nPM_Check == 3)
@@ -2959,6 +2946,7 @@ DWORD WINAPI PM(LPVOID p)
                 dc = g_pMainDlg->m_Ctrl_Gui_PM3.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                 if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                g_pMainDlg->m_Ctrl_Gui_PM3.ReleaseDC(dc);
             }
         }
         else if (nPM_Check == 4)
@@ -2987,6 +2975,7 @@ DWORD WINAPI PM(LPVOID p)
                 dc = g_pMainDlg->m_Ctrl_Gui_PM4.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                 if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                g_pMainDlg->m_Ctrl_Gui_PM4.ReleaseDC(dc);
             }
         }
         else if (nPM_Check == 5)
@@ -3015,6 +3004,7 @@ DWORD WINAPI PM(LPVOID p)
                 dc = g_pMainDlg->m_Ctrl_Gui_PM5.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                 if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                g_pMainDlg->m_Ctrl_Gui_PM5.ReleaseDC(dc);
             }
         }
         else if (nPM_Check == 6)
@@ -3043,6 +3033,7 @@ DWORD WINAPI PM(LPVOID p)
                 dc = g_pMainDlg->m_Ctrl_Gui_PM6.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                 if(E_FAIL != image.Load(Image_Load))//이미지 로드
                 image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                g_pMainDlg->m_Ctrl_Gui_PM6.ReleaseDC(dc);
             }
         }
         for (int i = 1; i <= 100; i++)
@@ -3062,6 +3053,7 @@ DWORD WINAPI PM(LPVOID p)
                         dc = g_pMainDlg->m_Ctrl_Gui_PM1.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                         if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                        g_pMainDlg->m_Ctrl_Gui_PM1.ReleaseDC(dc);
                     }
                 }
             }
@@ -3079,6 +3071,7 @@ DWORD WINAPI PM(LPVOID p)
                         dc = g_pMainDlg->m_Ctrl_Gui_PM2.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                         if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                        g_pMainDlg->m_Ctrl_Gui_PM2.ReleaseDC(dc);
                     }
                 }
             }
@@ -3096,6 +3089,7 @@ DWORD WINAPI PM(LPVOID p)
                         dc = g_pMainDlg->m_Ctrl_Gui_PM3.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                         if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                        g_pMainDlg->m_Ctrl_Gui_PM3.ReleaseDC(dc);
                     }
                 }
             }
@@ -3113,6 +3107,7 @@ DWORD WINAPI PM(LPVOID p)
                         dc = g_pMainDlg->m_Ctrl_Gui_PM4.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                         if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                        g_pMainDlg->m_Ctrl_Gui_PM4.ReleaseDC(dc);
                     }
                 }
             }
@@ -3130,6 +3125,7 @@ DWORD WINAPI PM(LPVOID p)
                         dc = g_pMainDlg->m_Ctrl_Gui_PM5.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                         if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                        g_pMainDlg->m_Ctrl_Gui_PM5.ReleaseDC(dc);
                     }
                 }
             }
@@ -3147,6 +3143,7 @@ DWORD WINAPI PM(LPVOID p)
                         dc = g_pMainDlg->m_Ctrl_Gui_PM6.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
                         if(E_FAIL != image.Load(Image_Load))//이미지 로드
                         image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//이미지를 픽쳐 컨트롤 크기로 조정
+                        g_pMainDlg->m_Ctrl_Gui_PM6.ReleaseDC(dc);
                     }
                 }
             }
@@ -3175,7 +3172,7 @@ DWORD WINAPI PM(LPVOID p)
     if (g_pMainDlg->m_nPM_Processing == _ttoi(g_pMainDlg->m_strPMModuleCnt))
         SetEvent(g_hEvent_PM_MAX);
     g_pMainDlg->m_nPM_Processing--;
-    g_pMainDlg->ReleaseDC(dc);//DC 해제
+     //DC 해제
     return 0;
 }
 //FINAL RESULT (THROUGHPUT)
@@ -3367,6 +3364,7 @@ void C주성Dlg::OnBnClickedStart()
             EFEM1.Format(_T("UI\\EFEM1\\슬라이드1.png"));
             if (E_FAIL != image.Load(EFEM1))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+            g_pMainDlg->m_Ctrl_Gui_EFEM.ReleaseDC(dc);
         }
         if (true)
         {
@@ -3376,6 +3374,7 @@ void C주성Dlg::OnBnClickedStart()
             TM_Quad.Format(_T("UI\\TM(Quad)\\슬라이드1.png"));
             if (E_FAIL != image.Load(TM_Quad))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+            g_pMainDlg->m_Gui_TM.ReleaseDC(dc);
         }
         if (true)
         {
@@ -3385,6 +3384,7 @@ void C주성Dlg::OnBnClickedStart()
             PM_Left.Format(_T("UI\\PM_Left\\슬라이드1.png"));
             if (E_FAIL != image.Load(PM_Left))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+            g_pMainDlg->m_Ctrl_Gui_PM1.ReleaseDC(dc);
         }
         if (true)
         {
@@ -3394,6 +3394,7 @@ void C주성Dlg::OnBnClickedStart()
             PM_Left.Format(_T("UI\\PM_Left\\슬라이드1.png"));
             if (E_FAIL != image.Load(PM_Left))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+            g_pMainDlg->m_Ctrl_Gui_PM2.ReleaseDC(dc);
         }
         if (true)
         {
@@ -3403,6 +3404,7 @@ void C주성Dlg::OnBnClickedStart()
             PM_Upper.Format(_T("UI\\PM_Upper\\슬라이드1.png"));
             if (E_FAIL != image.Load(PM_Upper))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+            g_pMainDlg->m_Ctrl_Gui_PM3.ReleaseDC(dc);
         }
         if (true)
         {
@@ -3413,6 +3415,7 @@ void C주성Dlg::OnBnClickedStart()
             
             if (E_FAIL != image.Load(PM_Upper))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+            g_pMainDlg->m_Ctrl_Gui_PM4.ReleaseDC(dc);
         }
         if (true)
         {
@@ -3422,6 +3425,7 @@ void C주성Dlg::OnBnClickedStart()
             PM_Right.Format(_T("UI\\PM_Right\\슬라이드1.png"));
             if (E_FAIL != image.Load(PM_Right))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+            g_pMainDlg->m_Ctrl_Gui_PM5.ReleaseDC(dc);
         }
         if (true)
         {
@@ -3431,6 +3435,7 @@ void C주성Dlg::OnBnClickedStart()
             PM_Right.Format(_T("UI\\PM_Right\\슬라이드1.png"));
             if (E_FAIL != image.Load(PM_Right))//이미지 로드
             image.StretchBlt(dc->m_hDC, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+            g_pMainDlg->m_Ctrl_Gui_PM6.ReleaseDC(dc);
         }
 
         ReleaseDC(dc);
