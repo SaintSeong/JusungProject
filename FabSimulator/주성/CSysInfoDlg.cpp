@@ -14,7 +14,7 @@
 IMPLEMENT_DYNAMIC(CSysInfoDlg, CDialogEx)
 
 CSysInfoDlg::CSysInfoDlg(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_SYS_INIT, pParent)
+	: CDialogEx(IDD_SysInfo, pParent)
 	, m_nEFEMPickTime(0)
 	, m_nEFEMMoveTime(0)
 	, m_nEFEMPlaceTime(0)
@@ -86,9 +86,6 @@ void CSysInfoDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CSysInfoDlg, CDialogEx)
 	ON_BN_CLICKED(IDOK, &CSysInfoDlg::OnBnClickedOk)
 	ON_CBN_SELCHANGE(IDC_COMBO_VAC_ARM, &CSysInfoDlg::OnCbnSelchangeComboVacArm)
-	//ON_CBN_SELCHANGE(IDC_COMBO_PM_SLOT, &CDlg_SYSINIT::OnCbnSelchangeComboPmSlot)
-	//ON_BN_CLICKED(IDC_BUTTON_LOAD, &CDlg_SYSINIT::OnBnClickedButtonLoad)
-	//ON_BN_CLICKED(IDC_BUTTON_Save, &CDlg_SYSINIT::OnBnClickedButtonSave)
 	ON_BN_CLICKED(IDCANCEL, &CSysInfoDlg::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
@@ -96,53 +93,36 @@ END_MESSAGE_MAP()
 // CDlg_SYSINIT 메시지 처리기
 void CSysInfoDlg::InitComboBox()
 {
-	m_ctrlComboVacArm.InsertString(0, _T("2"));
+
+	CString strFormat;
+	m_ctrlComboVacArm.AddString(_T("2"));
 	m_ctrlComboVacArm.AddString(_T("4"));
 
-	m_ctrlComboPMSlot.InsertString(0, _T("1"));
-	m_ctrlComboPMSlot.AddString(_T("2"));
-	m_ctrlComboPMSlot.AddString(_T("3"));
-	m_ctrlComboPMSlot.AddString(_T("4"));
-	m_ctrlComboPMSlot.AddString(_T("5"));
-	m_ctrlComboPMSlot.AddString(_T("6"));
+	for (int i  = 1; i < 7; i++)
+	{
+		strFormat.Format(_T("%d"), i);
+		m_ctrlComboPMSlot.AddString(strFormat);
+	}
 
-	m_ctrlComboPMModule.InsertString(0, _T("1"));
-	m_ctrlComboPMModule.AddString(_T("2"));
-	m_ctrlComboPMModule.AddString(_T("3"));
-	m_ctrlComboPMModule.AddString(_T("4"));
-	m_ctrlComboPMModule.AddString(_T("5"));
-	m_ctrlComboPMModule.AddString(_T("6"));
+	for (int i = 1; i < 7; i++)
+	{
+		strFormat.Format(_T("%d"), i);
+		m_ctrlComboPMModule.AddString(strFormat);
+	}
 
-	m_ctrlComboLLModule.InsertString(0, _T("1"));
-	m_ctrlComboLLModule.AddString(_T("2"));
-	m_ctrlComboLLModule.AddString(_T("3"));
-	m_ctrlComboLLModule.AddString(_T("4"));
+	for (int i = 1; i < 7; i++)
+	{
+		strFormat.Format(_T("%d"), i);
+		m_ctrlComboLLSlot.AddString(strFormat);
+	}
 
-	m_ctrlComboLLSlot.InsertString(0, _T("1"));
-	m_ctrlComboLLSlot.AddString(_T("2"));
-	m_ctrlComboLLSlot.AddString(_T("3"));
-	m_ctrlComboLLSlot.AddString(_T("4"));
-	m_ctrlComboLLSlot.AddString(_T("5"));
-	m_ctrlComboLLSlot.AddString(_T("6"));
-	m_ctrlComboLLSlot.AddString(_T("7"));
-	m_ctrlComboLLSlot.AddString(_T("8"));
-	m_ctrlComboLLSlot.AddString(_T("9"));
-	m_ctrlComboLLSlot.AddString(_T("10"));
-	m_ctrlComboLLSlot.AddString(_T("11"));
-	m_ctrlComboLLSlot.AddString(_T("12"));
-	m_ctrlComboLLSlot.AddString(_T("13"));
-	m_ctrlComboLLSlot.AddString(_T("14"));
-	m_ctrlComboLLSlot.AddString(_T("15"));
-	m_ctrlComboLLSlot.AddString(_T("16"));
-	m_ctrlComboLLSlot.AddString(_T("17"));
-	m_ctrlComboLLSlot.AddString(_T("18"));
-	m_ctrlComboLLSlot.AddString(_T("19"));
-	m_ctrlComboLLSlot.AddString(_T("20"));
-	m_ctrlComboLLSlot.AddString(_T("21"));
-	m_ctrlComboLLSlot.AddString(_T("22"));
-	m_ctrlComboLLSlot.AddString(_T("23"));
-	m_ctrlComboLLSlot.AddString(_T("24"));
-	m_ctrlComboLLSlot.AddString(_T("25"));
+	for (int i = 1; i < 5; i++)
+	{
+		strFormat.Format(_T("%d"), i);
+		m_ctrlComboLLModule.AddString(strFormat);
+	}
+
+	
 }
 
 BOOL CSysInfoDlg::OnInitDialog()
@@ -183,50 +163,6 @@ BOOL CSysInfoDlg::OnInitDialog()
 	m_nPMSlotOpenTime = pMainDlg->m_nPM_Slot_Valve_Open / MSEC;
 	m_nPMSlotCloseTime = pMainDlg->m_nPM_Slot_Valve_Close / MSEC;
 
-	CString strValue;
-
-	strValue.Format(_T("%d"), m_nEFEMPickTime);
-	GetDlgItem(IDC_EDIT_EFEM_PICKTIME)->SetWindowText(strValue);
-	strValue.Format(_T("%d"), m_nEFEMMoveTime);
-	GetDlgItem(IDC_EDIT_EFEM_MOVETIME)->SetWindowText(strValue);
-	strValue.Format(_T("%d"), m_nEFEMPlaceTime);
-	GetDlgItem(IDC_EDIT_EFEM_PLACETIME)->SetWindowText(strValue);
-	strValue.Format(_T("%.1f"), m_nEFEMRotateTime);
-	GetDlgItem(IDC_EDIT_ROTATETIME)->SetWindowText(strValue);
-
-	strValue.Format(_T("%d"), m_nLLPumpTime);
-	GetDlgItem(IDC_EDIT_PUMP_TIME)->SetWindowText(strValue);
-	strValue.Format(_T("%d"), m_nLLPumpStableTime);
-	GetDlgItem(IDC_EDIT_LL_PUMP_STABLETIME)->SetWindowText(strValue);
-	strValue.Format(_T("%d"), m_nLLVentTime);
-	GetDlgItem(IDC_EDIT_LL_VENT_TIME)->SetWindowText(strValue);
-	strValue.Format(_T("%d"), m_nLLVentStableTime);
-	GetDlgItem(IDC_EDIT_VENT_STABLETIME)->SetWindowText(strValue);
-	strValue.Format(_T("%d"), m_nLLSlotOpenTime);
-	GetDlgItem(IDC_EDIT_LL_SLOT_OPEN_TIME)->SetWindowText(strValue);
-	strValue.Format(_T("%d"), m_nLLSlotCloseTime);
-	GetDlgItem(IDC_EDIT_LL_SLOT_CLOSE_TIME)->SetWindowText(strValue);
-	strValue.Format(_T("%d"), m_nLLDoorOpenTime);
-	GetDlgItem(IDC_EDIT_LL_DOOR_OPEN_TIME)->SetWindowText(strValue);
-	strValue.Format(_T("%d"), m_nLLDoorCloseTime);
-	GetDlgItem(IDC_EDIT_LL_DOOR_CLOSE_TIME)->SetWindowText(strValue);
-
-	strValue.Format(_T("%d"), m_nTMRotate);
-	GetDlgItem(IDC_EDIT_TM_ROTATE)->SetWindowText(strValue);
-	strValue.Format(_T("%d"), m_nTMPickTime);
-	GetDlgItem(IDC_EDIT_TM_PICK_TIME)->SetWindowText(strValue);
-	strValue.Format(_T("%d"), m_nTMPlaceTime);
-	GetDlgItem(IDC_EDIT_TM_PLACE_TIME)->SetWindowText(strValue);
-
-	strValue.Format(_T("%d"), m_nPMProcessTime);
-	GetDlgItem(IDC_EDIT_PM_PROCESS_TIME)->SetWindowText(strValue);
-	strValue.Format(_T("%d"), m_nCleanCount);
-	GetDlgItem(IDC_EDIT_CLEANCOUNT)->SetWindowText(strValue);
-	strValue.Format(_T("%d"), m_nPMSlotOpenTime);
-	GetDlgItem(IDC_EDIT_PM_SLOT_OPEN_TIME)->SetWindowText(strValue);
-	strValue.Format(_T("%d"), m_nPMSlotCloseTime);
-	GetDlgItem(IDC_EDIT_PM_SLOT_CLOSE_TIME)->SetWindowText(strValue);
-
 	int nLLModuleIdx = 0;
 	int nLLSlotIdx = 0;
 	int nVacArmIdx = 0;
@@ -238,56 +174,39 @@ BOOL CSysInfoDlg::OnInitDialog()
 
 	nVacArmIdx = m_ctrlComboVacArm.FindStringExact(0, m_strVacArmCount);
 	m_ctrlComboVacArm.SetCurSel(nLLModuleIdx);
-
+	
+	CString strValue;
+	
 	m_ctrlComboVacArm.GetLBText(nVacArmIdx, strValue);
 	nValue = _ttoi(strValue);
 
-	for (int i = m_ctrlComboLLSlot.GetCount() - 1; i >= 0; i--)
-	{
-		m_ctrlComboLLSlot.DeleteString(i);
-	}
+	m_ctrlComboLLSlot.ResetContent();
+	m_ctrlComboPMSlot.ResetContent();
+	m_ctrlComboPMModule.ResetContent();
 
-	for (int i = m_ctrlComboPMSlot.GetCount() - 1; i >= 0; i--)
-	{
-		m_ctrlComboPMSlot.DeleteString(i);
-	}
 
-	for (int i = m_ctrlComboPMModule.GetCount() - 1; i >= 0; i--)
+	for (int i = 1; i < 7; i++)
 	{
-		m_ctrlComboPMModule.DeleteString(i);
+		strValue.Format(_T("%d"), i);
+		m_ctrlComboPMModule.AddString(strValue);
 	}
 
 	if (nValue == 2)
 	{
-		m_ctrlComboPMSlot.AddString(_T("1"));
-		m_ctrlComboPMSlot.AddString(_T("2"));
-		m_ctrlComboPMSlot.AddString(_T("3"));
-		m_ctrlComboPMSlot.AddString(_T("4"));
-		m_ctrlComboPMSlot.AddString(_T("5"));
-		m_ctrlComboPMSlot.AddString(_T("6"));
+		for (int i = 1; i < 7; i++)
+		{
+			strValue.Format(_T("%d"), i);
+			m_ctrlComboPMSlot.AddString(strValue);
+		}
 
-		m_ctrlComboPMModule.AddString(_T("1"));
-		m_ctrlComboPMModule.AddString(_T("2"));
-		m_ctrlComboPMModule.AddString(_T("3"));
-		m_ctrlComboPMModule.AddString(_T("4"));
-		m_ctrlComboPMModule.AddString(_T("5"));
-		m_ctrlComboPMModule.AddString(_T("6"));
-
-		m_ctrlComboLLSlot.AddString(_T("1"));
-		m_ctrlComboLLSlot.AddString(_T("2"));
-		m_ctrlComboLLSlot.AddString(_T("3"));
-		m_ctrlComboLLSlot.AddString(_T("4"));
-		m_ctrlComboLLSlot.AddString(_T("5"));
-		m_ctrlComboLLSlot.AddString(_T("6"));
+		for (int i = 1; i < 7; i++)
+		{
+			strValue.Format(_T("%d"), i);
+			m_ctrlComboLLSlot.AddString(strValue);
+		}
 	}
 	else
 	{
-		m_ctrlComboPMModule.AddString(_T("1"));
-		m_ctrlComboPMModule.AddString(_T("2"));
-		m_ctrlComboPMModule.AddString(_T("3"));
-		m_ctrlComboPMModule.AddString(_T("4"));
-		m_ctrlComboPMModule.AddString(_T("5"));
-		m_ctrlComboPMModule.AddString(_T("6"));
 
 		m_ctrlComboPMSlot.AddString(_T("2"));
 		m_ctrlComboPMSlot.AddString(_T("4"));
@@ -359,106 +278,50 @@ void CSysInfoDlg::OnBnClickedOk()
 	}
 }
 
-//UpdateData(1);
-//
-//C주성Dlg* pMainDlg = (C주성Dlg*)GetParent();
-//pMainDlg->m_nATM_Pick = m_nEFEMPickTime * MSEC;
-//pMainDlg->m_nATM_Place = m_nEFEMPlaceTime * MSEC;
-//pMainDlg->m_nATM_Rotate = m_nEFEMRotateTime * MSEC;
-//pMainDlg->m_nATM_ZRotate = m_nEFEMMoveTime * MSEC;
-//
-//pMainDlg->m_strLLModuleCnt = m_strLLModuleCount;
-//pMainDlg->m_strLLSlotCnt = m_strLLSlotCount;
-//pMainDlg->m_nLL_Pump = m_nLLPumpTime * MSEC;
-//pMainDlg->m_nLL_Pump_Stable_Time = m_nLLPumpStableTime * MSEC;
-//pMainDlg->m_nLL_Vent = m_nLLVentTime * MSEC;
-//pMainDlg->m_nLL_Vent_Stable_Time = m_nLLVentStableTime * MSEC;
-//pMainDlg->m_nLL_Slot_Valve_Open = m_nLLSlotOpenTime * MSEC;
-//pMainDlg->m_nLL_Slot_Valve_Close = m_nLLSlotCloseTime * MSEC;
-//pMainDlg->m_nLL_Door_Valve_Open = m_nLLDoorOpenTime * MSEC;
-//pMainDlg->m_nLL_Door_Valve_Close = m_nLLDoorCloseTime * MSEC;
-//
-//pMainDlg->m_strVacArmCnt = m_strVacArmCount;
-//pMainDlg->m_nVAC_Pick = m_nTMPickTime * MSEC;
-//pMainDlg->m_nVAC_Place = m_nTMPlaceTime * MSEC;
-//pMainDlg->m_nRotate = m_nTMRotate * MSEC;
-//
-//pMainDlg->m_strPMModuleCnt = m_strPMModuleCount;
-//pMainDlg->m_strPMSlotCnt = m_strPMSlotCount;
-//pMainDlg->m_nPM_Clean_Time = m_nPMProcessTime * 2 * MSEC;
-//pMainDlg->m_nPM_Clean_Wafer_Count = m_nCleanCount;
-//pMainDlg->m_nPM_Time = m_nPMProcessTime * MSEC;
-//pMainDlg->m_nPM_Slot_Valve_Open = m_nPMSlotOpenTime * MSEC;
-//pMainDlg->m_nPM_Slot_Valve_Close = m_nPMSlotCloseTime * MSEC;
-//
-//pMainDlg->GetDlgItem(IDC_START)->EnableWindow(TRUE);
-//pMainDlg->GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(TRUE);
-//pMainDlg->GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(TRUE);
-//pMainDlg->GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(TRUE);
-//pMainDlg->GetDlgItem(IDC_BUTTON_LOAD_THROUGHPUT)->EnableWindow(TRUE);
-
 void CSysInfoDlg::OnCbnSelchangeComboVacArm()
 {
-	for (int i = m_ctrlComboPMSlot.GetCount() - 1; i >= 0; i--)
-	{
-		m_ctrlComboPMSlot.DeleteString(i);
-	}
 
-	for (int i = m_ctrlComboPMModule.GetCount() - 1; i >= 0; i--)
-	{
-		m_ctrlComboPMModule.DeleteString(i);
-	}
+	CString strVacArm;
+	CString strValue;
 
-	for (short i = m_ctrlComboLLSlot.GetCount() - 1; i >= 0; i--)
+	m_ctrlComboPMSlot.ResetContent();
+	m_ctrlComboPMModule.ResetContent();
+	m_ctrlComboLLSlot.ResetContent();
+
+	for (int i = 1; i < 7; i++)
 	{
-		m_ctrlComboLLSlot.DeleteString(i);
+		strValue.Format(_T("%d"), i);
+		m_ctrlComboPMModule.AddString(strValue);
 	}
+	m_ctrlComboPMModule.SetCurSel(0);
 
 	int nVacArmIdx = m_ctrlComboVacArm.GetCurSel();
-	CString strVacArm;
 	m_ctrlComboVacArm.GetLBText(nVacArmIdx, strVacArm);
 	int nVacArm = _ttoi(strVacArm);
 
 	if (nVacArm == 2)
 	{
-		m_ctrlComboPMSlot.AddString(_T("1"));
-		m_ctrlComboPMSlot.AddString(_T("2"));
-		m_ctrlComboPMSlot.AddString(_T("3"));
-		m_ctrlComboPMSlot.AddString(_T("4"));
-		m_ctrlComboPMSlot.AddString(_T("5"));
-		m_ctrlComboPMSlot.AddString(_T("6"));
+		for (int i = 1; i < 7; i++)
+		{
+			strValue.Format(_T("%d"), i);
+			m_ctrlComboPMSlot.AddString(strValue);
+		}
 		m_ctrlComboPMSlot.SetCurSel(0);
 
-		m_ctrlComboPMModule.AddString(_T("1"));
-		m_ctrlComboPMModule.AddString(_T("2"));
-		m_ctrlComboPMModule.AddString(_T("3"));
-		m_ctrlComboPMModule.AddString(_T("4"));
-		m_ctrlComboPMModule.AddString(_T("5"));
-		m_ctrlComboPMModule.AddString(_T("6"));
-		m_ctrlComboPMModule.SetCurSel(0);
 
-		m_ctrlComboLLSlot.AddString(_T("1"));
-		m_ctrlComboLLSlot.AddString(_T("2"));
-		m_ctrlComboLLSlot.AddString(_T("3"));
-		m_ctrlComboLLSlot.AddString(_T("4"));
-		m_ctrlComboLLSlot.AddString(_T("5"));
-		m_ctrlComboLLSlot.AddString(_T("6"));
+		for (int i = 1; i < 7; i++)
+		{
+			strValue.Format(_T("%d"), i);
+			m_ctrlComboLLSlot.AddString(strValue);
+		}
 		m_ctrlComboLLSlot.SetCurSel(0);
 	}
 	else
 	{
-		m_ctrlComboPMSlot.AddString(_T("1"));
 		m_ctrlComboPMSlot.AddString(_T("2"));
-		m_ctrlComboPMSlot.AddString(_T("3"));
 		m_ctrlComboPMSlot.AddString(_T("4"));
-		m_ctrlComboPMSlot.AddString(_T("5"));
 		m_ctrlComboPMSlot.AddString(_T("6"));
 		m_ctrlComboPMSlot.SetCurSel(0);
-
-		m_ctrlComboPMModule.AddString(_T("1"));
-		m_ctrlComboPMModule.AddString(_T("2"));
-		m_ctrlComboPMModule.AddString(_T("3"));
-		m_ctrlComboPMModule.SetCurSel(0);
 
 		m_ctrlComboLLSlot.AddString(_T("2"));
 		m_ctrlComboLLSlot.AddString(_T("4"));

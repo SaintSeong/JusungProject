@@ -8,6 +8,7 @@
 #define IDD_MAINVIEW                    102
 #define IDR_MAINFRAME                   128
 #define IDD_SYS_INIT                    143
+#define IDD_SysInfo                     143
 #define IDC_EFEMARM                     1000
 #define IDC_START                       1001
 #define IDC_OUTPUT                      1002
