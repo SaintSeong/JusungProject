@@ -38,7 +38,6 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 지원입니다.
 
-
 	// 구현입니다.
 protected:
 	HICON m_hIcon;
@@ -49,9 +48,8 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
-public:
-	afx_msg void OnBnClickedStart();
 
+public:
 	int m_nWafer_Count; //장비에 집어넣은 웨이퍼 현재 개수
 	int m_nLLMAX; //LL의 방 개수 x 웨이퍼 개수= LL이 수용할수 있는 최대치
 	int m_noutput_count; // output에 들어오는 웨이퍼를 담고있는 변수
@@ -116,7 +114,6 @@ public:
 	CString m_strPMModuleCnt;//콤보박스 PM 모듈 개수 값 변수
 	CString m_strPMSlotCnt; //콤보박스 PM 웨이퍼 개수 값 변수
 
-
 	//UI로 사용자에게 보여지는 버튼 값 UI 변수
 	C주성Btn m_ctrEFEM;
 	C주성Btn m_ctrALIGNER;
@@ -134,23 +131,10 @@ public:
 	C주성Btn m_ctrPM6;
 
 	//초기 세팅을 위한 컨트롤 변수 모음
-
 	CComboBox m_ctrSpeed;  //콤보박스 스피드
-	afx_msg void OnClose();
-
-
-	afx_msg void OnBnClickedSysInitial();
-	afx_msg void OnBnClickedButtonSaveSystemconfig();
-	afx_msg void OnBnClickedButtonSaveThroughput();
-	afx_msg void OnBnClickedButtonLoadSystemconfig();
-	afx_msg void OnBnClickedButtonLoadThroughput();
-
 	CStatic m_ctrlStaticTotalTime;
+	CFont m_fontTime;
 
-	CFont m_font;
-
-
-	afx_msg void OnBnClickedSetSpeed();
 	//각 PM의 웨이퍼 공정 개수
 	C주성Btn m_CtrStatic_PM1;
 	C주성Btn m_CtrStatic_PM2;
@@ -174,9 +158,7 @@ public:
 
 	//Clean용 더미 웨이퍼 공정시 사용 변수
 	int m_nDummy_Wafer_Count;	//들어간 더미 웨이퍼 개수
-	bool m_bLL_Dummy;			
-
-
+	bool m_bLL_Dummy;
 	int m_nTotal_Input;			// 웨이퍼 총 INPUT 값
 
 	bool m_bClean_Time_Start;	// Clean 공정 시작/종료 시간 알림
@@ -214,7 +196,6 @@ public:
 	CStatic m_ctrStaticBlue;
 	CStatic m_ctrStaticRed;
 
-
 	CStatic m_ctrPicture_Back;
 	CStatic m_ctrStaticGray;
 
@@ -222,5 +203,15 @@ public:
 	CBrush m_brGreen;
 	CBrush m_brBlue;
 	CBrush m_brRed;
-	CBrush m_brGray;	
+	CBrush m_brGray;
+
+	afx_msg void OnBnClickedSysInitial();
+	afx_msg void OnBnClickedButtonSaveSystemconfig();
+	afx_msg void OnBnClickedButtonSaveThroughput();
+	afx_msg void OnBnClickedButtonLoadSystemconfig();
+	afx_msg void OnBnClickedButtonLoadThroughput();
+	afx_msg void OnBnClickedStart();
+	afx_msg void OnBnClickedSetSpeed();
+
+	void DrawSemiconductor(CWnd* pWnd, CString strImageName);
 };

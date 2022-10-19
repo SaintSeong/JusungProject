@@ -1,7 +1,7 @@
 VAC ARM : 4	5시간
 LL_M	LL_S	PM_M	PM_S	OUTPUT	THROUGHTPUT
-1	2	1	2
-1	4	1	4
+1	2	1	2              
+1	4	1	4                          
 1	6	1	6
 
 1	2	2	2
