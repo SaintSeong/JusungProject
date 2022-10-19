@@ -121,8 +121,6 @@ void CSysInfoDlg::InitComboBox()
 		strFormat.Format(_T("%d"), i);
 		m_ctrlComboLLModule.AddString(strFormat);
 	}
-
-	
 }
 
 BOOL CSysInfoDlg::OnInitDialog()
@@ -207,7 +205,6 @@ BOOL CSysInfoDlg::OnInitDialog()
 	}
 	else
 	{
-
 		m_ctrlComboPMSlot.AddString(_T("2"));
 		m_ctrlComboPMSlot.AddString(_T("4"));
 		m_ctrlComboPMSlot.AddString(_T("6"));
