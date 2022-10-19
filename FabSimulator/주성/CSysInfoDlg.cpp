@@ -5,15 +5,15 @@
 #include "주성.h"
 #include "주성Dlg.h"
 #include "afxdialogex.h"
-#include "CDlg_SYSINIT.h"
+#include "CSysInfoDlg.h"
 
 #define MSEC 1000
 
 // CDlg_SYSINIT 대화 상자
 
-IMPLEMENT_DYNAMIC(CDlg_SYSINIT, CDialogEx)
+IMPLEMENT_DYNAMIC(CSysInfoDlg, CDialogEx)
 
-CDlg_SYSINIT::CDlg_SYSINIT(CWnd* pParent /*=nullptr*/)
+CSysInfoDlg::CSysInfoDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_SYS_INIT, pParent)
 	, m_nEFEMPickTime(0)
 	, m_nEFEMMoveTime(0)
@@ -42,11 +42,11 @@ CDlg_SYSINIT::CDlg_SYSINIT(CWnd* pParent /*=nullptr*/)
 {
 }
 
-CDlg_SYSINIT::~CDlg_SYSINIT()
+CSysInfoDlg::~CSysInfoDlg()
 {
 }
 
-void CDlg_SYSINIT::DoDataExchange(CDataExchange* pDX)
+void CSysInfoDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_COMBO_MODULE_COUNT, m_ctrlComboLLModule);
@@ -83,18 +83,18 @@ void CDlg_SYSINIT::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(CDlg_SYSINIT, CDialogEx)
-	ON_BN_CLICKED(IDOK, &CDlg_SYSINIT::OnBnClickedOk)
-	ON_CBN_SELCHANGE(IDC_COMBO_VAC_ARM, &CDlg_SYSINIT::OnCbnSelchangeComboVacArm)
+BEGIN_MESSAGE_MAP(CSysInfoDlg, CDialogEx)
+	ON_BN_CLICKED(IDOK, &CSysInfoDlg::OnBnClickedOk)
+	ON_CBN_SELCHANGE(IDC_COMBO_VAC_ARM, &CSysInfoDlg::OnCbnSelchangeComboVacArm)
 	//ON_CBN_SELCHANGE(IDC_COMBO_PM_SLOT, &CDlg_SYSINIT::OnCbnSelchangeComboPmSlot)
 	//ON_BN_CLICKED(IDC_BUTTON_LOAD, &CDlg_SYSINIT::OnBnClickedButtonLoad)
 	//ON_BN_CLICKED(IDC_BUTTON_Save, &CDlg_SYSINIT::OnBnClickedButtonSave)
-	ON_BN_CLICKED(IDCANCEL, &CDlg_SYSINIT::OnBnClickedCancel)
+	ON_BN_CLICKED(IDCANCEL, &CSysInfoDlg::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 
 // CDlg_SYSINIT 메시지 처리기
-void CDlg_SYSINIT::InitComboBox()
+void CSysInfoDlg::InitComboBox()
 {
 	m_ctrlComboVacArm.InsertString(0, _T("2"));
 	m_ctrlComboVacArm.AddString(_T("4"));
@@ -145,7 +145,7 @@ void CDlg_SYSINIT::InitComboBox()
 	m_ctrlComboLLSlot.AddString(_T("25"));
 }
 
-BOOL CDlg_SYSINIT::OnInitDialog()
+BOOL CSysInfoDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
@@ -320,7 +320,7 @@ BOOL CDlg_SYSINIT::OnInitDialog()
 }
 
 
-void CDlg_SYSINIT::OnBnClickedOk()
+void CSysInfoDlg::OnBnClickedOk()
 {
 
 	int nLLSlotIdx = m_ctrlComboLLSlot.GetCurSel();
@@ -397,7 +397,7 @@ void CDlg_SYSINIT::OnBnClickedOk()
 //pMainDlg->GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(TRUE);
 //pMainDlg->GetDlgItem(IDC_BUTTON_LOAD_THROUGHPUT)->EnableWindow(TRUE);
 
-void CDlg_SYSINIT::OnCbnSelchangeComboVacArm()
+void CSysInfoDlg::OnCbnSelchangeComboVacArm()
 {
 	for (int i = m_ctrlComboPMSlot.GetCount() - 1; i >= 0; i--)
 	{
@@ -467,7 +467,7 @@ void CDlg_SYSINIT::OnCbnSelchangeComboVacArm()
 	}
 }
 
-void CDlg_SYSINIT::OnBnClickedCancel()
+void CSysInfoDlg::OnBnClickedCancel()
 {
 	if (IDYES == AfxMessageBox(_T("설정이 적용되지 않습니다. 취소하시겠습니까?"), MB_YESNO))
 	{

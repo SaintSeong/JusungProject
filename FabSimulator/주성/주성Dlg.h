@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include "CDlg_SYSINIT.h"
+#include "CSysInfoDlg.h"
 
 class C주성Btn : public CButton
 {
@@ -51,8 +51,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedStart();
-
-	CDlg_SYSINIT m_dlgSysInit;
 
 	int m_nWafer_Count; //장비에 집어넣은 웨이퍼 현재 개수
 	int m_nLLMAX; //LL의 방 개수 x 웨이퍼 개수= LL이 수용할수 있는 최대치

@@ -6,7 +6,7 @@
 #include "주성.h"
 #include "주성Dlg.h"
 #include "afxdialogex.h"
-#include "CDlg_SYSINIT.h"
+#include "CSysInfoDlg.h"
 #ifdef _DEBUGasdasdasd
 #define new DEBUG_NEW
 #endif
@@ -46,7 +46,7 @@ END_MESSAGE_MAP()
 
 // C주성Dlg 메시지 처리기
 C주성Dlg* g_pMainDlg;
-CDlg_SYSINIT* g_pSubDlg;
+CSysInfoDlg* g_pSubDlg;
 CRect g_CRtemp(0, 0, 2, 2);/*
 CRect g_CR_LL1(940, 130, 1080, 300);
 CRect g_CR_LL2(1100, 137, 1240, 300);
@@ -76,7 +76,6 @@ C주성Dlg::C주성Dlg(CWnd* pParent /*=nullptr*/)
     , m_brBlue(RGB(0, 0, 255))
     , m_brRed(RGB(255, 0, 0))
     , m_brGray(RGB(140, 140, 140))
-
 {
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
     m_nWafer_Count = 0;
@@ -121,8 +120,6 @@ void C주성Dlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_PROGRESS_LL3, m_ctrPROGRESS_LL3);
     DDX_Control(pDX, IDC_PROGRESS_LL4, m_ctrPROGRESS_LL4);
     DDX_Control(pDX, IDC_STATIC_Time, m_ctrlStaticTotalTime);
-
-
 
     DDX_Control(pDX, IDC_STATIC_SPEED, m_ctrStatic_Speed);//
                                                           //LPM UI 스태틱 변수
@@ -3557,42 +3554,44 @@ void C주성Dlg::OnBnClickedSetSpeed()
 
 //void C주성Dlg::OnBnClickedSysInitial()
 //{
-//    m_dlgSysInit.DoModal();
+//    dlgSysInit.DoModal();
 //}
 
 #define MSEC 1000
 void C주성Dlg::OnBnClickedSysInitial()
 {
-    if (m_dlgSysInit.DoModal() == IDOK)
+    CSysInfoDlg dlgSysInit;
+
+    if (dlgSysInit.DoModal() == IDOK)
     {
-        m_nATM_Pick = m_dlgSysInit.m_nEFEMPickTime * MSEC;
-        m_nATM_Place = m_dlgSysInit.m_nEFEMPlaceTime * MSEC;
-        m_nATM_Rotate = m_dlgSysInit.m_nEFEMRotateTime * MSEC;
-        m_nATM_ZRotate = m_dlgSysInit.m_nEFEMMoveTime * MSEC;
+        m_nATM_Pick = dlgSysInit.m_nEFEMPickTime * MSEC;
+        m_nATM_Place = dlgSysInit.m_nEFEMPlaceTime * MSEC;
+        m_nATM_Rotate = dlgSysInit.m_nEFEMRotateTime * MSEC;
+        m_nATM_ZRotate = dlgSysInit.m_nEFEMMoveTime * MSEC;
 
-        m_strLLModuleCnt = m_dlgSysInit.m_strLLModuleCount;
-        m_strLLSlotCnt = m_dlgSysInit.m_strLLSlotCount;
-        m_nLL_Pump = m_dlgSysInit.m_nLLPumpTime * MSEC;
-        m_nLL_Pump_Stable_Time = m_dlgSysInit.m_nLLPumpStableTime * MSEC;
-        m_nLL_Vent = m_dlgSysInit.m_nLLVentTime * MSEC;
-        m_nLL_Vent_Stable_Time = m_dlgSysInit.m_nLLVentStableTime * MSEC;
-        m_nLL_Slot_Valve_Open = m_dlgSysInit.m_nLLSlotOpenTime * MSEC;
-        m_nLL_Slot_Valve_Close = m_dlgSysInit.m_nLLSlotCloseTime * MSEC;
-        m_nLL_Door_Valve_Open = m_dlgSysInit.m_nLLDoorOpenTime * MSEC;
-        m_nLL_Door_Valve_Close = m_dlgSysInit.m_nLLDoorCloseTime * MSEC;
+        m_strLLModuleCnt = dlgSysInit.m_strLLModuleCount;
+        m_strLLSlotCnt = dlgSysInit.m_strLLSlotCount;
+        m_nLL_Pump = dlgSysInit.m_nLLPumpTime * MSEC;
+        m_nLL_Pump_Stable_Time = dlgSysInit.m_nLLPumpStableTime * MSEC;
+        m_nLL_Vent = dlgSysInit.m_nLLVentTime * MSEC;
+        m_nLL_Vent_Stable_Time = dlgSysInit.m_nLLVentStableTime * MSEC;
+        m_nLL_Slot_Valve_Open = dlgSysInit.m_nLLSlotOpenTime * MSEC;
+        m_nLL_Slot_Valve_Close = dlgSysInit.m_nLLSlotCloseTime * MSEC;
+        m_nLL_Door_Valve_Open = dlgSysInit.m_nLLDoorOpenTime * MSEC;
+        m_nLL_Door_Valve_Close = dlgSysInit.m_nLLDoorCloseTime * MSEC;
 
-        m_strVacArmCnt = m_dlgSysInit.m_strVacArmCount;
-        m_nVAC_Pick = m_dlgSysInit.m_nTMPickTime * MSEC;
-        m_nVAC_Place = m_dlgSysInit.m_nTMPlaceTime * MSEC;
-        m_nRotate = m_dlgSysInit.m_nTMRotate * MSEC;
+        m_strVacArmCnt = dlgSysInit.m_strVacArmCount;
+        m_nVAC_Pick = dlgSysInit.m_nTMPickTime * MSEC;
+        m_nVAC_Place = dlgSysInit.m_nTMPlaceTime * MSEC;
+        m_nRotate = dlgSysInit.m_nTMRotate * MSEC;
 
-        m_strPMModuleCnt = m_dlgSysInit.m_strPMModuleCount;
-        m_strPMSlotCnt = m_dlgSysInit.m_strPMSlotCount;
-        m_nPM_Clean_Time = m_dlgSysInit.m_nPMProcessTime * 2 * MSEC;
-        m_nPM_Clean_Wafer_Count = m_dlgSysInit.m_nCleanCount;
-        m_nPM_Time = m_dlgSysInit.m_nPMProcessTime * MSEC;
-        m_nPM_Slot_Valve_Open = m_dlgSysInit.m_nPMSlotOpenTime * MSEC;
-        m_nPM_Slot_Valve_Close = m_dlgSysInit.m_nPMSlotCloseTime * MSEC;
+        m_strPMModuleCnt = dlgSysInit.m_strPMModuleCount;
+        m_strPMSlotCnt = dlgSysInit.m_strPMSlotCount;
+        m_nPM_Clean_Time = dlgSysInit.m_nPMProcessTime * 2 * MSEC;
+        m_nPM_Clean_Wafer_Count = dlgSysInit.m_nCleanCount;
+        m_nPM_Time = dlgSysInit.m_nPMProcessTime * MSEC;
+        m_nPM_Slot_Valve_Open = dlgSysInit.m_nPMSlotOpenTime * MSEC;
+        m_nPM_Slot_Valve_Close = dlgSysInit.m_nPMSlotCloseTime * MSEC;
 
         GetDlgItem(IDC_START)->EnableWindow(TRUE);
         GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(TRUE);
