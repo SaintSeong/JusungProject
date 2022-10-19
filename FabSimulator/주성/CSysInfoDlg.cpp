@@ -14,7 +14,7 @@
 IMPLEMENT_DYNAMIC(CSysInfoDlg, CDialogEx)
 
 CSysInfoDlg::CSysInfoDlg(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_SYS_INIT, pParent)
+	: CDialogEx(IDD_SysInfo, pParent)
 	, m_nEFEMPickTime(0)
 	, m_nEFEMMoveTime(0)
 	, m_nEFEMPlaceTime(0)
