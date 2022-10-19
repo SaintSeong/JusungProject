@@ -3273,6 +3273,10 @@ DWORD WINAPI TotalTime(LPVOID p)
         //g_pMainDlg->m_strCurTime = CTime::GetCurrentTime();
         //g_pMainDlg->m_strDiffTime = g_pMainDlg->m_strCurTime - g_pMainDlg->m_strInitTime;
         strTime_Total.Format(_T("%02d:%02d:%02d:%02d"), n_D_Total, n_H_Total, n_M_Total, n_S_Total);
+        if (n_H_Total == 5)
+        {
+            int a = 1;
+        }
         if (g_pMainDlg->m_ctrStatic_Speed.GetWindowInt() == 1)
             g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(strTime_Total);
         else if (n_S_Total % 3 == 0)
