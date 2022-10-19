@@ -2356,7 +2356,7 @@ DWORD WINAPI LL(LPVOID p)
         }
     }
     SetEvent(g_hEventcount);
-    if (_ttoi(g_pMainDlg->m_strLLModuleCnt) == 1 || _ttoi(g_pMainDlg->m_strLLModuleCnt) == 2)
+    if (_ttoi(g_pMainDlg->m_strLLModuleCnt) == 1 || _ttoi(g_pMainDlg->m_strLLModuleCnt) == 2 || _ttoi(g_pMainDlg->m_strLLSlotCnt) < 3)
         SetEvent(g_hEventLL_Modul_one_Thread4and1);
     return 0;
 }
@@ -3165,7 +3165,7 @@ DWORD WINAPI Thread_Start(LPVOID p)
         {
             if (g_pMainDlg->m_nThread_Time_Error > 0)
             {
-                if (_ttoi(g_pMainDlg->m_strLLModuleCnt) == 1 || _ttoi(g_pMainDlg->m_strLLModuleCnt) == 2)
+                if (_ttoi(g_pMainDlg->m_strLLModuleCnt) == 1 || _ttoi(g_pMainDlg->m_strLLModuleCnt) == 2 || _ttoi(g_pMainDlg->m_strLLSlotCnt) < 3)
                     WaitForSingleObject(g_hEventLL_Modul_one_Thread4and1, INFINITE);
 
                 g_hThread4=(CreateThread(NULL, 0, Thread_4_LL2OUT, 0, 0, 0));
@@ -3275,7 +3275,21 @@ DWORD WINAPI TotalTime(LPVOID p)
         strTime_Total.Format(_T("%02d:%02d:%02d:%02d"), n_D_Total, n_H_Total, n_M_Total, n_S_Total);
         if (n_H_Total == 5)
         {
-            int a = 1;
+            SuspendThread(g_hThread1[0]);
+            SuspendThread(g_hThread1[1]);
+            SuspendThread(g_hThread2);
+            SuspendThread(g_hThread3);
+            SuspendThread(g_hThread4);
+            SuspendThread(g_hThread_Thread_Start);
+            for (int i = 0; i < 4; i++)
+            {
+                SuspendThread(g_hThread_LL[i]);
+            }
+            for (int i = 0; i < 6; i++)
+            {
+                SuspendThread(g_hThread_PM[i]);
+            }
+            g_pMainDlg->m_bTime_STOP = true;
         }
         if (g_pMainDlg->m_ctrStatic_Speed.GetWindowInt() == 1)
             g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(strTime_Total);
