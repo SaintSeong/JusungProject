@@ -4,13 +4,13 @@
 
 // CDlg_SYSINIT 대화 상자
 
-class CDlg_SYSINIT : public CDialogEx
+class CSysInfoDlg : public CDialogEx
 {
-	DECLARE_DYNAMIC(CDlg_SYSINIT)
+	DECLARE_DYNAMIC(CSysInfoDlg)
 
 public:
-	CDlg_SYSINIT(CWnd* pParent = nullptr);   // 표준 생성자입니다.
-	virtual ~CDlg_SYSINIT();
+	CSysInfoDlg(CWnd* pParent = nullptr);   // 표준 생성자입니다.
+	virtual ~CSysInfoDlg();
 
 // 대화 상자 데이터입니다.
 #ifdef AFX_DESIGN_TIME
