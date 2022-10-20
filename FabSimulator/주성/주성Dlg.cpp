@@ -3049,6 +3049,7 @@ void C주성Dlg::OnBnClickedStart()
     else if (strValue == _T("Resume"))
     {
         GetDlgItem(IDC_START)->SetWindowText(_T("STOP"));
+        GetDlgItem(IDC_START)->EnableWindow(FALSE);
         GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(FALSE);
         GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(FALSE);
         GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(FALSE);
@@ -3069,6 +3070,7 @@ void C주성Dlg::OnBnClickedStart()
         }
         m_bTime_STOP = false;
         SetEvent(g_hThread_TotalTime);
+        GetDlgItem(IDC_START)->EnableWindow(TRUE);
     }
 
 }
