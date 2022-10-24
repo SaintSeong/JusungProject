@@ -2908,24 +2908,7 @@ DWORD WINAPI TotalTime(LPVOID p)
         //g_pMainDlg->m_strCurTime = CTime::GetCurrentTime();
         //g_pMainDlg->m_strDiffTime = g_pMainDlg->m_strCurTime - g_pMainDlg->m_strInitTime;
         strTime_Total.Format(_T("%02d:%02d:%02d:%02d"), n_D_Total, n_H_Total, n_M_Total, n_S_Total);
-        if (n_H_Total == 5)
-        {
-            SuspendThread(g_hThread1[0]);
-            SuspendThread(g_hThread1[1]);
-            SuspendThread(g_hThread2);
-            SuspendThread(g_hThread3);
-            SuspendThread(g_hThread4);
-            SuspendThread(g_hThread_Thread_Start);
-            for (int i = 0; i < 4; i++)
-            {
-                SuspendThread(g_hThread_LL[i]);
-            }
-            for (int i = 0; i < 6; i++)
-            {
-                SuspendThread(g_hThread_PM[i]);
-            }
-            g_pMainDlg->m_bTime_STOP = true;
-        }
+        
         if (g_pMainDlg->m_ctrStatic_Speed.GetWindowInt() == 1)
             g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(strTime_Total);
         else if (n_S_Total % 3 == 0)
