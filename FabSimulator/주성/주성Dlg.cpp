@@ -2989,7 +2989,7 @@ void C주성Dlg::OnBnClickedStart()
         GetDlgItem(IDC_PM_SLOT_MAX4)->SetWindowText(strPM_UI);
         GetDlgItem(IDC_PM_SLOT_MAX5)->SetWindowText(strPM_UI);
         GetDlgItem(IDC_PM_SLOT_MAX6)->SetWindowText(strPM_UI);
-        GetDlgItem(IDC_START)->SetWindowText(_T("Clean"));
+        GetDlgItem(IDC_START)->SetWindowText(_T("STOP"));
         GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(FALSE);
         GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(FALSE);
         GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(FALSE);
@@ -3056,104 +3056,7 @@ void C주성Dlg::OnBnClickedStart()
         SetEvent(g_hThread_TotalTime);
         GetDlgItem(IDC_START)->EnableWindow(TRUE);
     }
-    else if (strValue == _T("Clean"))
-    {
-        DWORD A = NULL;
-        TerminateThread(g_hThread1[0],A);
-        TerminateThread(g_hThread1[1],A);
-        TerminateThread(g_hThread2, A);
-        TerminateThread(g_hThread3, A);
-        TerminateThread(g_hThread4, A);
-        TerminateThread(g_hThread_Thread_Start, A);
-        for (int i = 0; i < 4; i++)
-        {
-            TerminateThread(g_hThread_LL[i], A);
-        }
-        for (int i = 0; i < 6; i++)
-        {
-            TerminateThread(g_hThread_PM[i], A);
-        }
-        Sleep(100);
-        m_bTime_STOP = true;
-        m_nWafer_Count = 0;
-        
-        g_pMainDlg->m_ctrTotal_Clean_Time.SetWindowText(_T("00:00:00:00"));
-        g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(_T("00:00:00:00"));
-
-        m_bLL_Dummy = false;
-        m_bClean_Time_Start = false;
-        
-
-        m_noutput_count = 0;
-        m_nThread1_LL = 0;
-        m_nThread2_LL = 0;
-        m_nThread3_LL = 1;
-        m_nThread3_PM = 1;
-        m_nThread4_LL = 1;
-        m_nThread_Time_Error = 0;
-        m_Thread3start = 0;
-        m_ctrLL1.SetWindowInt(0);
-        m_ctrLL2.SetWindowInt(0);
-        m_ctrLL3.SetWindowInt(0);
-        m_ctrLL4.SetWindowInt(0);
-        m_ctrPM1.SetWindowInt(0);
-        m_ctrPM2.SetWindowInt(0);
-        m_ctrPM3.SetWindowInt(0);
-        m_ctrPM4.SetWindowInt(0);
-        m_ctrPM5.SetWindowInt(0);
-        m_ctrPM6.SetWindowInt(0);
-        m_ctrLPMUI1.SetWindowInt(25);
-        m_ctrLPMUI2.SetWindowInt(0);
-        m_ctrPROGRESS_LL1.SetPos(0);
-        m_ctrPROGRESS_LL2.SetPos(0);
-        m_ctrPROGRESS_LL3.SetPos(0);
-        m_ctrPROGRESS_LL4.SetPos(0);
-        m_ctrPROGRESS_PM1.SetPos(0);
-        m_ctrPROGRESS_PM2.SetPos(0);
-        m_ctrPROGRESS_PM3.SetPos(0);
-        m_ctrPROGRESS_PM4.SetPos(0);
-        m_ctrPROGRESS_PM5.SetPos(0);
-        m_ctrPROGRESS_PM6.SetPos(0);
-        m_ctrOutput.SetWindowInt(0);
-        m_ctrPM_Count1.SetWindowInt(0);
-        m_ctrPM_Count2.SetWindowInt(0);
-        m_ctrPM_Count3.SetWindowInt(0);
-        m_ctrPM_Count4.SetWindowInt(0);
-        m_ctrPM_Count5.SetWindowInt(0);
-        m_ctrPM_Count6.SetWindowInt(0);
-        m_CtrStatic_PM1.SetWindowInt(0);
-        m_CtrStatic_PM2.SetWindowInt(0);
-        m_CtrStatic_PM3.SetWindowInt(0);
-        m_CtrStatic_PM4.SetWindowInt(0);
-        m_CtrStatic_PM5.SetWindowInt(0);
-        m_CtrStatic_PM6.SetWindowInt(0);
-        m_ctrlStaticTotalTime.SetFont(&m_fontTime, TRUE);
-        m_ctrTotal_Clean_Time.SetFont(&m_fontTime, TRUE);
-        m_nATM_Pick = 4000;
-        m_nATM_Place = 4000;
-        m_nATM_Rotate = 1000;
-        m_nATM_ZRotate = 1000;
-        m_nLL_Pump = 15000;
-        m_nLL_Pump_Stable_Time = 5000;
-        m_nLL_Vent = 15000;
-        m_nLL_Vent_Stable_Time = 5000;
-        m_nLL_Slot_Valve_Open = 2000;
-        m_nLL_Slot_Valve_Close = 2000;
-        m_nLL_Door_Valve_Open = 2000;
-        m_nLL_Door_Valve_Close = 2000;
-        m_nVAC_Pick = 5000;
-        m_nVAC_Place = 5000;
-        m_nRotate = 5000;
-        m_nPM_Time = 600000;
-        m_nPM_Clean_Time = 1200000;
-        m_nPM_Clean_Wafer_Count = 10;
-        m_nPM_Slot_Valve_Open = 2000;
-        m_nPM_Slot_Valve_Close = 2000;
-        g_pMainDlg->InvalidateRect(g_CRtemp, false);
-
-        UpdateData(0);
-        GetDlgItem(IDC_START)->SetWindowText(_T("START"));
-    }
+    
 
 }
 
