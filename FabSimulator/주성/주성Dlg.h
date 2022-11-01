@@ -214,4 +214,5 @@ public:
 	afx_msg void OnBnClickedSetSpeed();
 
 	void DrawSemiconductor(CWnd* pWnd, CString strImageName);
+	
 };

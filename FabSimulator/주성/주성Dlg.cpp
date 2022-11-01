@@ -3316,3 +3316,5 @@ void C주성Dlg::OnBnClickedButtonLoadThroughput()
         ShellExecute(NULL, _T("open"), fileDlg.GetPathName(), NULL, NULL, SW_SHOW);
     }
 }
+
+

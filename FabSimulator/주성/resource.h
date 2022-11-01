@@ -9,6 +9,8 @@
 #define IDR_MAINFRAME                   128
 #define IDD_SYS_INIT                    143
 #define IDD_SysInfo                     143
+#define IDD_DIALOG1                     167
+#define IDD_PROCESS_TIME                167
 #define IDC_EFEMARM                     1000
 #define IDC_START                       1001
 #define IDC_OUTPUT                      1002
@@ -135,6 +137,7 @@
 #define IDC_BUTTON1                     1089
 #define IDC_BUTTON_LOAD                 1089
 #define IDC_BUTTON_SAVE_SYSTEMCONFIG    1089
+#define IDC_SET_PROCESS_TIME            1089
 #define IDC_STATIC_LPM2                 1090
 #define IDC_STATIC_LMP3                 1091
 #define IDC_BUTTON_LOAD_SYSTEMCONFIG    1091
@@ -231,6 +234,11 @@
 #define IDC_STATIC_RED                  1194
 #define IDC_PICTURE_BACK                1195
 #define IDC_STATIC_GRAY                 1196
+#define IDC_GUI_LL1                     1197
+#define IDC_GUI_LL2                     1198
+#define IDC_GUI_LL3                     1199
+#define IDC_GUI_LL4                     1200
+#define IDC_CLEAR                       1201
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -244,9 +252,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        167
+#define _APS_NEXT_RESOURCE_VALUE        169
 #define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         1196
+#define _APS_NEXT_CONTROL_VALUE         1202
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
