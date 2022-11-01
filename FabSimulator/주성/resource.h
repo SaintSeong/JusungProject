@@ -11,6 +11,7 @@
 #define IDD_SysInfo                     143
 #define IDD_DIALOG1                     167
 #define IDD_PROCESS_TIME                167
+#define IDD_SET_PROCESS_TIME            169
 #define IDC_EFEMARM                     1000
 #define IDC_START                       1001
 #define IDC_OUTPUT                      1002
@@ -85,21 +86,26 @@
 #define IDC_SYS_INFO                    1056
 #define IDC_SYSTEM_INFO                 1056
 #define IDC_EDIT2                       1057
+#define IDC_EDIT_PM_PROCESS1            1057
 #define IDC_SPIN1                       1058
 #define IDC_SET_SPEED                   1059
 #define IDC_EDIT_CLEANCOUNT             1060
 #define IDC_LL_WAFER                    1061
 #define IDC_EDIT3                       1063
 #define IDC_EDIT_EFEM_MOVETIME          1063
+#define IDC_EDIT_PM_PROCESS2            1063
 #define IDC_EDIT4                       1064
 #define IDC_EDIT_ROTATETIME             1064
+#define IDC_EDIT_PM_PROCESS3            1064
 #define IDC_COMBO1                      1065
 #define IDC_COMBO_MODULE_COUNT          1065
 #define IDC_COMBO_SPEED                 1065
 #define IDC_EDIT6                       1066
 #define IDC_EDIT_PUMP_TIME              1066
+#define IDC_EDIT_PM_PROCESS5            1066
 #define IDC_EDIT7                       1067
 #define IDC_EDIT_LL_PUMP_STABLETIME     1067
+#define IDC_EDIT_PM_PROCESS6            1067
 #define IDC_EDIT8                       1068
 #define IDC_EDIT_LL_VENT_TIME           1068
 #define IDC_EDIT9                       1069
@@ -239,6 +245,7 @@
 #define IDC_GUI_LL3                     1199
 #define IDC_GUI_LL4                     1200
 #define IDC_CLEAR                       1201
+#define IDC_EDIT_PM_PROCESS4            1202
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -252,9 +259,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        169
+#define _APS_NEXT_RESOURCE_VALUE        171
 #define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         1202
+#define _APS_NEXT_CONTROL_VALUE         1203
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

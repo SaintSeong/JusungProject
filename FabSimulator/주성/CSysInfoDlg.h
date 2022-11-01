@@ -1,7 +1,8 @@
 ﻿#pragma once
 #include "afxdialogex.h"
-
-
+#include "CSetProcessDlg.h"
+#include <vector>
+using namespace std;
 // CDlg_SYSINIT 대화 상자
 
 class CSysInfoDlg : public CDialogEx
@@ -29,6 +30,7 @@ public:
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnCbnSelchangeComboVacArm();
 	afx_msg void OnBnClickedCancel();
+	afx_msg void OnBnClickedSetProcessTime();
 
 	CComboBox m_ctrlComboLLModule;
 	CComboBox m_ctrlComboLLSlot;
@@ -41,6 +43,8 @@ public:
 	CString m_strVacArmCount;
 	CString m_strPMModuleCount;
 	CString m_strPMSlotCount;
+
+	CSetProcessDlg m_dlgSetProcess;
 
 	int m_nEFEMPickTime;
 	int m_nEFEMMoveTime;
@@ -61,5 +65,6 @@ public:
 	int m_nPMSlotOpenTime;
 	int m_nPMSlotCloseTime;
 	int m_nCleanCount;
-	
+
+	vector<int> m_arrPMProcess;
 };

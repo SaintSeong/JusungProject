@@ -30,7 +30,7 @@ CSysInfoDlg::CSysInfoDlg(CWnd* pParent /*=nullptr*/)
 	, m_nTMRotate(0)
 	, m_nTMPickTime(0)
 	, m_nTMPlaceTime(0)
-	, m_nPMProcessTime(0)
+	, m_nPMProcessTime(600)
 	, m_nPMSlotOpenTime(0)
 	, m_nPMSlotCloseTime(0)
 	, m_strLLModuleCount(_T(""))
@@ -40,6 +40,7 @@ CSysInfoDlg::CSysInfoDlg(CWnd* pParent /*=nullptr*/)
 	, m_strPMSlotCount(_T(""))
 	, m_nCleanCount(0)
 {
+	m_arrPMProcess.resize(6);
 }
 
 CSysInfoDlg::~CSysInfoDlg()
@@ -70,7 +71,6 @@ void CSysInfoDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_TM_ROTATE, m_nTMRotate);
 	DDX_Text(pDX, IDC_EDIT_TM_PICK_TIME, m_nTMPickTime);
 	DDX_Text(pDX, IDC_EDIT_TM_PLACE_TIME, m_nTMPlaceTime);
-	DDX_Text(pDX, IDC_EDIT_PM_PROCESS_TIME, m_nPMProcessTime);
 	DDX_Text(pDX, IDC_EDIT_PM_SLOT_OPEN_TIME, m_nPMSlotOpenTime);
 	DDX_Text(pDX, IDC_EDIT_PM_SLOT_CLOSE_TIME, m_nPMSlotCloseTime);
 
@@ -87,6 +87,7 @@ BEGIN_MESSAGE_MAP(CSysInfoDlg, CDialogEx)
 	ON_BN_CLICKED(IDOK, &CSysInfoDlg::OnBnClickedOk)
 	ON_CBN_SELCHANGE(IDC_COMBO_VAC_ARM, &CSysInfoDlg::OnCbnSelchangeComboVacArm)
 	ON_BN_CLICKED(IDCANCEL, &CSysInfoDlg::OnBnClickedCancel)
+	ON_BN_CLICKED(IDC_SET_PROCESS_TIME, &CSysInfoDlg::OnBnClickedSetProcessTime)
 END_MESSAGE_MAP()
 
 
@@ -332,5 +333,22 @@ void CSysInfoDlg::OnBnClickedCancel()
 	if (IDYES == AfxMessageBox(_T("설정이 적용되지 않습니다. 취소하시겠습니까?"), MB_YESNO))
 	{
 		CDialogEx::OnCancel();
+	}
+}
+
+void CSysInfoDlg::OnBnClickedSetProcessTime()
+{
+	CString strPMModuleIdx;
+	int nPMModuleIdx = m_ctrlComboPMModule.GetCurSel();
+	m_ctrlComboPMModule.GetLBText(nPMModuleIdx, strPMModuleIdx);
+
+	int nPMModule = _ttoi(strPMModuleIdx);
+
+	if (m_dlgSetProcess.DoModal() == IDOK)
+	{
+		for (int nIdx = 0; nIdx < nPMModule; nIdx++)
+		{
+
+		}
 	}
 }
