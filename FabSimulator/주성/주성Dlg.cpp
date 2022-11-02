@@ -3461,8 +3461,8 @@ void C주성Dlg::OnBnClickedSysInitial()
         m_nPM_Slot_Valve_Close = dlgSysInfo.m_nPMSlotCloseTime * MSEC;
         for (int nIdx = 0; nIdx < _ttoi(m_strPMModuleCnt); nIdx++)
         {
-            m_arrPMProcess[nIdx] = dlgSysInfo.m_arrPMProcess[nIdx] * MSEC;
-            m_arrCleanProcess[nIdx] = dlgSysInfo.m_arrCleanProcess[nIdx] * MSEC;
+            m_arrPMProcess[nIdx] = dlgSysInfo.m_arrPMProcess[nIdx];
+            m_arrCleanProcess[nIdx] = dlgSysInfo.m_arrCleanProcess[nIdx];
         }
         
         GetDlgItem(IDC_START)->EnableWindow(TRUE);
@@ -3800,8 +3800,11 @@ void C주성Dlg::OnBnClickedClear()
     m_nVAC_Pick = 5000;
     m_nVAC_Place = 5000;
     m_nRotate = 5000;
-    m_nPM_Time = 600000;
-    m_nPM_Clean_Time = 1200000;
+    for (int nIdx = 0; nIdx < 6; nIdx++)
+    {
+        m_arrPMProcess[nIdx] = 600 * 1000;
+        m_arrCleanProcess[nIdx] = m_arrPMProcess[nIdx] * 2 * 1000;
+    }
     m_nPM_Clean_Wafer_Count = 10;
     m_nPM_Slot_Valve_Open = 2000;
     m_nPM_Slot_Valve_Close = 2000;
