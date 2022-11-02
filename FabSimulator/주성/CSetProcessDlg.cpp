@@ -45,7 +45,6 @@ BOOL CSetProcessDlg::OnInitDialog()
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 	CString strTime;
-	
 	CSysInfoDlg* pDlgSysInfo = (CSysInfoDlg*)GetParent();
 
 	for (int nIdx = 0; nIdx < pDlgSysInfo->m_nPMModule; nIdx++)
@@ -54,6 +53,7 @@ BOOL CSetProcessDlg::OnInitDialog()
 		strTime.Format(_T("%d"), pDlgSysInfo->m_arrPMProcess[nIdx]);
 		GetDlgItem(IDC_EDIT_PM_PROCESS1 + nIdx)->SetWindowText(strTime);
 	}
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }

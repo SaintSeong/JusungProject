@@ -217,4 +217,6 @@ public:
 
 	int m_arrPMProcess[6] = { 0, };
 	int m_arrCleanProcess[6] = { 0, };
+
+	CSysInfoDlg dlgSysInfo;
 };

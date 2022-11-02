@@ -61,7 +61,6 @@ public:
 	int m_nTMRotate;
 	int m_nTMPickTime;
 	int m_nTMPlaceTime;
-	int m_nPMProcessTime;
 	int m_nPMSlotOpenTime;
 	int m_nPMSlotCloseTime;
 	int m_nCleanCount;

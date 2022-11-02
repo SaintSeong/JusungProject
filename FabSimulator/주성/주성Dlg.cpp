@@ -83,6 +83,12 @@ C주성Dlg::C주성Dlg(CWnd* pParent /*=nullptr*/)
     m_nLLMAX = 0;
 
     g_pMainDlg = this;
+
+    for (int nIdx = 0; nIdx < 6; nIdx++)
+    {
+        m_arrPMProcess[nIdx] = 600 * 1000;
+        m_arrCleanProcess[nIdx] = m_arrPMProcess[nIdx] * 2 * 1000;
+    }
 }
 
 void C주성Dlg::DoDataExchange(CDataExchange* pDX)
@@ -3019,8 +3025,6 @@ DWORD WINAPI TotalTime(LPVOID p)
 
 void C주성Dlg::OnBnClickedStart()
 {
-
-
     CString strLL_UI;
     CString strPM_UI;
     strLL_UI.Format(_T("/ %d"), _ttoi(m_strLLSlotCnt));
@@ -3142,7 +3146,6 @@ void C주성Dlg::OnBnClickedSetSpeed()
 #define MSEC 1000
 void C주성Dlg::OnBnClickedSysInitial()
 {
-    CSysInfoDlg dlgSysInfo;
     if (dlgSysInfo.DoModal() == IDOK)
     {
         for (int i = 0; i < 6; i++)
@@ -3150,6 +3153,7 @@ void C주성Dlg::OnBnClickedSysInitial()
             m_arrPMProcess[i] = dlgSysInfo.m_arrPMProcess[i];
             m_arrCleanProcess[i] = dlgSysInfo.m_arrCleanProcess[i];
         }
+
         m_nATM_Pick = dlgSysInfo.m_nEFEMPickTime * MSEC;
         m_nATM_Place = dlgSysInfo.m_nEFEMPlaceTime * MSEC;
         m_nATM_Rotate = dlgSysInfo.m_nEFEMRotateTime * MSEC;
@@ -3173,12 +3177,15 @@ void C주성Dlg::OnBnClickedSysInitial()
 
         m_strPMModuleCnt = dlgSysInfo.m_strPMModuleCount;
         m_strPMSlotCnt = dlgSysInfo.m_strPMSlotCount;
-        m_nPM_Clean_Time = dlgSysInfo.m_nPMProcessTime * 2 * MSEC;
         m_nPM_Clean_Wafer_Count = dlgSysInfo.m_nCleanCount;
-        m_nPM_Time = dlgSysInfo.m_nPMProcessTime * MSEC;
         m_nPM_Slot_Valve_Open = dlgSysInfo.m_nPMSlotOpenTime * MSEC;
         m_nPM_Slot_Valve_Close = dlgSysInfo.m_nPMSlotCloseTime * MSEC;
-
+        for (int nIdx = 0; nIdx < _ttoi(m_strPMModuleCnt); nIdx++)
+        {
+            m_arrPMProcess[nIdx] = dlgSysInfo.m_arrPMProcess[nIdx] * MSEC;
+            m_arrCleanProcess[nIdx] = dlgSysInfo.m_arrCleanProcess[nIdx] * MSEC;
+        }
+        
         GetDlgItem(IDC_START)->EnableWindow(TRUE);
         GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(TRUE);
         GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(TRUE);
@@ -3240,20 +3247,28 @@ void C주성Dlg::OnBnClickedButtonSaveSystemconfig()
         strValue.Format(_T("%d"), m_nRotate / 1000);
         ::WritePrivateProfileString(_T("TM"), _T("Rotate"), strValue, strSaveName);
 
-        // PM
+        // PM Common
+        
         ::WritePrivateProfileString(_T("PM"), _T("ModuleCount"), m_strPMModuleCnt, strSaveName);
         ::WritePrivateProfileString(_T("PM"), _T("SlotCount"), m_strPMSlotCnt, strSaveName);
-        strValue.Format(_T("%d"), m_nPM_Time / 1000);
-        ::WritePrivateProfileString(_T("PM"), _T("ProcessTime"), strValue, strSaveName);
-        strValue.Format(_T("%d"), m_nPM_Clean_Time / 1000);
-        ::WritePrivateProfileString(_T("PM"), _T("CleanTime"), strValue, strSaveName);
         strValue.Format(_T("%d"), m_nPM_Clean_Wafer_Count);
         ::WritePrivateProfileString(_T("PM"), _T("CleanCount"), strValue, strSaveName);
         strValue.Format(_T("%d"), m_nPM_Slot_Valve_Open / 1000);
         ::WritePrivateProfileString(_T("PM"), _T("SlotOpenTime"), strValue, strSaveName);
         strValue.Format(_T("%d"), m_nPM_Slot_Valve_Close / 1000);
         ::WritePrivateProfileString(_T("PM"), _T("SlotCloseTime"), strValue, strSaveName);
+        
+        // PM Process
+        CString strPMNum;
+        for(int nIdx = 0; nIdx < _ttoi(m_strPMModuleCnt); nIdx++)
+        {
+            strPMNum.Format(_T("PM%d Process"), nIdx + 1);
 
+            strValue.Format(_T("%d"), m_arrPMProcess[nIdx] / 1000);
+            ::WritePrivateProfileString(strPMNum, _T("ProcessTime"), strValue, strSaveName);
+            strValue.Format(_T("%d"), m_arrCleanProcess[nIdx] / 1000);
+            ::WritePrivateProfileString(strPMNum, _T("CleanTime"), strValue, strSaveName);
+        }
     }
 }
 
@@ -3301,11 +3316,20 @@ void C주성Dlg::OnBnClickedButtonLoadSystemconfig()
         m_strPMModuleCnt.Format(_T("%s"), strReadIni);
         ::GetPrivateProfileString(_T("PM"), _T("SlotCount"), _T("1"), strReadIni, 20, strLoadName);
         m_strPMSlotCnt.Format(_T("%s"), strReadIni);
-        m_nPM_Time = ::GetPrivateProfileInt(_T("PM"), _T("ProcessTime"), -1, strLoadName) * 1000;
-        m_nPM_Clean_Time = ::GetPrivateProfileInt(_T("PM"), _T("CleanTime"), -1, strLoadName) * 1000;
         m_nPM_Clean_Wafer_Count = ::GetPrivateProfileInt(_T("PM"), _T("CleanCount"), -1, strLoadName);
         m_nPM_Slot_Valve_Open = ::GetPrivateProfileInt(_T("PM"), _T("SlotOpenTime"), -1, strLoadName) * 1000;
         m_nPM_Slot_Valve_Close = ::GetPrivateProfileInt(_T("PM"), _T("SlotCloseTime"), -1, strLoadName) * 1000;
+
+        // PM Process
+        CString strPMNum;
+        for (int nIdx = 0; nIdx < _ttoi(m_strPMModuleCnt); nIdx++)
+        {
+            strPMNum.Format(_T("PM%d Process"), nIdx + 1);
+            m_arrPMProcess[nIdx] = ::GetPrivateProfileInt(strPMNum
+                , _T("ProcessTime"), -1, strLoadName) * 1000;
+            m_arrCleanProcess[nIdx] = ::GetPrivateProfileInt(strPMNum
+                , _T("CleanTime"), -1, strLoadName) * 1000;
+        }
 
         GetDlgItem(IDC_START)->EnableWindow(TRUE);
         GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(TRUE);
@@ -3351,7 +3375,8 @@ void C주성Dlg::OnBnClickedButtonSaveThroughput()
         double dTotalSec = m_nTotalSec - m_nCleanSec;
         m_ctrOutput.GetWindowText(strValue);
         double dOutput = _ttof(strValue);
-        strValue.Format(_T("%s, %s, %.2f\n"), strTotalTime, strCleanTime, dOutput / (dTotalSec / 3600.0));
+        strValue.Format(_T("%s, %s, %.2f\n")
+            , strTotalTime, strCleanTime, dOutput / (dTotalSec / 3600.0));
         cfile.Write(strValue, strValue.GetLength() * sizeof(TCHAR));
 
         strValue = _T("/////////////////////////////////////////////////////\n");

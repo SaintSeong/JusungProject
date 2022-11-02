@@ -30,7 +30,6 @@ CSysInfoDlg::CSysInfoDlg(CWnd* pParent /*=nullptr*/)
 	, m_nTMRotate(0)
 	, m_nTMPickTime(0)
 	, m_nTMPlaceTime(0)
-	, m_nPMProcessTime(600)
 	, m_nPMSlotOpenTime(0)
 	, m_nPMSlotCloseTime(0)
 	, m_strLLModuleCount(_T(""))
@@ -163,10 +162,13 @@ BOOL CSysInfoDlg::OnInitDialog()
 	// PM 설정
 	m_strPMModuleCount = pMainDlg->m_strPMModuleCnt;
 	m_strPMSlotCount = pMainDlg->m_strPMSlotCnt;
-	m_nPMProcessTime = pMainDlg->m_nPM_Time / MSEC;
 	m_nCleanCount = pMainDlg->m_nPM_Clean_Wafer_Count;
 	m_nPMSlotOpenTime = pMainDlg->m_nPM_Slot_Valve_Open / MSEC;
 	m_nPMSlotCloseTime = pMainDlg->m_nPM_Slot_Valve_Close / MSEC;
+	for (int nIdx = 0; nIdx < _ttoi(m_strPMModuleCount); nIdx++)
+	{
+		m_arrPMProcess[nIdx] = pMainDlg->m_arrPMProcess[nIdx] / MSEC;
+	}
 
 	int nLLModuleIdx = 0;
 	int nLLSlotIdx = 0;
