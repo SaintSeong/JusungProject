@@ -65,6 +65,8 @@ public:
 	int m_nPMSlotOpenTime;
 	int m_nPMSlotCloseTime;
 	int m_nCleanCount;
+	int m_nPMModule;
 
 	vector<int> m_arrPMProcess;
+	vector<int> m_arrCleanProcess;
 };

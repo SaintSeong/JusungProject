@@ -41,6 +41,12 @@ CSysInfoDlg::CSysInfoDlg(CWnd* pParent /*=nullptr*/)
 	, m_nCleanCount(0)
 {
 	m_arrPMProcess.resize(6);
+	m_arrCleanProcess.resize(6);
+	for (int nIdx = 0; nIdx < 6; nIdx++)
+	{
+		m_arrPMProcess[nIdx] = 600;
+		m_arrCleanProcess[nIdx] = m_arrPMProcess[nIdx] * 2;
+	}
 }
 
 CSysInfoDlg::~CSysInfoDlg()
@@ -336,19 +342,21 @@ void CSysInfoDlg::OnBnClickedCancel()
 	}
 }
 
+// 기본적으로 600으로 설정
+// Clean Time도 동시에 설정되있음
 void CSysInfoDlg::OnBnClickedSetProcessTime()
 {
 	CString strPMModuleIdx;
 	int nPMModuleIdx = m_ctrlComboPMModule.GetCurSel();
 	m_ctrlComboPMModule.GetLBText(nPMModuleIdx, strPMModuleIdx);
-
-	int nPMModule = _ttoi(strPMModuleIdx);
+	m_nPMModule = _ttoi(strPMModuleIdx);
 
 	if (m_dlgSetProcess.DoModal() == IDOK)
 	{
-		for (int nIdx = 0; nIdx < nPMModule; nIdx++)
+		for (int nIdx = 0; nIdx < m_nPMModule; nIdx++)
 		{
-
+			m_arrPMProcess[nIdx] = m_dlgSetProcess.m_arrPMProcess[nIdx];
+			m_arrCleanProcess[nIdx] = m_dlgSetProcess.m_arrPMProcess[nIdx] * 2; 
 		}
 	}
 }
