@@ -40,6 +40,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialogEx::DoDataExchange(pDX);
 }
+
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
@@ -52,6 +53,7 @@ CRect g_CR_LL2(1100, 137, 1240, 300);
 CRect g_CR_LL3(940, 360, 1080, 530);
 CRect g_CR_LL4(1100, 360, 1240, 530);*/
 HANDLE g_hEventStart;
+HANDLE g_hEventPM_Array;
 HANDLE g_hEventLL_Modul_one_Thread4and1;
 HANDLE g_hEventLL_Modul_one_Thread1and2;
 HANDLE g_hEventcount;
@@ -60,7 +62,7 @@ HANDLE g_hEventThread4_wait;
 HANDLE g_hEvent_PM_MAX;
 HANDLE g_hThread1[2], g_hThread2, g_hThread3, g_hThread4,
 g_hThread_PM[6], g_hThread_LL[4],
-g_hThread_TotalTime,g_hThread_Thread_Start;
+g_hThread_TotalTime, g_hThread_Thread_Start;
 // C주성Dlg 대화 상자
 C주성Dlg::C주성Dlg(CWnd* pParent /*=nullptr*/)
     : CDialogEx(IDD_MAINVIEW, pParent)
@@ -121,7 +123,7 @@ void C주성Dlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_STATIC_Time, m_ctrlStaticTotalTime);
 
     DDX_Control(pDX, IDC_STATIC_SPEED, m_ctrStatic_Speed);//
-                                                          //LPM UI 스태틱 변수
+    //LPM UI 스태틱 변수
     DDX_Control(pDX, IDC_NUM_LPM1, m_ctrLPMUI1);
     DDX_Control(pDX, IDC_NUM_LPM2, m_ctrLPMUI2);
     DDX_Control(pDX, IDC_GUI_TM, m_Gui_TM);
@@ -177,6 +179,8 @@ BEGIN_MESSAGE_MAP(C주성Dlg, CDialogEx)
     ON_COMMAND(IDC_SET_SPEED, &C주성Dlg::OnBnClickedSetSpeed)
     ON_BN_CLICKED(IDC_BUTTON_LOAD_SYSTEMCONFIG, &C주성Dlg::OnBnClickedButtonLoadSystemconfig)
     ON_BN_CLICKED(IDC_BUTTON_LOAD_THROUGHPUT, &C주성Dlg::OnBnClickedButtonLoadThroughput)
+    ON_BN_CLICKED(IDC_CLEAR, &C주성Dlg::OnBnClickedClear)
+
 END_MESSAGE_MAP()
 
 
@@ -208,7 +212,7 @@ BOOL C주성Dlg::OnInitDialog()
     //  프레임워크가 이 작업을 자동으로 수행합니다.
     SetIcon(m_hIcon, TRUE);         // 큰 아이콘을 설정합니다.
     SetIcon(m_hIcon, FALSE);      // 작은 아이콘을 설정합니다.
-    
+
     // TODO: 여기에 추가 초기화 작업을 추가합니다.
     m_nWafer_Count = 0;
     g_hEventStart = CreateEvent(NULL, FALSE, FALSE, NULL);//자동리셋 이벤트
@@ -218,7 +222,8 @@ BOOL C주성Dlg::OnInitDialog()
     g_hEventThread4_wait = CreateEvent(NULL, FALSE, FALSE, NULL);
     g_hEvent_PM_MAX = CreateEvent(NULL, FALSE, FALSE, NULL);
     g_hEventLL_Modul_one_Thread4and1 = CreateEvent(NULL, FALSE, FALSE, NULL);
-    g_hThread_TotalTime= CreateEvent(NULL, FALSE, FALSE, NULL);
+    g_hThread_TotalTime = CreateEvent(NULL, FALSE, FALSE, NULL);
+    g_hEventPM_Array = CreateEvent(NULL, FALSE, FALSE, NULL);
     g_pMainDlg->m_ctrTotal_Clean_Time.SetWindowText(_T("00:00:00:00"));
     g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(_T("00:00:00:00"));
 
@@ -236,12 +241,11 @@ BOOL C주성Dlg::OnInitDialog()
     m_strPMModuleCnt = (_T("6"));
     m_strPMSlotCnt = (_T("6"));
     m_strSpeed = _T("50");
-    
+
     m_noutput_count = 0;
     m_nThread1_LL = 0;
     m_nThread2_LL = 0;
     m_nThread3_LL = 1;
-    m_nThread3_PM = 1;
     m_nThread4_LL = 1;
     m_nThread_Time_Error = 0;
     m_Thread3start = 0;
@@ -261,7 +265,7 @@ BOOL C주성Dlg::OnInitDialog()
     m_nVAC_Pick = 5000;
     m_nVAC_Place = 5000;
     m_nRotate = 5000;
-    m_nPM_Time = 600000;
+    m_nPM_Time = 60000;
     m_nPM_Clean_Time = 1200000;
     m_nPM_Clean_Wafer_Count = 10;
     m_nPM_Slot_Valve_Open = 2000;
@@ -284,7 +288,7 @@ BOOL C주성Dlg::OnInitDialog()
     m_ctrALIGNER.ShowWindow(SW_HIDE);
     m_ctrTM.ShowWindow(SW_HIDE);
     m_ctrLPM.ShowWindow(SW_HIDE);
-    
+
     m_fontTime.CreateFont(45,// nHeight 
         30, // nWidth                               
         0, // nEscapement                               
@@ -406,7 +410,7 @@ void C주성Dlg::OnPaint()
                 pDC->Rectangle(970, 110 + (21.8 * i), 1035, 131.8 + (21.8 * i));
             }
             pDC->SelectObject(oldBrush);
-        }       
+        }
         // //LL1 의 공정 끝낸 웨이퍼 개수
         {
             oldBrush = pDC->SelectObject(&m_brBlue);
@@ -416,7 +420,7 @@ void C주성Dlg::OnPaint()
             }
             pDC->SelectObject(oldBrush);
         }
-        // //LL2 빈공간
+        if (_ttoi(m_strLLModuleCnt) > 1) //LL2 빈공간
         {
             oldBrush = pDC->SelectObject(&m_brGray);
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
@@ -425,7 +429,7 @@ void C주성Dlg::OnPaint()
             }
             pDC->SelectObject(oldBrush);
         }
-        // //LL2
+        if (_ttoi(m_strLLModuleCnt) > 1) //LL2
         {
             oldBrush = pDC->SelectObject(&m_brGreen);
             for (int i = (m_ctrLL2.GetWindowInt() - 1); i >= 0; i--)
@@ -433,8 +437,8 @@ void C주성Dlg::OnPaint()
                 pDC->Rectangle(1100, 110 + (21.8 * i), 1165, 131.8 + (21.8 * i));
             }
             pDC->SelectObject(oldBrush);
-        }        
-        // //LL2 의 공정 끝낸 웨이퍼 개수
+        }
+        if (_ttoi(m_strLLModuleCnt) > 1) //LL2 의 공정 끝낸 웨이퍼 개수
         {
             oldBrush = pDC->SelectObject(&m_brBlue);
             for (int i = m_nWafer_Process[1] - 1; i >= 0; i--)
@@ -443,7 +447,7 @@ void C주성Dlg::OnPaint()
             }
             pDC->SelectObject(oldBrush);
         }
-        // //LL3 빈공간
+        if (_ttoi(m_strLLModuleCnt) > 2) //LL3 빈공간
         {
             oldBrush = pDC->SelectObject(&m_brGray);
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
@@ -452,7 +456,7 @@ void C주성Dlg::OnPaint()
             }
             pDC->SelectObject(oldBrush);
         }
-        // //LL3
+        if (_ttoi(m_strLLModuleCnt) > 2) //LL3
         {
             oldBrush = pDC->SelectObject(&m_brGreen);
             for (int i = (m_ctrLL3.GetWindowInt() - 1); i >= 0; i--)
@@ -461,8 +465,8 @@ void C주성Dlg::OnPaint()
             }
             pDC->SelectObject(oldBrush);
         }
-        
-        // //LL3 의 공정끝낸 웨이퍼 개수
+
+        if (_ttoi(m_strLLModuleCnt) > 2) //LL3 의 공정끝낸 웨이퍼 개수
         {
             oldBrush = pDC->SelectObject(&m_brBlue);
             for (int i = m_nWafer_Process[2] - 1; i >= 0; i--)
@@ -471,7 +475,7 @@ void C주성Dlg::OnPaint()
             }
             pDC->SelectObject(oldBrush);
         }
-        // //LL4 빈공간
+        if (_ttoi(m_strLLModuleCnt) > 3) //LL4 빈공간
         {
             oldBrush = pDC->SelectObject(&m_brGray);
             for (int i = _ttoi(m_strLLSlotCnt) - 1; i >= 0; i--)
@@ -481,7 +485,7 @@ void C주성Dlg::OnPaint()
             }
             pDC->SelectObject(oldBrush);
         }
-        // //LL4
+        if (_ttoi(m_strLLModuleCnt) > 3) //LL4
         {
             oldBrush = pDC->SelectObject(&m_brGreen);
             for (int i = (m_ctrLL4.GetWindowInt() - 1); i >= 0; i--)
@@ -489,8 +493,8 @@ void C주성Dlg::OnPaint()
                 pDC->Rectangle(1100, 331 + (21.8 * i), 1165, 352.8 + (21.8 * i));
             }
             pDC->SelectObject(oldBrush);
-        }        
-        // //LL4 의 공정끝낸 웨이퍼 개수
+        }
+        if (_ttoi(m_strLLModuleCnt) > 3) //LL4 의 공정끝낸 웨이퍼 개수
         {
             oldBrush = pDC->SelectObject(&m_brBlue);
             for (int i = m_nWafer_Process[3] - 1; i >= 0; i--)
@@ -498,7 +502,7 @@ void C주성Dlg::OnPaint()
                 pDC->Rectangle(1100, 331 + (21.8 * i), 1165, 352.8 + (21.8 * i));
             }
             pDC->SelectObject(oldBrush);
-        }       
+        }
 
         CRect rect;
 
@@ -526,7 +530,7 @@ void C주성Dlg::OnPaint()
         pDC->Rectangle(rect);
         pDC->SelectObject(oldBrush);
 
-        ReleaseDC(pDC);        
+        ReleaseDC(pDC);
         CDialogEx::OnPaint();
     }
 }
@@ -624,8 +628,8 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         nLL_cnt = g_pMainDlg->m_ctrLL3.GetWindowInt();
     else if (g_pMainDlg->m_nThread1_LL == 3)
         nLL_cnt = g_pMainDlg->m_ctrLL4.GetWindowInt();
-   
-     //1. PICK : LPM -> ATM ROBOT
+
+    //1. PICK : LPM -> ATM ROBOT
     Sleep(g_pMainDlg->m_nATM_ZRotate / g_pMainDlg->m_nSpeed);
     Sleep(g_pMainDlg->m_nATM_Pick / g_pMainDlg->m_nSpeed);
     for (int i = 1; i < 5; i++)
@@ -652,12 +656,12 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         nLPM_cnt--;
 
         g_pMainDlg->m_nTotal_Input++;
-        if ((g_pMainDlg->m_nTotal_Input-1) % (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count) == 0
-            && (g_pMainDlg->m_nTotal_Input - 1)!=0)
+        if ((g_pMainDlg->m_nTotal_Input - 1) % (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count) == 0
+            && (g_pMainDlg->m_nTotal_Input - 1) != 0)
         {
             g_pMainDlg->m_bClean_Time_Start = true;
         }
-            g_pMainDlg->m_ctrLPMUI1.SetWindowInt(g_pMainDlg->m_ctrLPMUI1.GetWindowInt() - 1);
+        g_pMainDlg->m_ctrLPMUI1.SetWindowInt(g_pMainDlg->m_ctrLPMUI1.GetWindowInt() - 1);
         if (g_pMainDlg->m_ctrLPMUI1.GetWindowInt() == 0)
             g_pMainDlg->m_ctrLPMUI1.SetWindowInt(25);
     }
@@ -727,8 +731,8 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
             nLPM_cnt--;
 
             g_pMainDlg->m_nTotal_Input++;
-            if ((g_pMainDlg->m_nTotal_Input-1) % (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count) == 0
-                &&(g_pMainDlg->m_nTotal_Input - 1) != 0)
+            if ((g_pMainDlg->m_nTotal_Input - 1) % (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count) == 0
+                && (g_pMainDlg->m_nTotal_Input - 1) != 0)
             {
                 g_pMainDlg->m_bClean_Time_Start = true;
             }
@@ -745,7 +749,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         Sleep(g_pMainDlg->m_nATM_Rotate / g_pMainDlg->m_nSpeed);
         Sleep(g_pMainDlg->m_nATM_ZRotate / g_pMainDlg->m_nSpeed);
         Sleep(g_pMainDlg->m_nATM_Pick / g_pMainDlg->m_nSpeed);
-        
+
         for (int i = 10; i < 12; i++)
         {
             strImage.Format(_T("UI\\EFEM1\\슬라이드%d.png"), i);
@@ -828,7 +832,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
             if (nEFEM_cnt == 0) break;  //EFEM(ATM ROBOT)에 남아있는 wafer가 없다
 
             nEFEM_cnt--;
-           
+
         }
         g_pMainDlg->InvalidateRect(g_CRtemp, false);
         Sleep(g_pMainDlg->m_nLL_Door_Valve_Close / g_pMainDlg->m_nSpeed);
@@ -900,7 +904,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         if (nEFEM_cnt == 0) break;  //EFEM(ATM ROBOT)에 남아있는 wafer가 없다 
 
         nEFEM_cnt--;
-        
+
     }
     g_pMainDlg->InvalidateRect(g_CRtemp, false);
     Sleep(g_pMainDlg->m_nLL_Door_Valve_Close / g_pMainDlg->m_nSpeed);
@@ -965,7 +969,7 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         g_pMainDlg->m_ctrPM6.GetWindowInt();
     if (PM_Count != nPM_MAX && g_pMainDlg->m_Thread3start == 0)
     {
-        g_hThread2=(CreateThread(NULL, 0, Thread_2_LL2PM, 0, 0, 0));
+        g_hThread2 = (CreateThread(NULL, 0, Thread_2_LL2PM, 0, 0, 0));
     }
     return 0;
 }
@@ -1118,7 +1122,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
             Sleep(g_pMainDlg->m_nVAC_Place / g_pMainDlg->m_nSpeed);
             if ((g_pMainDlg->m_ctrPM1.GetWindowInt() < _ttoi(g_pMainDlg->m_strPMSlotCnt)) && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
             {
-                 
+
                 {
                     strImage.Format(_T("UI\\PM_Left\\슬라이드2.png"));
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM1, strImage);
@@ -1128,7 +1132,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     strImage.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
                 }
-                 
+
                 {
                     strImage.Format(_T("UI\\PM_Left\\슬라이드3.png"));
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM1, strImage);
@@ -1136,17 +1140,17 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
             }
             else if ((g_pMainDlg->m_ctrPM2.GetWindowInt() < _ttoi(g_pMainDlg->m_strPMSlotCnt)) && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
             {
-                 
+
                 {
                     strImage.Format(_T("UI\\PM_Left\\슬라이드2.png"));
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM2, strImage);
                 }
                 for (int i = 8; i <= 10; i++)
                 {
-                    strImage.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"),i);
+                    strImage.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
                 }
-                 
+
                 {
                     strImage.Format(_T("UI\\PM_Left\\슬라이드3.png"));
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM2, strImage);
@@ -1155,7 +1159,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
 
             else if ((g_pMainDlg->m_ctrPM3.GetWindowInt() < _ttoi(g_pMainDlg->m_strPMSlotCnt)) && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
             {
-                 
+
                 {
                     strImage.Format(_T("UI\\PM_Upper\\슬라이드2.png"));
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM3, strImage);
@@ -1165,7 +1169,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     strImage.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
                 }
-                 
+
                 {
                     strImage.Format(_T("UI\\PM_Upper\\슬라이드3.png"));
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM3, strImage);
@@ -1174,7 +1178,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
 
             else if ((g_pMainDlg->m_ctrPM4.GetWindowInt() < _ttoi(g_pMainDlg->m_strPMSlotCnt)) && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
             {
-                 
+
                 {
                     strImage.Format(_T("UI\\PM_Upper\\슬라이드2.png"));
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM4, strImage);
@@ -1184,7 +1188,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     strImage.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
                 }
-                 
+
                 {
                     strImage.Format(_T("UI\\PM_Upper\\슬라이드3.png"));
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM4, strImage);
@@ -1193,7 +1197,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
 
             else if ((g_pMainDlg->m_ctrPM5.GetWindowInt() < _ttoi(g_pMainDlg->m_strPMSlotCnt)) && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
             {
-                 
+
                 {
                     strImage.Format(_T("UI\\PM_Right\\슬라이드2.png"));
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM5, strImage);
@@ -1203,7 +1207,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     strImage.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
                 }
-                 
+
                 {
                     strImage.Format(_T("UI\\PM_Right\\슬라이드3.png"));
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM5, strImage);
@@ -1212,7 +1216,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
 
             else if ((g_pMainDlg->m_ctrPM6.GetWindowInt() < _ttoi(g_pMainDlg->m_strPMSlotCnt)) && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
             {
-                 
+
                 {
                     strImage.Format(_T("UI\\PM_Right\\슬라이드2.png"));
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM6, strImage);
@@ -1222,7 +1226,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     strImage.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
                 }
-                 
+
                 {
                     strImage.Format(_T("UI\\PM_Right\\슬라이드3.png"));
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM6, strImage);
@@ -1329,7 +1333,7 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
         g_pMainDlg->m_ctrPM6.GetWindowInt();
     int nPM_MAX = _ttoi(g_pMainDlg->m_strPMSlotCnt) * _ttoi(g_pMainDlg->m_strPMModuleCnt);
     SetEvent(g_hEventLL_Modul_one_Thread1and2);
-    
+
     return 0;
 }
 
@@ -1345,22 +1349,22 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
     //PICK & PLACE (PM1 -> VAC ROBOT -> LL)
     while (true)
     {
-        if (g_pMainDlg->m_nThread3_PM == 1)
+        if (g_pMainDlg->m_nThread3_PM[0] == 1)
             nPM_cnt = g_pMainDlg->m_ctrPM1.GetWindowInt();
 
-        if (g_pMainDlg->m_nThread3_PM == 2)
+        if (g_pMainDlg->m_nThread3_PM[0] == 2)
             nPM_cnt = g_pMainDlg->m_ctrPM2.GetWindowInt();
 
-        if (g_pMainDlg->m_nThread3_PM == 3)
+        if (g_pMainDlg->m_nThread3_PM[0] == 3)
             nPM_cnt = g_pMainDlg->m_ctrPM3.GetWindowInt();
 
-        if (g_pMainDlg->m_nThread3_PM == 4)
+        if (g_pMainDlg->m_nThread3_PM[0] == 4)
             nPM_cnt = g_pMainDlg->m_ctrPM4.GetWindowInt();
 
-        if (g_pMainDlg->m_nThread3_PM == 5)
+        if (g_pMainDlg->m_nThread3_PM[0] == 5)
             nPM_cnt = g_pMainDlg->m_ctrPM5.GetWindowInt();
 
-        if (g_pMainDlg->m_nThread3_PM == 6)
+        if (g_pMainDlg->m_nThread3_PM[0] == 6)
             nPM_cnt = g_pMainDlg->m_ctrPM6.GetWindowInt();
 
         nTM_cnt = g_pMainDlg->m_ctrTM.GetWindowInt();
@@ -1388,44 +1392,44 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 if (i % 2 == 0)
                 {
                     g_pMainDlg->m_ctrTM.SetWindowInt(i);
-                    if (g_pMainDlg->m_ctrPM1.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 1)
+                    if (g_pMainDlg->m_ctrPM1.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 1)
                         g_pMainDlg->m_ctrPM1.SetWindowInt(nPM_cnt);
 
-                    else if (g_pMainDlg->m_ctrPM2.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 2)
+                    else if (g_pMainDlg->m_ctrPM2.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 2)
                         g_pMainDlg->m_ctrPM2.SetWindowInt(nPM_cnt);
 
-                    else if (g_pMainDlg->m_ctrPM3.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 3)
+                    else if (g_pMainDlg->m_ctrPM3.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 3)
                         g_pMainDlg->m_ctrPM3.SetWindowInt(nPM_cnt);
 
-                    else if (g_pMainDlg->m_ctrPM4.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 4)
+                    else if (g_pMainDlg->m_ctrPM4.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 4)
                         g_pMainDlg->m_ctrPM4.SetWindowInt(nPM_cnt);
 
-                    else if (g_pMainDlg->m_ctrPM5.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 5)
+                    else if (g_pMainDlg->m_ctrPM5.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 5)
                         g_pMainDlg->m_ctrPM5.SetWindowInt(nPM_cnt);
 
-                    else if (g_pMainDlg->m_ctrPM6.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 6)
+                    else if (g_pMainDlg->m_ctrPM6.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 6)
                         g_pMainDlg->m_ctrPM6.SetWindowInt(nPM_cnt);
                 }
             }
             else if (g_pMainDlg->m_strVacArmCnt == _T("2"))
             {
                 g_pMainDlg->m_ctrTM.SetWindowInt(i);
-                if (g_pMainDlg->m_ctrPM1.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 1)
+                if (g_pMainDlg->m_ctrPM1.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 1)
                     g_pMainDlg->m_ctrPM1.SetWindowInt(nPM_cnt);
 
-                else if (g_pMainDlg->m_ctrPM2.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 2)
+                else if (g_pMainDlg->m_ctrPM2.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 2)
                     g_pMainDlg->m_ctrPM2.SetWindowInt(nPM_cnt);
 
-                else if (g_pMainDlg->m_ctrPM3.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 3)
+                else if (g_pMainDlg->m_ctrPM3.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 3)
                     g_pMainDlg->m_ctrPM3.SetWindowInt(nPM_cnt);
 
-                else if (g_pMainDlg->m_ctrPM4.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 4)
+                else if (g_pMainDlg->m_ctrPM4.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 4)
                     g_pMainDlg->m_ctrPM4.SetWindowInt(nPM_cnt);
 
-                else if (g_pMainDlg->m_ctrPM5.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 5)
+                else if (g_pMainDlg->m_ctrPM5.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 5)
                     g_pMainDlg->m_ctrPM5.SetWindowInt(nPM_cnt);
 
-                else if (g_pMainDlg->m_ctrPM6.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 6)
+                else if (g_pMainDlg->m_ctrPM6.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 6)
                     g_pMainDlg->m_ctrPM6.SetWindowInt(nPM_cnt);
             }
             //현재 LL에 있는 wafer의 수와 VAC ROBOT이 들고 있는 wafer 갯수의 합이
@@ -1573,7 +1577,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 g_pMainDlg->m_nThread3_LL++;
                 g_pMainDlg->m_nLL_Thread = g_pMainDlg->m_nThread3_LL;
                 g_pMainDlg->m_nThread_Time_Error++;
-                g_hThread_LL[g_pMainDlg->m_nLL_Thread-2] = (CreateThread(NULL, 0, LL, 0, 0, 0));
+                g_hThread_LL[g_pMainDlg->m_nLL_Thread - 2] = (CreateThread(NULL, 0, LL, 0, 0, 0));
                 Sleep(g_pMainDlg->m_nLL_Slot_Valve_Open / g_pMainDlg->m_nSpeed);
             }
             if (g_pMainDlg->m_nThread_Time_Error == _ttoi(g_pMainDlg->m_strLLModuleCnt))
@@ -1642,36 +1646,36 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
             }
 
             nTM_cnt = g_pMainDlg->m_ctrTM.GetWindowInt();
-            if (g_pMainDlg->m_nThread3_PM == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
+            if (g_pMainDlg->m_nThread3_PM[0] == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
             {
                 g_pMainDlg->m_nPM_Thread3 = 1;
                 nPM_cnt = g_pMainDlg->m_ctrPM1.GetWindowInt();
             }
-            if (g_pMainDlg->m_nThread3_PM == 2 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
+            if (g_pMainDlg->m_nThread3_PM[0] == 2 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
             {
                 g_pMainDlg->m_nPM_Thread3 = 2;
                 nPM_cnt = g_pMainDlg->m_ctrPM2.GetWindowInt();
             }
 
-            if (g_pMainDlg->m_nThread3_PM == 3 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
+            if (g_pMainDlg->m_nThread3_PM[0] == 3 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
             {
                 g_pMainDlg->m_nPM_Thread3 = 3;
                 nPM_cnt = g_pMainDlg->m_ctrPM3.GetWindowInt();
             }
 
-            if (g_pMainDlg->m_nThread3_PM == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
+            if (g_pMainDlg->m_nThread3_PM[0] == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
             {
                 g_pMainDlg->m_nPM_Thread3 = 4;
                 nPM_cnt = g_pMainDlg->m_ctrPM4.GetWindowInt();
             }
 
-            if (g_pMainDlg->m_nThread3_PM == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
+            if (g_pMainDlg->m_nThread3_PM[0] == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
             {
                 g_pMainDlg->m_nPM_Thread3 = 5;
                 nPM_cnt = g_pMainDlg->m_ctrPM5.GetWindowInt();
             }
 
-            if (g_pMainDlg->m_nThread3_PM == 6 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
+            if (g_pMainDlg->m_nThread3_PM[0] == 6 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
             {
                 g_pMainDlg->m_nPM_Thread3 = 6;
                 nPM_cnt = g_pMainDlg->m_ctrPM6.GetWindowInt();
@@ -1682,7 +1686,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
             Sleep(g_pMainDlg->m_nPM_Slot_Valve_Open / g_pMainDlg->m_nSpeed);
             Sleep(g_pMainDlg->m_nVAC_Place / g_pMainDlg->m_nSpeed);
 
-            if (g_pMainDlg->m_nThread3_PM == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
+            if (g_pMainDlg->m_nThread3_PM[0] == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
             {
                 for (int i = 36; i <= 38; i++)
                 {
@@ -1690,7 +1694,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
                 }
             }
-            if (g_pMainDlg->m_nThread3_PM == 2 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
+            if (g_pMainDlg->m_nThread3_PM[0] == 2 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
             {
                 for (int i = 54; i <= 56; i++)
                 {
@@ -1698,7 +1702,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
                 }
             }
-            if (g_pMainDlg->m_nThread3_PM == 3 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
+            if (g_pMainDlg->m_nThread3_PM[0] == 3 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
             {
                 for (int i = 72; i <= 74; i++)
                 {
@@ -1706,7 +1710,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
                 }
             }
-            if (g_pMainDlg->m_nThread3_PM == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
+            if (g_pMainDlg->m_nThread3_PM[0] == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
             {
                 for (int i = 90; i <= 92; i++)
                 {
@@ -1714,7 +1718,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
                 }
             }
-            if (g_pMainDlg->m_nThread3_PM == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
+            if (g_pMainDlg->m_nThread3_PM[0] == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
             {
                 for (int i = 108; i <= 110; i++)
                 {
@@ -1722,7 +1726,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
                 }
             }
-            if (g_pMainDlg->m_nThread3_PM == 6 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
+            if (g_pMainDlg->m_nThread3_PM[0] == 6 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
             {
                 for (int i = 126; i <= 128; i++)
                 {
@@ -1730,7 +1734,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
                 }
             }
-            
+
             for (int i = nPM_cnt;; i++)
             {
                 if (g_pMainDlg->m_strVacArmCnt == _T("4"))
@@ -1738,46 +1742,46 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     if (i % 2 == 0)
                     {
                         g_pMainDlg->m_ctrTM.SetWindowInt(nTM_cnt);
-                        if (g_pMainDlg->m_nThread3_PM == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
+                        if (g_pMainDlg->m_nThread3_PM[0] == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
                             g_pMainDlg->m_ctrPM1.SetWindowInt(i);
 
-                        if (g_pMainDlg->m_nThread3_PM == 2 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
+                        if (g_pMainDlg->m_nThread3_PM[0] == 2 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
                             g_pMainDlg->m_ctrPM2.SetWindowInt(i);
 
-                        if (g_pMainDlg->m_nThread3_PM == 3 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
+                        if (g_pMainDlg->m_nThread3_PM[0] == 3 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
                             g_pMainDlg->m_ctrPM3.SetWindowInt(i);
 
-                        if (g_pMainDlg->m_nThread3_PM == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
+                        if (g_pMainDlg->m_nThread3_PM[0] == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
                             g_pMainDlg->m_ctrPM4.SetWindowInt(i);
 
-                        if (g_pMainDlg->m_nThread3_PM == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
+                        if (g_pMainDlg->m_nThread3_PM[0] == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
                             g_pMainDlg->m_ctrPM5.SetWindowInt(i);
 
-                        if (g_pMainDlg->m_nThread3_PM == 6 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
+                        if (g_pMainDlg->m_nThread3_PM[0] == 6 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
                             g_pMainDlg->m_ctrPM6.SetWindowInt(i);
                     }
                 }
                 else if (g_pMainDlg->m_strVacArmCnt == _T("2"))
                 {
                     g_pMainDlg->m_ctrTM.SetWindowInt(nTM_cnt);
-                    if (g_pMainDlg->m_nThread3_PM == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
+                    if (g_pMainDlg->m_nThread3_PM[0] == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
                         g_pMainDlg->m_ctrPM1.SetWindowInt(i);
 
-                    if (g_pMainDlg->m_nThread3_PM == 2 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
+                    if (g_pMainDlg->m_nThread3_PM[0] == 2 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
                         g_pMainDlg->m_ctrPM2.SetWindowInt(i);
 
-                    if (g_pMainDlg->m_nThread3_PM == 3 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
+                    if (g_pMainDlg->m_nThread3_PM[0] == 3 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
                         g_pMainDlg->m_ctrPM3.SetWindowInt(i);
 
-                    if (g_pMainDlg->m_nThread3_PM == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
+                    if (g_pMainDlg->m_nThread3_PM[0] == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
                         g_pMainDlg->m_ctrPM4.SetWindowInt(i);
 
-                    if (g_pMainDlg->m_nThread3_PM == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
+                    if (g_pMainDlg->m_nThread3_PM[0] == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
                         g_pMainDlg->m_ctrPM5.SetWindowInt(i);
 
-                    if (g_pMainDlg->m_nThread3_PM == 6 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
+                    if (g_pMainDlg->m_nThread3_PM[0] == 6 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
                         g_pMainDlg->m_ctrPM6.SetWindowInt(i);
-                }              
+                }
 
                 if (nTM_cnt == 0) break;  //TM(VAC ROBOT)에 남아있는 wafer가 없다면 종료
                 if (i == _ttoi(g_pMainDlg->m_strPMSlotCnt)) break;  //PM이 가득 찼다면 종료
@@ -1790,37 +1794,42 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 Sleep(g_pMainDlg->m_nPM_Slot_Valve_Close / g_pMainDlg->m_nSpeed);
                 Sleep(g_pMainDlg->m_nPM_Slot_Valve_Open / g_pMainDlg->m_nSpeed);
                 PM_Count = 0;
-                g_pMainDlg->m_nThread3_PM++;
                 g_pMainDlg->m_nPM_Processing++;
-                g_hThread_PM[g_pMainDlg->m_nThread3_PM-2] = (CreateThread(NULL, 0, PM, 0, 0, 0));
+                g_hThread_PM[g_pMainDlg->m_nThread3_PM[0] - 1] = (CreateThread(NULL, 0, PM, 0, 0, 0));
+                for (int i = 0; i < 9; i++)
+                {
+                    g_pMainDlg->m_nThread3_PM[i] = g_pMainDlg->m_nThread3_PM[i + 1];
+                }
             }
-
-            if (g_pMainDlg->m_nThread3_PM == _ttoi(g_pMainDlg->m_strPMModuleCnt) + 1)
-                g_pMainDlg->m_nThread3_PM = 1;
+            if (g_pMainDlg->m_nThread3_PM[0] == 0)
+            {
+                ResetEvent(g_hEventPM_Array);
+                WaitForSingleObject(g_hEventPM_Array, INFINITE);
+            }
             nTM_cnt = g_pMainDlg->m_ctrTM.GetWindowInt();
-            if (g_pMainDlg->m_nThread3_PM == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
+            if (g_pMainDlg->m_nThread3_PM[0] == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
                 nPM_cnt = g_pMainDlg->m_ctrPM1.GetWindowInt();
 
-            if (g_pMainDlg->m_nThread3_PM == 2 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
+            if (g_pMainDlg->m_nThread3_PM[0] == 2 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
                 nPM_cnt = g_pMainDlg->m_ctrPM2.GetWindowInt();
 
-            if (g_pMainDlg->m_nThread3_PM == 3 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
+            if (g_pMainDlg->m_nThread3_PM[0] == 3 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
                 nPM_cnt = g_pMainDlg->m_ctrPM3.GetWindowInt();
 
-            if (g_pMainDlg->m_nThread3_PM == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
+            if (g_pMainDlg->m_nThread3_PM[0] == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
                 nPM_cnt = g_pMainDlg->m_ctrPM4.GetWindowInt();
 
-            if (g_pMainDlg->m_nThread3_PM == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
+            if (g_pMainDlg->m_nThread3_PM[0] == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
                 nPM_cnt = g_pMainDlg->m_ctrPM5.GetWindowInt();
 
-            if (g_pMainDlg->m_nThread3_PM == 6 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
+            if (g_pMainDlg->m_nThread3_PM[0] == 6 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
                 nPM_cnt = g_pMainDlg->m_ctrPM6.GetWindowInt();
 
             //PM->TM
             Sleep(g_pMainDlg->m_nRotate / g_pMainDlg->m_nSpeed);
             Sleep(g_pMainDlg->m_nVAC_Pick / g_pMainDlg->m_nSpeed);
 
-            if (g_pMainDlg->m_ctrPM1.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 1)
+            if (g_pMainDlg->m_ctrPM1.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 1)
             {
                 for (int i = 38; i <= 40; i++)
                 {
@@ -1828,7 +1837,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
                 }
             }
-            if (g_pMainDlg->m_ctrPM2.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 2)
+            if (g_pMainDlg->m_ctrPM2.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 2)
             {
                 for (int i = 56; i <= 58; i++)
                 {
@@ -1837,7 +1846,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 }
             }
 
-            if (g_pMainDlg->m_ctrPM3.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 3)
+            if (g_pMainDlg->m_ctrPM3.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 3)
             {
                 for (int i = 74; i <= 76; i++)
                 {
@@ -1846,7 +1855,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 }
             }
 
-            if (g_pMainDlg->m_ctrPM4.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 4)
+            if (g_pMainDlg->m_ctrPM4.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 4)
             {
                 for (int i = 92; i <= 94; i++)
                 {
@@ -1855,7 +1864,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 }
             }
 
-            if (g_pMainDlg->m_ctrPM5.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 5)
+            if (g_pMainDlg->m_ctrPM5.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 5)
             {
                 for (int i = 110; i <= 112; i++)
                 {
@@ -1864,7 +1873,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 }
             }
 
-            if (g_pMainDlg->m_ctrPM6.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 6)
+            if (g_pMainDlg->m_ctrPM6.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 6)
             {
                 for (int i = 128; i <= 130; i++)
                 {
@@ -1872,7 +1881,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
                 }
             }
-            
+
             if (g_pMainDlg->m_nPM_Processing == _ttoi(g_pMainDlg->m_strPMModuleCnt))
             {
                 ResetEvent(g_hEvent_PM_MAX);
@@ -1886,44 +1895,44 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                     if (i % 2 == 0)
                     {
                         g_pMainDlg->m_ctrTM.SetWindowInt(i);
-                        if (g_pMainDlg->m_ctrPM1.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 1)
+                        if (g_pMainDlg->m_ctrPM1.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 1)
                             g_pMainDlg->m_ctrPM1.SetWindowInt(nPM_cnt);
 
-                        if (g_pMainDlg->m_ctrPM2.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 2)
+                        if (g_pMainDlg->m_ctrPM2.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 2)
                             g_pMainDlg->m_ctrPM2.SetWindowInt(nPM_cnt);
 
-                        if (g_pMainDlg->m_ctrPM3.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 3)
+                        if (g_pMainDlg->m_ctrPM3.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 3)
                             g_pMainDlg->m_ctrPM3.SetWindowInt(nPM_cnt);
 
-                        if (g_pMainDlg->m_ctrPM4.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 4)
+                        if (g_pMainDlg->m_ctrPM4.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 4)
                             g_pMainDlg->m_ctrPM4.SetWindowInt(nPM_cnt);
 
-                        if (g_pMainDlg->m_ctrPM5.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 5)
+                        if (g_pMainDlg->m_ctrPM5.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 5)
                             g_pMainDlg->m_ctrPM5.SetWindowInt(nPM_cnt);
 
-                        if (g_pMainDlg->m_ctrPM6.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 6)
+                        if (g_pMainDlg->m_ctrPM6.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 6)
                             g_pMainDlg->m_ctrPM6.SetWindowInt(nPM_cnt);
                     }
                 }
                 else if (g_pMainDlg->m_strVacArmCnt == _T("2"))
                 {
                     g_pMainDlg->m_ctrTM.SetWindowInt(i);
-                    if (g_pMainDlg->m_ctrPM1.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 1)
+                    if (g_pMainDlg->m_ctrPM1.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 1)
                         g_pMainDlg->m_ctrPM1.SetWindowInt(nPM_cnt);
 
-                    if (g_pMainDlg->m_ctrPM2.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 2)
+                    if (g_pMainDlg->m_ctrPM2.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 2)
                         g_pMainDlg->m_ctrPM2.SetWindowInt(nPM_cnt);
 
-                    if (g_pMainDlg->m_ctrPM3.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 3)
+                    if (g_pMainDlg->m_ctrPM3.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 3)
                         g_pMainDlg->m_ctrPM3.SetWindowInt(nPM_cnt);
 
-                    if (g_pMainDlg->m_ctrPM4.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 4)
+                    if (g_pMainDlg->m_ctrPM4.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 4)
                         g_pMainDlg->m_ctrPM4.SetWindowInt(nPM_cnt);
 
-                    if (g_pMainDlg->m_ctrPM5.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 5)
+                    if (g_pMainDlg->m_ctrPM5.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 5)
                         g_pMainDlg->m_ctrPM5.SetWindowInt(nPM_cnt);
 
-                    if (g_pMainDlg->m_ctrPM6.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM == 6)
+                    if (g_pMainDlg->m_ctrPM6.GetWindowInt() != 0 && g_pMainDlg->m_nThread3_PM[0] == 6)
                         g_pMainDlg->m_ctrPM6.SetWindowInt(nPM_cnt);
                 }
                 //현재 LL에 있는 wafer의 수와 VAC ROBOT이 들고 있는 wafer 갯수의 합이
@@ -1936,6 +1945,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 if (i == _ttoi(g_pMainDlg->m_strVacArmCnt)) break;  //TM(VAC ROBOT)이 Dual Arm일 땐 wafer 2장,
                 //Quad Arm일 때 wafer를 4장 들고 있다면 대기
             }
+
         }
         nTM_cnt = g_pMainDlg->m_ctrTM.GetWindowInt();
         if (g_pMainDlg->m_nThread3_LL == 1)
@@ -1996,22 +2006,22 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
             g_pMainDlg->m_nThread3_LL = 1;
 
         nTM_cnt = g_pMainDlg->m_ctrTM.GetWindowInt();
-        if (g_pMainDlg->m_nThread3_PM == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
+        if (g_pMainDlg->m_nThread3_PM[0] == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
             nPM_cnt = g_pMainDlg->m_ctrPM1.GetWindowInt();
 
-        if (g_pMainDlg->m_nThread3_PM == 2 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
+        if (g_pMainDlg->m_nThread3_PM[0] == 2 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
             nPM_cnt = g_pMainDlg->m_ctrPM2.GetWindowInt();
 
-        if (g_pMainDlg->m_nThread3_PM == 3 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
+        if (g_pMainDlg->m_nThread3_PM[0] == 3 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
             nPM_cnt = g_pMainDlg->m_ctrPM3.GetWindowInt();
 
-        if (g_pMainDlg->m_nThread3_PM == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
+        if (g_pMainDlg->m_nThread3_PM[0] == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
             nPM_cnt = g_pMainDlg->m_ctrPM4.GetWindowInt();
 
-        if (g_pMainDlg->m_nThread3_PM == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
+        if (g_pMainDlg->m_nThread3_PM[0] == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
             nPM_cnt = g_pMainDlg->m_ctrPM5.GetWindowInt();
 
-        if (g_pMainDlg->m_nThread3_PM == 6 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
+        if (g_pMainDlg->m_nThread3_PM[0] == 6 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
             nPM_cnt = g_pMainDlg->m_ctrPM6.GetWindowInt();
 
         //TM->PM
@@ -2022,44 +2032,44 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 if (i % 2 == 0)
                 {
                     g_pMainDlg->m_ctrTM.SetWindowInt(nTM_cnt);
-                    if (g_pMainDlg->m_nThread3_PM == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
+                    if (g_pMainDlg->m_nThread3_PM[0] == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
                         g_pMainDlg->m_ctrPM1.SetWindowInt(i);
 
-                    if (g_pMainDlg->m_nThread3_PM == 2 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
+                    if (g_pMainDlg->m_nThread3_PM[0] == 2 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
                         g_pMainDlg->m_ctrPM2.SetWindowInt(i);
 
-                    if (g_pMainDlg->m_nThread3_PM == 3 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
+                    if (g_pMainDlg->m_nThread3_PM[0] == 3 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
                         g_pMainDlg->m_ctrPM3.SetWindowInt(i);
 
-                    if (g_pMainDlg->m_nThread3_PM == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
+                    if (g_pMainDlg->m_nThread3_PM[0] == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
                         g_pMainDlg->m_ctrPM4.SetWindowInt(i);
 
-                    if (g_pMainDlg->m_nThread3_PM == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
+                    if (g_pMainDlg->m_nThread3_PM[0] == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
                         g_pMainDlg->m_ctrPM5.SetWindowInt(i);
 
-                    if (g_pMainDlg->m_nThread3_PM == 6 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
+                    if (g_pMainDlg->m_nThread3_PM[0] == 6 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
                         g_pMainDlg->m_ctrPM6.SetWindowInt(i);
                 }
             }
             else if (g_pMainDlg->m_strVacArmCnt == _T("2"))
             {
                 g_pMainDlg->m_ctrTM.SetWindowInt(nTM_cnt);
-                if (g_pMainDlg->m_nThread3_PM == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
+                if (g_pMainDlg->m_nThread3_PM[0] == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
                     g_pMainDlg->m_ctrPM1.SetWindowInt(i);
 
-                if (g_pMainDlg->m_nThread3_PM == 2 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
+                if (g_pMainDlg->m_nThread3_PM[0] == 2 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 2)
                     g_pMainDlg->m_ctrPM2.SetWindowInt(i);
 
-                if (g_pMainDlg->m_nThread3_PM == 3 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
+                if (g_pMainDlg->m_nThread3_PM[0] == 3 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 3)
                     g_pMainDlg->m_ctrPM3.SetWindowInt(i);
 
-                if (g_pMainDlg->m_nThread3_PM == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
+                if (g_pMainDlg->m_nThread3_PM[0] == 4 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 4)
                     g_pMainDlg->m_ctrPM4.SetWindowInt(i);
 
-                if (g_pMainDlg->m_nThread3_PM == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
+                if (g_pMainDlg->m_nThread3_PM[0] == 5 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 5)
                     g_pMainDlg->m_ctrPM5.SetWindowInt(i);
 
-                if (g_pMainDlg->m_nThread3_PM == 6 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
+                if (g_pMainDlg->m_nThread3_PM[0] == 6 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 6)
                     g_pMainDlg->m_ctrPM6.SetWindowInt(i);
             }
 
@@ -2071,7 +2081,10 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
 
         if (PM_Count == _ttoi(g_pMainDlg->m_strPMSlotCnt))
         {
-            g_pMainDlg->m_nThread3_PM++;
+            for (int i = 0; i < 10; i++)
+            {
+                g_pMainDlg->m_nThread3_PM[i] = g_pMainDlg->m_nThread3_PM[i + 1];
+            }
             PM_Count = 0;
         }
         if (g_pMainDlg->m_nPM_Processing + 1 == g_pMainDlg->m_strPMModuleCnt)
@@ -2079,9 +2092,8 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
             ResetEvent(g_hEvent_PM_MAX);
             WaitForSingleObject(g_hEvent_PM_MAX, INFINITE);
         }
-        if (g_pMainDlg->m_nThread3_PM == _ttoi(g_pMainDlg->m_strPMModuleCnt) + 1)
-            g_pMainDlg->m_nThread3_PM = 1;
-      
+
+
     }
     return 0;
 }
@@ -2239,21 +2251,21 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
             if (g_pMainDlg->m_bDummy == false)
             {
                 g_pMainDlg->m_ctrOutput.SetWindowInt(i);
-                
+
                 g_pMainDlg->m_ctrLPMUI2.SetWindowInt(g_pMainDlg->m_ctrLPMUI2.GetWindowInt() + nEFEM_cnt);
                 if (g_pMainDlg->m_ctrLPMUI2.GetWindowInt() == 25)
                     g_pMainDlg->m_ctrLPMUI2.SetWindowInt(0);
             }
             if (g_pMainDlg->m_bDummy == true)
             {
-                g_pMainDlg->m_nDummy_Count= g_pMainDlg->m_nDummy_Count+ nEFEM_cnt;
+                g_pMainDlg->m_nDummy_Count = g_pMainDlg->m_nDummy_Count + nEFEM_cnt;
             }
             if (g_pMainDlg->m_ctrOutput.GetWindowInt() != 0
                 && g_pMainDlg->m_ctrOutput.GetWindowInt() % (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt) * (g_pMainDlg->m_nPM_Clean_Wafer_Count)) == 0)
             {
                 g_pMainDlg->m_bDummy = true;
             }
-            if (g_pMainDlg->m_nDummy_Count == (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt) ))
+            if (g_pMainDlg->m_nDummy_Count == (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt)))
             {
                 g_pMainDlg->m_bClean_Time_Start = false;
                 g_pMainDlg->m_bDummy = false;
@@ -2261,9 +2273,9 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
             }
             g_pMainDlg->m_nWafer_Count--;
             if (nEFEM_cnt == 0) break;  //EFEM(ATM ROBOT)에 남아있는 wafer가 없다
-            
+
             nEFEM_cnt--;
-            
+
         }
     }
     g_pMainDlg->m_noutput_count = g_pMainDlg->m_ctrOutput.GetWindowInt();
@@ -2279,8 +2291,8 @@ DWORD WINAPI PM(LPVOID p)
 {
     //if 프로세스 동작 / 클린 동작 구분
     int nPM_Check;
-    int nPM_Time=g_pMainDlg->m_nPM_Time;
 
+    int nPM_Time = g_pMainDlg->m_nPM_Time;
     CString strImage;
 
     if (g_pMainDlg->m_bPM_Thread_Check == false)
@@ -2291,11 +2303,12 @@ DWORD WINAPI PM(LPVOID p)
         nPM_Check = g_pMainDlg->m_nPM_Thread2;
         if (nPM_Check == 1)
         {
+            nPM_Time = 600000;
             g_pMainDlg->m_CtrStatic_PM1.SetWindowInt(0);
             if (g_pMainDlg->m_CtrStatic_PM1.GetWindowInt() % (_ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count) == 0
                 && g_pMainDlg->m_CtrStatic_PM1.GetWindowInt() != 0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                //nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process1)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean1)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Clean1.SetCheck(TRUE);
@@ -2303,7 +2316,7 @@ DWORD WINAPI PM(LPVOID p)
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                //nPM_Time = g_pMainDlg->m_nPM_Time;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean1)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process1)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Process1.SetCheck(TRUE);
@@ -2317,11 +2330,12 @@ DWORD WINAPI PM(LPVOID p)
         }
         else if (nPM_Check == 2)
         {
+            nPM_Time = 700000;
             g_pMainDlg->m_CtrStatic_PM2.SetWindowInt(0);
-            if (g_pMainDlg->m_CtrStatic_PM2.GetWindowInt() != 0&&
-                g_pMainDlg->m_CtrStatic_PM2.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
+            if (g_pMainDlg->m_CtrStatic_PM2.GetWindowInt() != 0 &&
+                g_pMainDlg->m_CtrStatic_PM2.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count == 0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                //nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process2)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean2)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Clean2.SetCheck(TRUE);
@@ -2329,7 +2343,7 @@ DWORD WINAPI PM(LPVOID p)
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                //nPM_Time = g_pMainDlg->m_nPM_Time;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean2)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process2)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Process2.SetCheck(TRUE);
@@ -2343,8 +2357,9 @@ DWORD WINAPI PM(LPVOID p)
         }
         else if (nPM_Check == 3)
         {
+            nPM_Time = 800000;
             g_pMainDlg->m_CtrStatic_PM3.SetWindowInt(0);
-            if (g_pMainDlg->m_CtrStatic_PM3.GetWindowInt() != 0 && g_pMainDlg->m_CtrStatic_PM3.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
+            if (g_pMainDlg->m_CtrStatic_PM3.GetWindowInt() != 0 && g_pMainDlg->m_CtrStatic_PM3.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count == 0)
             {
                 nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process3)->EnableWindow(FALSE);
@@ -2354,7 +2369,7 @@ DWORD WINAPI PM(LPVOID p)
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                //nPM_Time = g_pMainDlg->m_nPM_Time;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean3)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process3)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Process3.SetCheck(TRUE);
@@ -2368,8 +2383,9 @@ DWORD WINAPI PM(LPVOID p)
         }
         else if (nPM_Check == 4)
         {
+            nPM_Time = 100000;
             g_pMainDlg->m_CtrStatic_PM4.SetWindowInt(0);
-            if (g_pMainDlg->m_CtrStatic_PM4.GetWindowInt() != 0 && g_pMainDlg->m_CtrStatic_PM4.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
+            if (g_pMainDlg->m_CtrStatic_PM4.GetWindowInt() != 0 && g_pMainDlg->m_CtrStatic_PM4.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count == 0)
             {
                 nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process4)->EnableWindow(FALSE);
@@ -2379,7 +2395,7 @@ DWORD WINAPI PM(LPVOID p)
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                //nPM_Time = g_pMainDlg->m_nPM_Time;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean4)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process4)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Process4.SetCheck(TRUE);
@@ -2393,6 +2409,7 @@ DWORD WINAPI PM(LPVOID p)
         }
         else if (nPM_Check == 5)
         {
+            nPM_Time = 200000;
             g_pMainDlg->m_CtrStatic_PM5.SetWindowInt(0);
             if (g_pMainDlg->m_CtrStatic_PM5.GetWindowInt() != 0 && g_pMainDlg->m_CtrStatic_PM5.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count == 0)
             {
@@ -2404,7 +2421,7 @@ DWORD WINAPI PM(LPVOID p)
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                //nPM_Time = g_pMainDlg->m_nPM_Time;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean5)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process5)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Process5.SetCheck(TRUE);
@@ -2418,10 +2435,12 @@ DWORD WINAPI PM(LPVOID p)
         }
         else if (nPM_Check == 6)
         {
+
+            nPM_Time = 60000;
             g_pMainDlg->m_CtrStatic_PM6.SetWindowInt(0);
-            if (g_pMainDlg->m_CtrStatic_PM6.GetWindowInt() != 0 && g_pMainDlg->m_CtrStatic_PM6.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count==0)
+            if (g_pMainDlg->m_CtrStatic_PM6.GetWindowInt() != 0 && g_pMainDlg->m_CtrStatic_PM6.GetWindowInt() % _ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count == 0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
+                //nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process6)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean6)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Clean6.SetCheck(TRUE);
@@ -2429,7 +2448,7 @@ DWORD WINAPI PM(LPVOID p)
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                //nPM_Time = g_pMainDlg->m_nPM_Time;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean6)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process6)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Process6.SetCheck(TRUE);
@@ -2441,7 +2460,7 @@ DWORD WINAPI PM(LPVOID p)
                 g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM6, strImage);
             }
         }
-       
+
         for (int i = 1; i <= 100; i++)
         {
             Sleep(nPM_Time / (g_pMainDlg->m_nSpeed * 100));
@@ -2542,7 +2561,7 @@ DWORD WINAPI PM(LPVOID p)
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = 600000;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean1)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process1)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Process1.SetCheck(TRUE);
@@ -2558,7 +2577,6 @@ DWORD WINAPI PM(LPVOID p)
         {
             if (g_pMainDlg->m_CtrStatic_PM2.GetWindowInt() % (_ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count) == 0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process2)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean2)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Clean2.SetCheck(TRUE);
@@ -2566,7 +2584,7 @@ DWORD WINAPI PM(LPVOID p)
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = 300000;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean2)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process2)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Process2.SetCheck(TRUE);
@@ -2580,9 +2598,8 @@ DWORD WINAPI PM(LPVOID p)
         }
         else if (nPM_Check == 3)
         {
-            if (g_pMainDlg->m_CtrStatic_PM3.GetWindowInt() %(_ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count)== 0)
+            if (g_pMainDlg->m_CtrStatic_PM3.GetWindowInt() % (_ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count) == 0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process3)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean3)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Clean3.SetCheck(TRUE);
@@ -2590,7 +2607,7 @@ DWORD WINAPI PM(LPVOID p)
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = 3000000;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean3)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process3)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Process3.SetCheck(TRUE);
@@ -2606,7 +2623,6 @@ DWORD WINAPI PM(LPVOID p)
         {
             if (g_pMainDlg->m_CtrStatic_PM4.GetWindowInt() % (_ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count) == 0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process4)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean4)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Clean4.SetCheck(TRUE);
@@ -2614,7 +2630,7 @@ DWORD WINAPI PM(LPVOID p)
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = 2000000;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean4)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process4)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Process4.SetCheck(TRUE);
@@ -2630,7 +2646,6 @@ DWORD WINAPI PM(LPVOID p)
         {
             if (g_pMainDlg->m_CtrStatic_PM5.GetWindowInt() % (_ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count) == 0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process5)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean5)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Clean5.SetCheck(TRUE);
@@ -2638,7 +2653,7 @@ DWORD WINAPI PM(LPVOID p)
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = 1000000;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean5)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process5)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Process5.SetCheck(TRUE);
@@ -2652,9 +2667,8 @@ DWORD WINAPI PM(LPVOID p)
         }
         else if (nPM_Check == 6)
         {
-            if (g_pMainDlg->m_CtrStatic_PM6.GetWindowInt() % (_ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count)==0)
+            if (g_pMainDlg->m_CtrStatic_PM6.GetWindowInt() % (_ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_nPM_Clean_Wafer_Count) == 0)
             {
-                nPM_Time = g_pMainDlg->m_nPM_Clean_Time;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process6)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean6)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Clean6.SetCheck(TRUE);
@@ -2662,7 +2676,7 @@ DWORD WINAPI PM(LPVOID p)
             }
             else
             {
-                nPM_Time = g_pMainDlg->m_nPM_Time;
+                nPM_Time = 600000;
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Clean6)->EnableWindow(FALSE);
                 g_pMainDlg->GetDlgItem(IDC_RADIO_Process6)->EnableWindow(TRUE);
                 g_pMainDlg->m_ctrRadio_Process6.SetCheck(TRUE);
@@ -2760,24 +2774,81 @@ DWORD WINAPI PM(LPVOID p)
 
     if (nPM_Check == 1)
     {
-        g_pMainDlg->m_Static_Count++;
-        g_pMainDlg->m_CtrStatic_PM1.SetWindowInt(_ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_Static_Count);
+        g_pMainDlg->m_CtrStatic_PM1.SetWindowInt(_ttoi(g_pMainDlg->m_strPMSlotCnt) + g_pMainDlg->m_CtrStatic_PM1.GetWindowInt());
+        for (int i = 0; i < 10; i++)
+        {
+            if (g_pMainDlg->m_nThread3_PM[i] == 0)
+            {
+                g_pMainDlg->m_nThread3_PM[i] = 1;
+                break;
+            }
+        }
     }
     else if (nPM_Check == 2)
-        g_pMainDlg->m_CtrStatic_PM2.SetWindowInt(_ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_Static_Count);
+    {
+        g_pMainDlg->m_CtrStatic_PM2.SetWindowInt(_ttoi(g_pMainDlg->m_strPMSlotCnt) + g_pMainDlg->m_CtrStatic_PM2.GetWindowInt());
+        for (int i = 0; i < 10; i++)
+        {
+            if (g_pMainDlg->m_nThread3_PM[i] == 0)
+            {
+                g_pMainDlg->m_nThread3_PM[i] = 2;
+                break;
+            }
+        }
+    }
     else if (nPM_Check == 3)
-        g_pMainDlg->m_CtrStatic_PM3.SetWindowInt(_ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_Static_Count);
+    {
+        g_pMainDlg->m_CtrStatic_PM3.SetWindowInt(_ttoi(g_pMainDlg->m_strPMSlotCnt) + g_pMainDlg->m_CtrStatic_PM3.GetWindowInt());
+        for (int i = 0; i < 10; i++)
+        {
+            if (g_pMainDlg->m_nThread3_PM[i] == 0)
+            {
+                g_pMainDlg->m_nThread3_PM[i] = 3;
+                break;
+            }
+        }
+    }
     else if (nPM_Check == 4)
-        g_pMainDlg->m_CtrStatic_PM4.SetWindowInt(_ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_Static_Count);
+    {
+        g_pMainDlg->m_CtrStatic_PM4.SetWindowInt(_ttoi(g_pMainDlg->m_strPMSlotCnt) + g_pMainDlg->m_CtrStatic_PM4.GetWindowInt());
+        for (int i = 0; i < 10; i++)
+        {
+            if (g_pMainDlg->m_nThread3_PM[i] == 0)
+            {
+                g_pMainDlg->m_nThread3_PM[i] = 4;
+                break;
+            }
+        }
+    }
     else if (nPM_Check == 5)
-        g_pMainDlg->m_CtrStatic_PM5.SetWindowInt(_ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_Static_Count);
+    {
+        g_pMainDlg->m_CtrStatic_PM5.SetWindowInt(_ttoi(g_pMainDlg->m_strPMSlotCnt) + g_pMainDlg->m_CtrStatic_PM5.GetWindowInt());
+        for (int i = 0; i < 10; i++)
+        {
+            if (g_pMainDlg->m_nThread3_PM[i] == 0)
+            {
+                g_pMainDlg->m_nThread3_PM[i] = 5;
+                break;
+            }
+        }
+    }
     else if (nPM_Check == 6)
-        g_pMainDlg->m_CtrStatic_PM6.SetWindowInt(_ttoi(g_pMainDlg->m_strPMSlotCnt) * g_pMainDlg->m_Static_Count);
+    {
+        g_pMainDlg->m_CtrStatic_PM6.SetWindowInt(_ttoi(g_pMainDlg->m_strPMSlotCnt) + g_pMainDlg->m_CtrStatic_PM6.GetWindowInt());
+        for (int i = 0; i < 10; i++)
+        {
+            if (g_pMainDlg->m_nThread3_PM[i] == 0)
+            {
+                g_pMainDlg->m_nThread3_PM[i] = 6;
+                break;
+            }
+        }
+    }
 
     if (g_pMainDlg->m_nPM_Processing == _ttoi(g_pMainDlg->m_strPMModuleCnt))
         SetEvent(g_hEvent_PM_MAX);
     g_pMainDlg->m_nPM_Processing--;
-
+    SetEvent(g_hEventPM_Array);
     return 0;
 }
 //FINAL RESULT (THROUGHPUT)
@@ -2802,7 +2873,7 @@ DWORD WINAPI Thread_Start(LPVOID p)
                 if (_ttoi(g_pMainDlg->m_strLLModuleCnt) == 1 || _ttoi(g_pMainDlg->m_strLLModuleCnt) == 2 || _ttoi(g_pMainDlg->m_strLLSlotCnt) < 3)
                     WaitForSingleObject(g_hEventLL_Modul_one_Thread4and1, INFINITE);
 
-                g_hThread4=(CreateThread(NULL, 0, Thread_4_LL2OUT, 0, 0, 0));
+                g_hThread4 = (CreateThread(NULL, 0, Thread_4_LL2OUT, 0, 0, 0));
                 WaitForSingleObject(g_hEventThread4_wait, INFINITE);
 
                 g_hThread1[n_Thread1_Suspend] = (CreateThread(NULL, 0, Thread_1_LPM2LL, 0, 0, 0));
@@ -2818,7 +2889,7 @@ DWORD WINAPI Thread_Start(LPVOID p)
             if (g_pMainDlg->m_noutput_count == _ttoi(g_pMainDlg->m_strLLSlotCnt))
                 g_pMainDlg->m_nThread1_LL = 0;
         }
-        
+
         if (g_pMainDlg->m_Thread3start == 0)
         {
             g_hThread1[n_Thread1_Suspend] = (CreateThread(NULL, 0, Thread_1_LPM2LL, 0, 0, 0));
@@ -2828,7 +2899,7 @@ DWORD WINAPI Thread_Start(LPVOID p)
             else if (n_Thread1_Suspend == 1)
                 n_Thread1_Suspend = 0;
         }
-        
+
         nLPM_cnt = g_pMainDlg->m_ctrLPM.GetWindowInt();
         PM_Count = g_pMainDlg->m_ctrPM1.GetWindowInt() +
             g_pMainDlg->m_ctrPM2.GetWindowInt() +
@@ -2840,7 +2911,7 @@ DWORD WINAPI Thread_Start(LPVOID p)
             g_pMainDlg->m_ctrLL2.GetWindowInt() +
             g_pMainDlg->m_ctrLL3.GetWindowInt() +
             g_pMainDlg->m_ctrLL4.GetWindowInt();
-       
+
         if (PM_Count != nPM_MAX && g_pMainDlg->m_Thread3start == 0)
         {
             ResetEvent(g_hEventLL_Modul_one_Thread1and2);
@@ -2852,7 +2923,7 @@ DWORD WINAPI Thread_Start(LPVOID p)
         {
             //for (int i = 0; i < g_pMainDlg->m_nThread2_LL; i++)
             {
-                g_hThread3=(CreateThread(NULL, 0, Thread_3_PM2LL, 0, 0, 0));
+                g_hThread3 = (CreateThread(NULL, 0, Thread_3_PM2LL, 0, 0, 0));
                 g_pMainDlg->m_Thread3start++;
                 WaitForSingleObject(g_hEventcount, INFINITE);
                 //WaitForSingleObject(g_hEventPMtoLL, INFINITE);
@@ -2870,14 +2941,14 @@ DWORD WINAPI TotalTime(LPVOID p)
     int n_H_Total = 0;
     int n_M_Total = 0;
     int n_S_Total = 0;
-    int i= g_pMainDlg->m_ctrOutput.GetWindowInt();
+    int i = g_pMainDlg->m_ctrOutput.GetWindowInt();
     CString strTmep;
     CString strTime_Clean;
     int n_D_Clean = 0;
     int n_H_Clean = 0;
     int n_M_Clean = 0;
     int n_S_Clean = 0;
-    
+
     while (true)
     {
 
@@ -2907,7 +2978,7 @@ DWORD WINAPI TotalTime(LPVOID p)
         //g_pMainDlg->m_strCurTime = CTime::GetCurrentTime();
         //g_pMainDlg->m_strDiffTime = g_pMainDlg->m_strCurTime - g_pMainDlg->m_strInitTime;
         strTime_Total.Format(_T("%02d:%02d:%02d:%02d"), n_D_Total, n_H_Total, n_M_Total, n_S_Total);
-        
+
         if (g_pMainDlg->m_ctrStatic_Speed.GetWindowInt() == 1)
             g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(strTime_Total);
         else if (n_S_Total % 3 == 0)
@@ -2950,24 +3021,7 @@ DWORD WINAPI TotalTime(LPVOID p)
 
 void C주성Dlg::OnBnClickedStart()
 {
-    CString strImage;
 
-    strImage.Format(_T("UI\\EFEM1\\슬라이드1.png"));
-    g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_EFEM, strImage);
-    strImage.Format(_T("UI\\TM(Quad)\\슬라이드1.png"));
-    g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
-    strImage.Format(_T("UI\\PM_Left\\슬라이드1.png"));
-    g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM1, strImage);
-    strImage.Format(_T("UI\\PM_Left\\슬라이드1.png"));
-    g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM2, strImage);
-    strImage.Format(_T("UI\\PM_Upper\\슬라이드1.png"));
-    g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM3, strImage);
-    strImage.Format(_T("UI\\PM_Upper\\슬라이드1.png"));
-    g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM4, strImage);
-    strImage.Format(_T("UI\\PM_Right\\슬라이드1.png"));
-    g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM5, strImage);
-    strImage.Format(_T("UI\\PM_Right\\슬라이드1.png"));
-    g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM6, strImage);
 
     CString strLL_UI;
     CString strPM_UI;
@@ -2977,6 +3031,24 @@ void C주성Dlg::OnBnClickedStart()
     GetDlgItem(IDC_START)->GetWindowText(strValue);
     if (strValue == _T("START"))
     {
+        CString strImage;
+
+        strImage.Format(_T("UI\\EFEM1\\슬라이드1.png"));
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_EFEM, strImage);
+        strImage.Format(_T("UI\\TM(Quad)\\슬라이드1.png"));
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
+        strImage.Format(_T("UI\\PM_Left\\슬라이드1.png"));
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM1, strImage);
+        strImage.Format(_T("UI\\PM_Left\\슬라이드1.png"));
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM2, strImage);
+        strImage.Format(_T("UI\\PM_Upper\\슬라이드1.png"));
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM3, strImage);
+        strImage.Format(_T("UI\\PM_Upper\\슬라이드1.png"));
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM4, strImage);
+        strImage.Format(_T("UI\\PM_Right\\슬라이드1.png"));
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM5, strImage);
+        strImage.Format(_T("UI\\PM_Right\\슬라이드1.png"));
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM6, strImage);
         GetDlgItem(IDC_LL_SLOT_MAX1)->SetWindowText(strLL_UI);
         GetDlgItem(IDC_LL_SLOT_MAX2)->SetWindowText(strLL_UI);
         GetDlgItem(IDC_LL_SLOT_MAX3)->SetWindowText(strLL_UI);
@@ -3055,7 +3127,7 @@ void C주성Dlg::OnBnClickedStart()
         SetEvent(g_hThread_TotalTime);
         GetDlgItem(IDC_START)->EnableWindow(TRUE);
     }
-    
+
 
 }
 
@@ -3314,4 +3386,147 @@ void C주성Dlg::OnBnClickedButtonLoadThroughput()
     {
         ShellExecute(NULL, _T("open"), fileDlg.GetPathName(), NULL, NULL, SW_SHOW);
     }
+}
+
+
+void C주성Dlg::OnBnClickedClear()
+{
+    DWORD A = 0;
+    TerminateThread(g_hThread1[0], A);
+    TerminateThread(g_hThread1[1], A);
+    TerminateThread(g_hThread2, A);
+    TerminateThread(g_hThread3, A);
+    TerminateThread(g_hThread4, A);
+    TerminateThread(g_hThread_Thread_Start, A);
+    for (int i = 0; i < 4; i++)
+    {
+        TerminateThread(g_hThread_LL[i], A);
+    }
+    for (int i = 0; i < 6; i++)
+    {
+        TerminateThread(g_hThread_PM[i], A);
+    }
+    Sleep(100);
+    m_nWafer_Count = 0; //장비에 집어넣은 웨이퍼 현재 개수
+    m_nLLMAX = 0; //LL의 방 개수 x 웨이퍼 개수= LL이 수용할수 있는 최대치
+    m_noutput_count = 0; // output에 들어오는 웨이퍼를 담고있는 변수
+    m_nThread1_LL = 0; //쓰레드 1번에서 사용 하고 어떤 LL을 사용해야 할지 파악하는 변수 
+    m_nThread2_LL = 0; //쓰레드 2번에서 사용 하고 어떤 LL을 사용해야 할지 파악하는 변수 
+    for (int i = 0; i < 10; i++)
+    {
+        m_nThread3_PM[i] = 0;
+    }
+    m_nLL_Thread = 0;
+    for (int i = 0; i < 4; i++)
+    {
+        m_nWafer_Process[i] = 0;
+    }
+    m_Thread3start = 0;		//3번 쓰레드 부르는 타이밍
+    m_bTime_STOP = true;
+    m_nWafer_Count = 0;
+
+    g_pMainDlg->m_ctrTotal_Clean_Time.SetWindowText(_T("00:00:00:00"));
+    g_pMainDlg->m_ctrlStaticTotalTime.SetWindowText(_T("00:00:00:00"));
+
+    m_bLL_Dummy = false;
+    m_bClean_Time_Start = false;
+    m_bPM_Thread_Check = false;
+
+    m_nPM_Thread2 = 0;
+    m_nPM_Processing = 0;
+    m_noutput_count = 0;
+    m_nThread1_LL = 0;
+    m_nThread2_LL = 0;
+    m_nThread3_LL = 1;
+    m_nThread4_LL = 1;
+    m_nThread_Time_Error = 0;
+    m_Thread3start = 0;
+    m_ctrLL1.SetWindowInt(0);
+    m_ctrLL2.SetWindowInt(0);
+    m_ctrLL3.SetWindowInt(0);
+    m_ctrLL4.SetWindowInt(0);
+    m_ctrPM1.SetWindowInt(0);
+    m_ctrPM2.SetWindowInt(0);
+    m_ctrPM3.SetWindowInt(0);
+    m_ctrPM4.SetWindowInt(0);
+    m_ctrPM5.SetWindowInt(0);
+    m_ctrPM6.SetWindowInt(0);
+    m_ctrLPMUI1.SetWindowInt(25);
+    m_ctrLPMUI2.SetWindowInt(0);
+    m_ctrPROGRESS_LL1.SetPos(0);
+    m_ctrPROGRESS_LL2.SetPos(0);
+    m_ctrPROGRESS_LL3.SetPos(0);
+    m_ctrPROGRESS_LL4.SetPos(0);
+    m_ctrPROGRESS_PM1.SetPos(0);
+    m_ctrPROGRESS_PM2.SetPos(0);
+    m_ctrPROGRESS_PM3.SetPos(0);
+    m_ctrPROGRESS_PM4.SetPos(0);
+    m_ctrPROGRESS_PM5.SetPos(0);
+    m_ctrPROGRESS_PM6.SetPos(0);
+    m_ctrOutput.SetWindowInt(0);
+    m_ctrPM_Count1.SetWindowInt(0);
+    m_ctrPM_Count2.SetWindowInt(0);
+    m_ctrPM_Count3.SetWindowInt(0);
+    m_ctrPM_Count4.SetWindowInt(0);
+    m_ctrPM_Count5.SetWindowInt(0);
+    m_ctrPM_Count6.SetWindowInt(0);
+    m_CtrStatic_PM1.SetWindowInt(0);
+    m_CtrStatic_PM2.SetWindowInt(0);
+    m_CtrStatic_PM3.SetWindowInt(0);
+    m_CtrStatic_PM4.SetWindowInt(0);
+    m_CtrStatic_PM5.SetWindowInt(0);
+    m_CtrStatic_PM6.SetWindowInt(0);
+    m_ctrlStaticTotalTime.SetFont(&m_fontTime, TRUE);
+    m_ctrTotal_Clean_Time.SetFont(&m_fontTime, TRUE);
+    m_nATM_Pick = 4000;
+    m_nATM_Place = 4000;
+    m_nATM_Rotate = 1000;
+    m_nATM_ZRotate = 1000;
+    m_nLL_Pump = 15000;
+    m_nLL_Pump_Stable_Time = 5000;
+    m_nLL_Vent = 15000;
+    m_nLL_Vent_Stable_Time = 5000;
+    m_nLL_Slot_Valve_Open = 2000;
+    m_nLL_Slot_Valve_Close = 2000;
+    m_nLL_Door_Valve_Open = 2000;
+    m_nLL_Door_Valve_Close = 2000;
+    m_nVAC_Pick = 5000;
+    m_nVAC_Place = 5000;
+    m_nRotate = 5000;
+    m_nPM_Time = 600000;
+    m_nPM_Clean_Time = 1200000;
+    m_nPM_Clean_Wafer_Count = 10;
+    m_nPM_Slot_Valve_Open = 2000;
+    m_nPM_Slot_Valve_Close = 2000;
+
+    GetDlgItem(IDC_START)->SetWindowText(_T("START"));
+    GetDlgItem(IDC_START)->EnableWindow(FALSE);
+    GetDlgItem(IDC_BUTTON_SAVE_SYSTEMCONFIG)->EnableWindow(FALSE);
+    GetDlgItem(IDC_BUTTON_LOAD_SYSTEMCONFIG)->EnableWindow(TRUE);
+    GetDlgItem(IDC_BUTTON_SAVE_THROUGHPUT)->EnableWindow(FALSE);
+    GetDlgItem(IDC_BUTTON_LOAD_THROUGHPUT)->EnableWindow(TRUE);
+    GetDlgItem(IDC_SYSTEM_INFO)->EnableWindow(TRUE);
+    CString strImage;
+
+    strImage.Format(_T("UI\\EFEM1\\슬라이드1.png"));
+    g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_EFEM, strImage);
+    strImage.Format(_T("UI\\TM(Quad)\\슬라이드1.png"));
+    g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
+    strImage.Format(_T("UI\\PM_Left\\슬라이드1.png"));
+    g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM1, strImage);
+    strImage.Format(_T("UI\\PM_Left\\슬라이드1.png"));
+    g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM2, strImage);
+    strImage.Format(_T("UI\\PM_Upper\\슬라이드1.png"));
+    g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM3, strImage);
+    strImage.Format(_T("UI\\PM_Upper\\슬라이드1.png"));
+    g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM4, strImage);
+    strImage.Format(_T("UI\\PM_Right\\슬라이드1.png"));
+    g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM5, strImage);
+    strImage.Format(_T("UI\\PM_Right\\슬라이드1.png"));
+    g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Ctrl_Gui_PM6, strImage);
+
+    g_pMainDlg->InvalidateRect(g_CRtemp, false);
+
+    UpdateData(0);
+
 }

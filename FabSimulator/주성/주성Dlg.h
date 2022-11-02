@@ -56,7 +56,7 @@ public:
 	int m_nThread1_LL; //쓰레드 1번에서 사용 하고 어떤 LL을 사용해야 할지 파악하는 변수 
 	int m_nThread2_LL; //쓰레드 2번에서 사용 하고 어떤 LL을 사용해야 할지 파악하는 변수 
 	int m_nThread3_LL; //쓰레드 3번에서 사용 하고 어떤 LL을 사용해야 할지 파악하는 변수
-	int m_nThread3_PM; //쓰레드 3번에서 사용 하고 어떤 PM을 사용해야 할지 파악하는 변수
+	int m_nThread3_PM[10] = { 0, }; //쓰레드 3번에서 사용 하고 어떤 PM을 사용해야 할지 파악하는 변수
 	int m_nThread4_LL; //쓰레드 4번에서 사용 하고 어떤 LL을 사용해야 할지 파악하는 변수
 	int m_nThread_Time_Error; // 쓰레드간 시간이 달라서 충돌 오류를 막기위한 변수
 	int m_nLL_Thread;
@@ -143,7 +143,6 @@ public:
 	C주성Btn m_CtrStatic_PM5;
 	C주성Btn m_CtrStatic_PM6;
 	C주성Btn m_ctrStatic_Speed;
-	int m_Static_Count = 0;
 	//LPM UI 변수
 	C주성Btn m_ctrLPMUI1;
 	C주성Btn m_ctrLPMUI2;
@@ -190,6 +189,7 @@ public:
 
 	int m_nTotalSec;
 	int m_nCleanSec;
+
 	C주성Btn m_ctrOutput;
 	C주성Btn m_ctrThrought;
 	CStatic m_ctrStaticGreen;
@@ -212,7 +212,7 @@ public:
 	afx_msg void OnBnClickedButtonLoadThroughput();
 	afx_msg void OnBnClickedStart();
 	afx_msg void OnBnClickedSetSpeed();
-
+	afx_msg void OnBnClickedClear();
 	void DrawSemiconductor(CWnd* pWnd, CString strImageName);
-	
+
 };
