@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "afxdialogex.h"
-
+#include <vector>
+using namespace std;
 // CSetProcessDlg 대화 상자
 
 class CSetProcessDlg : public CDialogEx
@@ -23,11 +24,6 @@ protected:
 public:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBnClickedOk();
-
-	int m_nPMProcess01;
-	int m_nPMProcess02;
-	int m_nPMProcess03;
-	int m_nPMProcess04;
-	int m_nPMProcess05;
-	int m_nPMProcess06;
+	vector<int> m_arrPMProcess;
+	afx_msg void OnBnClickedCancel();
 };
