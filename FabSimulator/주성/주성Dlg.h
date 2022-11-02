@@ -215,4 +215,6 @@ public:
 	afx_msg void OnBnClickedClear();
 	void DrawSemiconductor(CWnd* pWnd, CString strImageName);
 
+	int m_arrPMProcess[6] = { 0, };
+	int m_arrCleanProcess[6] = { 0, };
 };
