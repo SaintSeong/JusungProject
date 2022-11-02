@@ -57,6 +57,7 @@ HANDLE g_hEventPM_Array;
 HANDLE g_hEventLL_Modul_one_Thread4and1;
 HANDLE g_hEventLL_Modul_one_Thread1and2;
 HANDLE g_hEventcount;
+HANDLE g_hEvent_Thread3_Wait;
 HANDLE g_hEventThread_Time_Error; //쓰레드 시간이 안맞을때 관리하는 이벤트
 HANDLE g_hEventThread4_wait;
 HANDLE g_hEvent_PM_MAX;
@@ -133,6 +134,10 @@ void C주성Dlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_GUI_PM4, m_Ctrl_Gui_PM4);
     DDX_Control(pDX, IDC_GUI_PM5, m_Ctrl_Gui_PM5);
     DDX_Control(pDX, IDC_GUI_PM6, m_Ctrl_Gui_PM6);
+    DDX_Control(pDX, IDC_GUI_LL1, m_ctrGUI_LL1);
+    DDX_Control(pDX, IDC_GUI_LL2, m_ctrGUI_LL2);
+    DDX_Control(pDX, IDC_GUI_LL3, m_ctrGUI_LL3);
+    DDX_Control(pDX, IDC_GUI_LL4, m_ctrGUI_LL4);
     DDX_Control(pDX, IDC_GUI_EFEM, m_Ctrl_Gui_EFEM);
     DDX_Control(pDX, IDC_PM_COUNT1, m_ctrPM_Count1);
     DDX_Control(pDX, IDC_PM_COUNT2, m_ctrPM_Count2);
@@ -219,6 +224,7 @@ BOOL C주성Dlg::OnInitDialog()
     g_hEventLL_Modul_one_Thread1and2 = CreateEvent(NULL, FALSE, FALSE, NULL);//자동리셋 이벤트
     g_hEventThread_Time_Error = CreateEvent(NULL, FALSE, FALSE, NULL);//자동리셋 이벤트
     g_hEventcount = CreateEvent(NULL, TRUE, FALSE, NULL);
+    g_hEvent_Thread3_Wait = CreateEvent(NULL, TRUE, FALSE, NULL);
     g_hEventThread4_wait = CreateEvent(NULL, FALSE, FALSE, NULL);
     g_hEvent_PM_MAX = CreateEvent(NULL, FALSE, FALSE, NULL);
     g_hEventLL_Modul_one_Thread4and1 = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -581,40 +587,92 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
     if (g_pMainDlg->m_strLLModuleCnt == _T("1"))
     {
         if ((g_pMainDlg->m_ctrLL1.GetWindowInt() == 0 && g_pMainDlg->m_ctrPM1.GetWindowInt() == 0))
+        {
             g_pMainDlg->m_nThread1_LL = 0;
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 8);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+        }
     }
     else if (g_pMainDlg->m_strLLModuleCnt == _T("2"))
     {
         if ((g_pMainDlg->m_ctrLL1.GetWindowInt() == 0 && g_pMainDlg->m_ctrPM1.GetWindowInt() == 0))
+        {
             g_pMainDlg->m_nThread1_LL = 0;
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 8);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+        }
         else if ((g_pMainDlg->m_ctrLL2.GetWindowInt() == 0 && g_pMainDlg->m_nThread1_LL == 0))
+        {
             g_pMainDlg->m_nThread1_LL = 1;
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 8);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL2, strImage);
+        }
         else if ((g_pMainDlg->m_ctrLL1.GetWindowInt() == 0 && g_pMainDlg->m_nThread1_LL == 1))
+        {
             g_pMainDlg->m_nThread1_LL = 0;
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 8);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+        }
     }
     else if (g_pMainDlg->m_strLLModuleCnt == _T("3"))
     {
         if ((g_pMainDlg->m_ctrLL1.GetWindowInt() == 0 && g_pMainDlg->m_ctrPM1.GetWindowInt() == 0))
+        {
             g_pMainDlg->m_nThread1_LL = 0;
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 8);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+        }
         else if ((g_pMainDlg->m_ctrLL2.GetWindowInt() == 0 && g_pMainDlg->m_nThread1_LL == 0))
+        {
             g_pMainDlg->m_nThread1_LL = 1;
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 8);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL2, strImage);
+        }
         else if ((g_pMainDlg->m_ctrLL3.GetWindowInt() == 0 && g_pMainDlg->m_nThread1_LL == 1))
+        {
             g_pMainDlg->m_nThread1_LL = 2;
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 8);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL3, strImage);
+        }
         else if ((g_pMainDlg->m_ctrLL1.GetWindowInt() == 0 && g_pMainDlg->m_nThread1_LL == 2))
+        {
             g_pMainDlg->m_nThread1_LL = 0;
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 8);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+        }
     }
     else if (g_pMainDlg->m_strLLModuleCnt == _T("4"))
     {
         if ((g_pMainDlg->m_ctrLL1.GetWindowInt() == 0 && g_pMainDlg->m_ctrPM1.GetWindowInt() == 0 && g_pMainDlg->m_nThread1_LL != 1) || (g_pMainDlg->m_ctrLL1.GetWindowInt() == 0 && g_pMainDlg->m_Thread3start == 1))
+        {
             g_pMainDlg->m_nThread1_LL = 0;
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 8);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+        }
         else if ((g_pMainDlg->m_ctrLL2.GetWindowInt() == 0 && g_pMainDlg->m_nThread1_LL == 0))
+        {
             g_pMainDlg->m_nThread1_LL = 1;
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 8);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL2, strImage);
+        }
         else if ((g_pMainDlg->m_ctrLL3.GetWindowInt() == 0 && g_pMainDlg->m_nThread1_LL == 1))
+        {
             g_pMainDlg->m_nThread1_LL = 2;
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 8);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL3, strImage);
+        }
         else if ((g_pMainDlg->m_ctrLL4.GetWindowInt() == 0 && g_pMainDlg->m_nThread1_LL == 2))
+        {
             g_pMainDlg->m_nThread1_LL = 3;
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 8);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL4, strImage);
+        }
         else if ((g_pMainDlg->m_ctrLL1.GetWindowInt() == 0 && g_pMainDlg->m_nThread1_LL == 3))
+        {
             g_pMainDlg->m_nThread1_LL = 0;
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 8);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+        }
     }
     if (g_pMainDlg->m_Thread3start == 1)
         g_pMainDlg->m_nThread1_LL = g_pMainDlg->m_nThread4_LL - 1;
@@ -696,8 +754,6 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
     //3. PICK & PLACE (LPM -> ATM ROBOT -> LL)
     while (nLPM_cnt != 0 && nLL_cnt != (g_pMainDlg->m_nLLMAX / _ttoi(g_pMainDlg->m_strLLModuleCnt)) - 1)
     {
-
-
         //한번에 LL과 PM에 넣을 수 있는 wafer의 갯수는 같다(비례)
         if (g_pMainDlg->m_nWafer_Count == (_ttoi(g_pMainDlg->m_strPMModuleCnt) * _ttoi(g_pMainDlg->m_strPMSlotCnt) + g_pMainDlg->m_nLLMAX)) break;
 
@@ -769,7 +825,6 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
             nAligner_cnt--;
 
         }
-
         nEFEM_cnt = g_pMainDlg->m_ctrEFEM.GetWindowInt();
 
         //3) PLACE : ATM ROBOT -> ALIGNER
@@ -809,6 +864,8 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
         Sleep(g_pMainDlg->m_nLL_Door_Valve_Open / g_pMainDlg->m_nSpeed);
         Sleep(g_pMainDlg->m_nATM_ZRotate / g_pMainDlg->m_nSpeed);
         Sleep(g_pMainDlg->m_nATM_Place / g_pMainDlg->m_nSpeed);
+
+        
         for (int i = 13; i < 16; i++)
         {
             strImage.Format(_T("UI\\EFEM1\\슬라이드%d.png"), i);
@@ -821,13 +878,29 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
 
             g_pMainDlg->m_ctrEFEM.SetWindowInt(nEFEM_cnt);
             if (g_pMainDlg->m_nThread1_LL == 0)
+            {
                 g_pMainDlg->m_ctrLL1.SetWindowInt(i);
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 3);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+            }
             else if (g_pMainDlg->m_nThread1_LL == 1)
+            {
                 g_pMainDlg->m_ctrLL2.SetWindowInt(i);
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 3);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL2, strImage);
+            }
             else if (g_pMainDlg->m_nThread1_LL == 2)
+            {
                 g_pMainDlg->m_ctrLL3.SetWindowInt(i);
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 3);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL3, strImage);
+            }
             else if (g_pMainDlg->m_nThread1_LL == 3)
+            {
                 g_pMainDlg->m_ctrLL4.SetWindowInt(i);
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 3);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL4, strImage);
+            }
 
             if (nEFEM_cnt == 0) break;  //EFEM(ATM ROBOT)에 남아있는 wafer가 없다
 
@@ -920,6 +993,8 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
     SetEvent(g_hEventStart);
     if (g_pMainDlg->m_ctrLL1.GetWindowInt() != 0 && g_pMainDlg->m_nThread1_LL == 0)
     {
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 1);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
         for (int i = 1; i <= 50; i++)
         {
             g_pMainDlg->m_ctrPROGRESS_LL1.SetPos(i);
@@ -930,6 +1005,8 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
     }
     else if (g_pMainDlg->m_ctrLL2.GetWindowInt() != 0 && g_pMainDlg->m_nThread1_LL == 1)
     {
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 1);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL2, strImage);
         for (int i = 1; i <= 50; i++)
         {
             g_pMainDlg->m_ctrPROGRESS_LL2.SetPos(i);
@@ -940,6 +1017,8 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
     }
     else if (g_pMainDlg->m_ctrLL3.GetWindowInt() != 0 && g_pMainDlg->m_nThread1_LL == 2)
     {
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 1);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL3, strImage);
         for (int i = 1; i <= 50; i++)
         {
             g_pMainDlg->m_ctrPROGRESS_LL3.SetPos(i);
@@ -950,6 +1029,8 @@ DWORD WINAPI Thread_1_LPM2LL(LPVOID p)
     }
     else if (g_pMainDlg->m_ctrLL4.GetWindowInt() != 0 && g_pMainDlg->m_nThread1_LL == 3)
     {
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 1);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL4, strImage);
         for (int i = 1; i <= 50; i++)
         {
             g_pMainDlg->m_ctrPROGRESS_LL4.SetPos(i);
@@ -984,15 +1065,36 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
     //g_pMainDlg->InvalidateRect(g_CRtemp2, false);
 
     if (g_pMainDlg->m_ctrLL1.GetWindowInt() != 0 && g_pMainDlg->m_nThread2_LL == 0)
+    {
         g_pMainDlg->m_nThread2_LL = 1;
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 2);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+
+    }
     else if (g_pMainDlg->m_ctrLL2.GetWindowInt() != 0 && g_pMainDlg->m_nThread2_LL == 1)
+    {
         g_pMainDlg->m_nThread2_LL = 2;
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 2);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL2, strImage);
+    }
     else if (g_pMainDlg->m_ctrLL3.GetWindowInt() != 0 && g_pMainDlg->m_nThread2_LL == 2)
+    {
         g_pMainDlg->m_nThread2_LL = 3;
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 2);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL3, strImage);
+    }
     else if (g_pMainDlg->m_ctrLL4.GetWindowInt() != 0 && g_pMainDlg->m_nThread2_LL == 3)
+    {
         g_pMainDlg->m_nThread2_LL = 4;
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 2);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL4, strImage);
+    }
     else if (g_pMainDlg->m_ctrLL1.GetWindowInt() != 0 && g_pMainDlg->m_nThread2_LL == 4)
+    {
         g_pMainDlg->m_nThread2_LL = 1;
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 2);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+    }
     else if (g_pMainDlg->m_nThread2_LL == _ttoi(g_pMainDlg->m_strLLModuleCnt))
         g_pMainDlg->m_nThread2_LL = 1;
     nLPM_cnt = g_pMainDlg->m_ctrLPM.GetWindowInt();
@@ -1109,17 +1211,58 @@ DWORD WINAPI Thread_2_LL2PM(LPVOID p)
                     }
                 }
                 if (nLL_cnt == 0) break;  //LL에 남아있는 wafer가 없다면 종료
+                
 
                 nLL_cnt--;
 
                 if (i == _ttoi(g_pMainDlg->m_strVacArmCnt) / 2) break;  //TM(VAC ROBOT)이 Dual Arm일 땐 wafer 2장,
                 //Quad Arm일 때 wafer를 4장 들고 있다면 대기
             }
-
+          
+            if (g_pMainDlg->m_nThread2_LL == 1 && g_pMainDlg->m_ctrLL1.GetWindowInt()==0)
+            {
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 9);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+            }
+            if (g_pMainDlg->m_nThread2_LL == 2 && g_pMainDlg->m_ctrLL2.GetWindowInt() == 0)
+            {
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 9);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL2, strImage);
+            }
+            if (g_pMainDlg->m_nThread2_LL == 3 && g_pMainDlg->m_ctrLL3.GetWindowInt() == 0)
+            {
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 9);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL3, strImage);
+            }
+            if (g_pMainDlg->m_nThread2_LL == 4 && g_pMainDlg->m_ctrLL4.GetWindowInt() == 0)
+            {
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 9);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL4, strImage);
+            }
             nTM_cnt = g_pMainDlg->m_ctrTM.GetWindowInt();
             //PLACE : VAC ROBOT -> PM
             Sleep(g_pMainDlg->m_nRotate / g_pMainDlg->m_nSpeed);
             Sleep(g_pMainDlg->m_nVAC_Place / g_pMainDlg->m_nSpeed);
+            if (g_pMainDlg->m_nThread2_LL == 1 && g_pMainDlg->m_ctrLL1.GetWindowInt() == 0)
+            {
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 7);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+            }
+            if (g_pMainDlg->m_nThread2_LL == 2 && g_pMainDlg->m_ctrLL2.GetWindowInt() == 0)
+            {
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 7);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL2, strImage);
+            }
+            if (g_pMainDlg->m_nThread2_LL == 3 && g_pMainDlg->m_ctrLL3.GetWindowInt() == 0)
+            {
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 7);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL3, strImage);
+            }
+            if (g_pMainDlg->m_nThread2_LL == 4 && g_pMainDlg->m_ctrLL4.GetWindowInt() == 0)
+            {
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 7);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL4, strImage);
+            }
             if ((g_pMainDlg->m_ctrPM1.GetWindowInt() < _ttoi(g_pMainDlg->m_strPMSlotCnt)) && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
             {
 
@@ -1465,6 +1608,54 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
             strImage.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
             g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
         }
+        if (g_pMainDlg->m_nThread3_LL == 1)
+        {
+            nLL_cnt = g_pMainDlg->m_ctrLL1.GetWindowInt();
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 2);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+        }
+        if (g_pMainDlg->m_nThread3_LL == 2)
+        {
+            nLL_cnt = g_pMainDlg->m_ctrLL2.GetWindowInt();
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 2);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL2, strImage);
+        }
+        if (g_pMainDlg->m_nThread3_LL == 3)
+        {
+            nLL_cnt = g_pMainDlg->m_ctrLL3.GetWindowInt();
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 2);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL3, strImage);
+        }
+        if (g_pMainDlg->m_nThread3_LL == 4)
+        {
+            nLL_cnt = g_pMainDlg->m_ctrLL4.GetWindowInt();
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 2);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL4, strImage);
+        }
+        if (g_pMainDlg->m_nThread3_LL == 1 && g_pMainDlg->m_ctrLL1.GetWindowInt() == 0)
+        {
+            nLL_cnt = g_pMainDlg->m_ctrLL1.GetWindowInt();
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 9);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+        }
+        if (g_pMainDlg->m_nThread3_LL == 2 && g_pMainDlg->m_ctrLL2.GetWindowInt() == 0)
+        {
+            nLL_cnt = g_pMainDlg->m_ctrLL2.GetWindowInt();
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 9);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL2, strImage);
+        }
+        if (g_pMainDlg->m_nThread3_LL == 3 && g_pMainDlg->m_ctrLL3.GetWindowInt() == 0)
+        {
+            nLL_cnt = g_pMainDlg->m_ctrLL3.GetWindowInt();
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 9);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL3, strImage);
+        }
+        if (g_pMainDlg->m_nThread3_LL == 4 && g_pMainDlg->m_ctrLL4.GetWindowInt() == 0)
+        {
+            nLL_cnt = g_pMainDlg->m_ctrLL4.GetWindowInt();
+            strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 9);
+            g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL4, strImage);
+        }
         for (int i = nTM_cnt;; i++)
         {
             if (nPM_cnt == _ttoi(g_pMainDlg->m_strPMSlotCnt)) break;  //PM이 가득 찼다면 종료
@@ -1505,26 +1696,27 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
         }
 
         nTM_cnt = g_pMainDlg->m_ctrTM.GetWindowInt();
-        if (g_pMainDlg->m_nThread3_LL == 1)
-            nLL_cnt = g_pMainDlg->m_ctrLL1.GetWindowInt();
-        if (g_pMainDlg->m_nThread3_LL == 2)
-            nLL_cnt = g_pMainDlg->m_ctrLL2.GetWindowInt();
-        if (g_pMainDlg->m_nThread3_LL == 3)
-            nLL_cnt = g_pMainDlg->m_ctrLL3.GetWindowInt();
-        if (g_pMainDlg->m_nThread3_LL == 4)
-            nLL_cnt = g_pMainDlg->m_ctrLL4.GetWindowInt();
+        
 
         for (int i = 1; ; i++)
         {
             nTM_cnt = g_pMainDlg->m_ctrTM.GetWindowInt();
             if (g_pMainDlg->m_nThread3_LL == 1)
+            {
                 nLL_cnt = g_pMainDlg->m_ctrLL1.GetWindowInt();
+            }
             if (g_pMainDlg->m_nThread3_LL == 2)
+            {
                 nLL_cnt = g_pMainDlg->m_ctrLL2.GetWindowInt();
+            }
             if (g_pMainDlg->m_nThread3_LL == 3)
+            {
                 nLL_cnt = g_pMainDlg->m_ctrLL3.GetWindowInt();
+            }
             if (g_pMainDlg->m_nThread3_LL == 4)
+            {
                 nLL_cnt = g_pMainDlg->m_ctrLL4.GetWindowInt();
+            }
             //PLACE : VAC ROBOT -> LL
             Sleep(g_pMainDlg->m_nRotate / g_pMainDlg->m_nSpeed);
             Sleep(g_pMainDlg->m_nVAC_Place / g_pMainDlg->m_nSpeed);
@@ -1569,6 +1761,26 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 g_pMainDlg->m_nWafer_Process[g_pMainDlg->m_nThread3_LL - 1] = LL_Count;
                 nTM_cnt--;
             }
+            if (g_pMainDlg->m_nThread3_LL == 1)
+            {
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 5);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+            }
+            if (g_pMainDlg->m_nThread3_LL == 2)
+            {
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 5);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL2, strImage);
+            }
+            if (g_pMainDlg->m_nThread3_LL == 3)
+            {
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 5);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL3, strImage);
+            }
+            if (g_pMainDlg->m_nThread3_LL == 4)
+            {
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 5);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL4, strImage);
+            }
             g_pMainDlg->InvalidateRect(g_CRtemp, false);
             if (LL_Count == _ttoi(g_pMainDlg->m_strLLSlotCnt))
             {
@@ -1605,6 +1817,7 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 strImage.Format(_T("UI\\TM(Quad)\\슬라이드%d.png"), i);
                 g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_Gui_TM, strImage);
             }
+            
             for (int i = nTM_cnt;; i++)
             {
                 if (nPM_cnt == _ttoi(g_pMainDlg->m_strPMSlotCnt)) break;  //PM이 가득 찼다면 종료
@@ -1645,6 +1858,30 @@ DWORD WINAPI Thread_3_PM2LL(LPVOID p)
                 //Quad Arm일 때 wafer를 4장 들고 있다면 대기
             }
 
+            if (g_pMainDlg->m_nThread3_LL == 1 && g_pMainDlg->m_ctrLL1.GetWindowInt() == 0)
+            {
+                nLL_cnt = g_pMainDlg->m_ctrLL1.GetWindowInt();
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 9);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+            }
+            if (g_pMainDlg->m_nThread3_LL == 2 && g_pMainDlg->m_ctrLL2.GetWindowInt() == 0)
+            {
+                nLL_cnt = g_pMainDlg->m_ctrLL2.GetWindowInt();
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 9);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL2, strImage);
+            }
+            if (g_pMainDlg->m_nThread3_LL == 3 && g_pMainDlg->m_ctrLL3.GetWindowInt() == 0)
+            {
+                nLL_cnt = g_pMainDlg->m_ctrLL3.GetWindowInt();
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 9);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL3, strImage);
+            }
+            if (g_pMainDlg->m_nThread3_LL == 4 && g_pMainDlg->m_ctrLL4.GetWindowInt() == 0)
+            {
+                nLL_cnt = g_pMainDlg->m_ctrLL4.GetWindowInt();
+                strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 9);
+                g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL4, strImage);
+            }
             nTM_cnt = g_pMainDlg->m_ctrTM.GetWindowInt();
             if (g_pMainDlg->m_nThread3_PM[0] == 1 && _ttoi(g_pMainDlg->m_strPMModuleCnt) >= 1)
             {
@@ -2185,7 +2422,26 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
     nPM_cnt = g_pMainDlg->m_ctrPM6.GetWindowInt();
     nALLPM_cnt = nALLPM_cnt + nPM_cnt;
 
-
+    if (nThread4_LL == 1)
+    {
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 6);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+    }
+    else if (nThread4_LL == 2)
+    {
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 6);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL2, strImage);
+    }
+    else if (nThread4_LL == 3)
+    {
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 6);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL3, strImage);
+    }
+    else if (nThread4_LL == 4)
+    {
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 6);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL4, strImage);
+    }
     //PICK & PLACE (LL -> ATM ROBOT -> LPM(OUTPUT))
     while (true)
     {
@@ -2280,7 +2536,27 @@ DWORD WINAPI Thread_4_LL2OUT(LPVOID p)
     }
     g_pMainDlg->m_noutput_count = g_pMainDlg->m_ctrOutput.GetWindowInt();
     //if (g_pMainDlg->m_noutput_count == 0)
-
+    
+    if (nThread4_LL == 1)
+    {
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 7);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL1, strImage);
+    }
+    else if (nThread4_LL == 2)
+    {
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 7);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL2, strImage);
+    }
+    else if (nThread4_LL == 3)
+    {
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 7);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL3, strImage);
+    }
+    else if (nThread4_LL == 4)
+    {
+        strImage.Format(_T("UI\\LL\\슬라이드%d.png"), 7);
+        g_pMainDlg->DrawSemiconductor(&g_pMainDlg->m_ctrGUI_LL4, strImage);
+    }
     //g_pMainDlg->m_nThread_Time_Error--;
 
     SetEvent(g_hEventThread4_wait);
@@ -2847,6 +3123,7 @@ DWORD WINAPI PM(LPVOID p)
         SetEvent(g_hEvent_PM_MAX);
     g_pMainDlg->m_nPM_Processing--;
     SetEvent(g_hEventPM_Array);
+    SetEvent(g_hEvent_Thread3_Wait);
     return 0;
 }
 //FINAL RESULT (THROUGHPUT)
@@ -2921,9 +3198,11 @@ DWORD WINAPI Thread_Start(LPVOID p)
         {
             //for (int i = 0; i < g_pMainDlg->m_nThread2_LL; i++)
             {
+                if (g_pMainDlg->m_nThread3_PM[0] == 0)
+                    WaitForSingleObject(g_hEvent_Thread3_Wait, INFINITE);
                 g_hThread3 = (CreateThread(NULL, 0, Thread_3_PM2LL, 0, 0, 0));
                 g_pMainDlg->m_Thread3start++;
-                WaitForSingleObject(g_hEventcount, INFINITE);
+                
                 //WaitForSingleObject(g_hEventPMtoLL, INFINITE);
             }
         }

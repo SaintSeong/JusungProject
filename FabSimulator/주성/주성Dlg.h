@@ -154,7 +154,10 @@ public:
 	CStatic m_Ctrl_Gui_PM5;
 	CStatic m_Ctrl_Gui_PM6;
 	CStatic m_Ctrl_Gui_EFEM;
-
+	CStatic m_ctrGUI_LL1;
+	CStatic m_ctrGUI_LL2;
+	CStatic m_ctrGUI_LL3;
+	CStatic m_ctrGUI_LL4;
 	//Clean용 더미 웨이퍼 공정시 사용 변수
 	int m_nDummy_Wafer_Count;	//들어간 더미 웨이퍼 개수
 	bool m_bLL_Dummy;
