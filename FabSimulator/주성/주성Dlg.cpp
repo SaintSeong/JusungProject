@@ -3543,9 +3543,9 @@ void C주성Dlg::OnBnClickedButtonSaveSystemconfig()
         {
             strPMNum.Format(_T("PM%d Process"), nIdx + 1);
 
-            strValue.Format(_T("%d"), m_arrPMProcess[nIdx] / 1000);
+            strValue.Format(_T("%d"), m_arrPMProcess[nIdx]);
             ::WritePrivateProfileString(strPMNum, _T("ProcessTime"), strValue, strSaveName);
-            strValue.Format(_T("%d"), m_arrCleanProcess[nIdx] / 1000);
+            strValue.Format(_T("%d"), m_arrCleanProcess[nIdx]);
             ::WritePrivateProfileString(strPMNum, _T("CleanTime"), strValue, strSaveName);
         }
     }
@@ -3808,6 +3808,12 @@ void C주성Dlg::OnBnClickedClear()
     m_nPM_Clean_Wafer_Count = 10;
     m_nPM_Slot_Valve_Open = 2000;
     m_nPM_Slot_Valve_Close = 2000;
+
+    m_strLLSlotCnt = (_T("6"));
+    m_strLLModuleCnt = (_T("4"));
+    m_strVacArmCnt = (_T("4"));
+    m_strPMModuleCnt = (_T("6"));
+    m_strPMSlotCnt = (_T("6"));
 
     GetDlgItem(IDC_START)->SetWindowText(_T("START"));
     GetDlgItem(IDC_START)->EnableWindow(FALSE);
